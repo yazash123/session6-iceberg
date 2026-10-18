@@ -31,8 +31,10 @@ The table number sets the risk. Clusters light up to show their risks but can't 
 
 | file | what it is |
 |---|---|
-| `index.html` | the page. Built from the claude.ai artifact, so don't hand-edit it; rebuild instead. |
-| `tools/build.py` | `python3 tools/build.py <artifact index.html> .` rebuilds `index.html` with the changes below. |
+| `index.html` | the page. Edit it directly: since 18 Oct 2026 the repo, not the artifact, is the source of truth. |
+| `CLAUDE.md` | handover notes for anyone (or any Claude session) picking up the work. |
+| `tools/check.py` | run after every edit: walks every step on desktop and phone and fails on errors. |
+| `tools/build.py` | the one-off import from the claude.ai artifact. Don't rerun it; it would overwrite repo edits. |
 | `webflow-embed.html` | the one Webflow embed. |
 
 ## What changed from the artifact
@@ -40,4 +42,5 @@ The table number sets the risk. Clusters light up to show their risks but can't 
 - "Room" reads "Table" throughout.
 - Clicking a cluster no longer picks it; only a table number does.
 - Notes are kept in the facilitator's browser (localStorage key `hotp-iceberg-s6-v1`), as in the artifact. Nothing is sent anywhere. Use **Copy the record** on the last step to keep a table's notes.
-- "Edit text" only works inside claude.ai. Make wording changes in the artifact, then rebuild.
+- Opening the page straight on a table link (`#g7`) no longer crashes it.
+- "Edit text" only works inside claude.ai. Change wording in `var DEF` in `index.html`.

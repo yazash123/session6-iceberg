@@ -753,6 +753,28 @@ main{padding-block:clamp(6px,.8vw,12px) clamp(8px,1vw,16px)}
 .strms{grid-template-columns:repeat(3,46px);gap:10px 14px}
 .strmb{width:46px;height:46px;font-size:17px}
 .stintro .stlead{font-size:15px}
+/* ================= Turn: one centred column, the whole iceberg zoomed out behind ================= */
+.work[data-turn]{grid-template-columns:minmax(0,1fr)}
+.work[data-turn] .panel{grid-column:1;width:100%;max-width:880px;margin:0 auto;z-index:2;background:transparent;align-self:center}
+.work[data-turn] .pfoot{display:none}
+.work[data-turn] .pbody{color:#fff;align-items:center;text-align:center;gap:18px;padding-block:clamp(40px,7vh,90px)}
+.work[data-turn] .pbody .q,.work[data-turn] .pbody .q p{text-align:center;color:#fff;font-size:clamp(34px,1.2rem + 2.2vw,60px);line-height:1.08;max-width:22ch;text-wrap:balance;margin-inline:auto}
+.work[data-turn] .pbody .lead{max-width:46ch;margin-inline:auto;color:rgba(255,255,255,.92);font-size:clamp(18px,.9rem + .45vw,23px)}
+.work[data-turn] .pbody .hint{color:rgba(255,255,255,.7)}
+.work[data-turn] .gonext{justify-content:center;margin-top:6px}
+.work[data-turn] .chg{color:rgba(255,255,255,.8);align-self:center}
+.work[data-turn] .berg{position:absolute;left:50%;top:50%;width:auto;height:calc(100% - 48px);transform:translate(-50%,-50%);z-index:0;pointer-events:none;background:transparent;opacity:.42;
+  transition:opacity 1.2s var(--ease)}
+.work[data-turn] .berg .bgd{background:transparent!important;overflow:visible;height:100%}
+.work[data-turn] .berg svg{height:100%;width:auto;max-height:none!important;display:block;translate:0 0}
+.work[data-turn] .berg .sky,.work[data-turn] .berg .sea,.work[data-turn] .berg .lab,.work[data-turn] .berg .cnt,.work[data-turn] .berg .bt,
+.work[data-turn] .berg .dl,.work[data-turn] .berg .dim,.work[data-turn] .legend,.work[data-turn] .bpop{display:none!important}
+.work[data-turn] .berg .body{stroke:none!important;fill-opacity:.6}
+.work[data-turn] .berg .tip{fill:#FFFFFF;stroke:none}
+.work[data-turn] .berg .floe2>path{opacity:1}
+@media(max-width:900px){.work[data-turn] .berg{height:calc(100% - 24px)}}
+.work[data-turn] .pbody .tag{align-self:center}
+.work[data-turn] .berg .wave{opacity:.45}
 </style>
 <style>.cmap[data-mode=imagine] .sat,.cmap[data-mode=imagine] .slab{cursor:default}</style>
 <div id="root"></div>
@@ -805,7 +827,7 @@ var DEF={
  'band.full':'Read the full description of this risk','band.fullhide':'Hide the full description',
  'band.risk':'Your risk','band.more':'Show the full risk','band.less':'Show less',
  'rail.down':'Down to {step}','rail.up':'Up to {step}','rail.to':'{step}',
- 'turn.tag':'Turn around','turn.q':'Now let’s go back up the iceberg, to a 2030 where things went well.',
+ 'turn.tag':'Turn around','turn.back':'Back down to {step}','turn.q':'Now let’s go back up the iceberg, to a 2030 where things went well.',
  'turn.lead':'This time we start at the bottom, with *what people believe*, then *what makes that world work*, and finish with *what you’d see at the top*.',
  'turn.some':'The group left {n} note{s} on the way down. They’ll show at each layer on the way up, to push against.','turn.none':'No notes from the way down yet.',
  'whole.tag':'The whole iceberg','whole.q':'Two versions of 2030, side by side.','whole.wrong':'2030 gone wrong','whole.well':'2030 gone well',
@@ -903,7 +925,8 @@ function paintStatic(){
 }
 (function(){var r=$('room');r.appendChild(el('option',{value:'',text:'–'}));for(var i=1;i<=NROOMS;i++)r.appendChild(el('option',{value:String(i),text:String(i)}));r.value=S.room||'';r.addEventListener('change',function(){setRoom(r.value);if(typeof render==='function')render(true);});})();
 function fromHash(){var m=/^#g(\d{1,2})$/.exec(location.hash||'');if(m&&+m[1]>=1&&+m[1]<=NROOMS&&S.room!==m[1]){setRoom(m[1]);if(typeof render==='function')render(true);}}
-fromHash(); window.addEventListener('hashchange',fromHash);
+(function(){var m=/^#g(\d{1,2})$/.exec(location.hash||'');if(m&&+m[1]>=1&&+m[1]<=NROOMS){if(S.room!==m[1])setRoom(m[1]);if(S.step===0){S.step=1;save();}}})();
+window.addEventListener('hashchange',fromHash);
 
 function renderSteps(){
   var ol=$('steps'); ol.innerHTML='';
@@ -1531,6 +1554,10 @@ function viewTurn(b){
   b.appendChild(T('p','turn.lead',{cls:'lead'}));
   var tot=['surface','under','core'].reduce(function(a,l){return a+count('dn',l);},0);
   b.appendChild(tot?T('p','turn.some',{cls:'hint'},{n:tot,s:tot===1?'':'s'}):T('p','turn.none',{cls:'hint'}));
+  var nx=STEPS[S.step+1],pv=STEPS[S.step-1];
+  if(nx)b.appendChild(el('div',{cls:'gonext'},[el('button',{type:'button',cls:'gobtn up',onclick:function(){go(S.step+1,'up');}},
+    [el('span',{text:plain('rail.up',{step:plain(nx.k)})}),el('i',{'aria-hidden':'true',html:'<svg viewBox="0 0 24 24"><path d="M6 14.5 L12 8.5 L18 14.5"/></svg>'})])]));
+  if(pv)b.appendChild(el('button',{type:'button',cls:'chg',text:plain('turn.back',{step:plain(pv.k)}),onclick:function(){go(S.step-1,'dn');}}));
 }
 function viewWhole(b){
   b.appendChild(T('span','whole.tag',{cls:'tag nt eyebrow'}));
@@ -1573,7 +1600,7 @@ function record(){
 function render(soft){
   var st=STEPS[S.step],b=$('pbody'),w=$('work'),v=st.id==='setup'?'map':st.id==='imagine'?'imagine':'';
   if(v)w.setAttribute('data-v',v);else w.removeAttribute('data-v');
-  w.toggleAttribute('data-layer',!!st.layer);
+  w.toggleAttribute('data-layer',!!st.layer);w.toggleAttribute('data-turn',st.id==='turn');
   var bgk=st.layer||(st.id==='turn'?'core':'');
   if(bgk)w.setAttribute('data-bg',bgk);else w.removeAttribute('data-bg');
   $('rail').setAttribute('data-bg',bgk||'');

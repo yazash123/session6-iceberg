@@ -38,6 +38,12 @@ rep("  if(M.mode==='map'){pick(q.c.id);return;}\n",
 rep("<div id=\"root\"></div>\n<script type=\"application/json\" id=\"copy\">",
     "<style>.cmap[data-mode=imagine] .sat,.cmap[data-mode=imagine] .slab{cursor:default}</style>\n<div id=\"root\"></div>\n<script type=\"application/json\" id=\"copy\">")
 
+# 2b. Opening the page straight on a table link (#g7) used to call render() before the page had
+#     finished setting up, which crashed it. On load, just set the table and go to Imagine;
+#     later hash changes still re-render as before.
+rep("fromHash(); window.addEventListener('hashchange',fromHash);",
+    "(function(){var m=/^#g(\\d{1,2})$/.exec(location.hash||'');if(m&&+m[1]>=1&&+m[1]<=NROOMS){if(S.room!==m[1])setRoom(m[1]);if(S.step===0){S.step=1;save();}}})();\nwindow.addEventListener('hashchange',fromHash);")
+
 # 3. Separate storage key from the claude.ai prototype, so old test notes don't carry over.
 rep("var KEY='hotp-iceberg-v1';", "var KEY='hotp-iceberg-s6-v1';")
 
