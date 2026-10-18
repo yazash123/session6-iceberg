@@ -8,11 +8,11 @@ A single-page facilitation tool for the House of the People citizens' assembly o
 Odyssean Institute and Involve). Sessions 6 and 7 are 4-hour online sessions where members of the public
 work through the results of the Odyssean process. In this activity, each **table** (breakout group, with a
 facilitator sharing their screen on Zoom) takes **one risk** from the Horizon Scan risk map down an
-"iceberg", imagining 2030 gone wrong, then turns and comes back up imagining 2030 gone well:
+"iceberg", imagining 2036 gone wrong, then turns and comes back up imagining 2036 gone well:
 
 Set up → Imagine → Surface → Underneath → Core belief → **Turn** → Core belief → Underneath → Surface → Whole iceberg
 
-- Down (red, "dn") = 2030 gone wrong. Up (yellow, "up") = 2030 gone well.
+- Down (red, "dn") = 2036 gone wrong. Up (yellow, "up") = 2036 gone well.
 - The facilitator types what the group says as notes on each layer.
 - Expert sketches from the Horizon Summit can be revealed at each layer ("Take a peek at what the experts were thinking").
 
@@ -88,8 +88,8 @@ facilitator copies the table's record on the last step ("Copy the record").
   table and step; `render()` runs once at the bottom of the script.
 - `var X=` declarations are hoisted as `undefined`. Function declarations are hoisted whole, so a function
   can be called before the data it needs exists.
-- Imagine text says "the year **2036**" while everything else says 2030. Flagged to Yaz on 18 Oct; leave it
-  unless Yaz changes it.
+- The page is set in **2036** (changed from 2030 on 18 Oct at Yaz's request). The only 2030s left are
+  `xp.card` and `xp.foot`, which describe the Horizon Summit experts' sketches: those really were set in 2030.
 
 ## Open questions (as of 18 Oct 2026)
 

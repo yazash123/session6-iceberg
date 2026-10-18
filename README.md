@@ -1,6 +1,6 @@
 # Sessions 6 & 7: Iceberg futures
 
-The House of the People "iceberg, 2030" activity, running on its own on GitHub Pages and embedded in Webflow.
+The House of the People "iceberg, 2036" activity, running on its own on GitHub Pages and embedded in Webflow.
 
 - **Live page:** https://yazash123.github.io/session6-iceberg/ (table links: add `#g1` to `#g26`)
 - **In Webflow:** paste `webflow-embed.html` into one Code Embed in a full-width section (not a Container). Table links work on the Webflow address too, for example `…/iceberg#g12`.
