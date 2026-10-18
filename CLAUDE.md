@@ -30,6 +30,9 @@ Owner: Yaz (Assemble). UK English, plain language for a general audience. Copy s
   https://claude.ai/artifact/GaAYHmQbxCFyy38VbykXYq). **As of 18 Oct 2026, the repo is the source of truth.
   Edit `index.html` directly. Don't rebuild from the artifact** unless Yaz asks; `tools/build.py` would
   overwrite repo edits.
+  The artifact is now a **mirror**: when Yaz asks to copy changes onto it, read the artifact first to check it
+  hasn't been edited since the last sync (last synced 18 Oct 2026, artifact version 30), then publish
+  `index.html` to that URL. If it *has* been edited, carry those edits into the repo before publishing.
 - Session design context (Claude Doc): "Sessions 6 & 7 — Workshop modules",
   https://claude.ai/artifact/59tVvHPGsekNpUpRJCEDC3. Reference scenarios: "Iceberg futures — Horizon Summit
   scenarios", https://claude.ai/artifact/JikXwfwb9XUtK5AoQ2yAw8 (only when asked).
