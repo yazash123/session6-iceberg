@@ -775,6 +775,57 @@ main{padding-block:clamp(6px,.8vw,12px) clamp(8px,1vw,16px)}
 @media(max-width:900px){.work[data-turn] .berg{height:calc(100% - 24px)}}
 .work[data-turn] .pbody .tag{align-self:center}
 .work[data-turn] .berg .wave{opacity:.45}
+/* ================= Turn and Whole: no dotted outline, no marker on the iceberg ================= */
+.work[data-turn] .berg .floe2>path,.work[data-turn] .berg #mk,
+.work[data-whole] .berg .floe2>path,.work[data-whole] .berg #mk{display:none!important}
+
+/* ================= Whole iceberg: the iceberg centred and zoomed out behind, 2036 gone wrong on the left, gone well on the right ================= */
+.work[data-whole]{grid-template-columns:minmax(0,1fr)}
+.work[data-whole] .panel{grid-column:1;width:100%;max-width:1240px;margin:0 auto;z-index:2;background:transparent;color:#fff}
+.work[data-whole] .pbody{color:#fff;gap:16px}
+.work[data-whole] .pbody>.tag{align-self:center}
+.work[data-whole] .pbody>.q,.work[data-whole] .pbody>.q p{text-align:center;color:#fff;margin-inline:auto}
+.work[data-whole] .berg{position:absolute;left:50%;top:50%;width:auto;height:calc(100% - 48px);transform:translate(-50%,-50%);z-index:0;pointer-events:none;background:transparent;opacity:.42}
+.work[data-whole] .berg .bgd{background:transparent!important;overflow:visible;height:100%}
+.work[data-whole] .berg svg{height:100%;width:auto;max-height:none!important;display:block;translate:0 0}
+.work[data-whole] .berg .sky,.work[data-whole] .berg .sea,.work[data-whole] .berg .lab,.work[data-whole] .berg .cnt,.work[data-whole] .berg .bt,
+.work[data-whole] .berg .dl,.work[data-whole] .berg .dim,.work[data-whole] .legend,.work[data-whole] .bpop{display:none!important}
+.work[data-whole] .berg .body{stroke:none!important;fill-opacity:.6}
+.work[data-whole] .berg .tip{fill:#FFFFFF;stroke:none}
+.work[data-whole] .berg .wave{opacity:.45}
+
+/* three columns: wrong | the layer, on the iceberg | well */
+.work[data-whole] .wrow{grid-template-columns:minmax(0,1fr) minmax(130px,200px) minmax(0,1fr);grid-template-areas:"dn lab up";background:transparent!important;color:#fff;align-items:start}
+.work[data-whole] .wrow>div:nth-child(1){grid-area:lab;align-self:center;text-align:center}
+.work[data-whole] .wrow>div:nth-child(2){grid-area:dn}
+.work[data-whole] .wrow>div:nth-child(3){grid-area:up}
+.work[data-whole] .wrow>div::before{display:none!important}
+.work[data-whole] .pbody>.tag{background:#fff;color:var(--ink)}
+.work[data-whole] .wrow .note.ex{padding-bottom:24px}
+.work[data-whole] .wrow.h{display:grid}
+.work[data-whole] .wrow.h>div:nth-child(2){text-align:right}
+.work[data-whole] .wrow.h .eyebrow{font-size:14px;color:#fff}
+.work[data-whole] .wrow.h>div:nth-child(2) .eyebrow{justify-content:flex-end}
+.work[data-whole] .wrow .wl{color:#fff;font-size:21px;text-shadow:0 1px 10px rgba(10,20,40,.5)}
+.work[data-whole] .wrow:not(.h)>div:nth-child(2),.work[data-whole] .wrow:not(.h)>div:nth-child(3){background:rgba(28,49,80,.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border-top:3px solid var(--wrong)}
+.work[data-whole] .wrow:not(.h)>div:nth-child(3){border-top-color:var(--well)}
+.work[data-whole] .wrow+.wrow:not(.h){margin-top:14px}
+.work[data-whole] .wrow .notes{grid-template-columns:minmax(0,1fr)}
+.work[data-whole] .wrow .empty{color:rgba(255,255,255,.75);border-color:rgba(255,255,255,.4)}
+.work[data-whole] .acts{justify-content:center;margin-top:10px}
+.work[data-whole] .acts .btn.k{background:#fff;color:var(--ink)}
+.work[data-whole] .acts .btn.l{background:rgba(255,255,255,.14);color:#fff}
+.work[data-whole] .toast{color:#fff}
+
+/* narrow screens: one column, each layer then wrong then well, each labelled */
+@media(max-width:760px){
+.work[data-whole] .berg{height:calc(100% - 24px)}
+.work[data-whole] .wrow{grid-template-columns:minmax(0,1fr);grid-template-areas:"lab" "dn" "up"}
+.work[data-whole] .wrow.h{display:none}
+.work[data-whole] .wrow:not(.h)>div[data-h]::before{display:block!important}
+.work[data-whole] .wrow:not(.h)>div:nth-child(3){margin-top:8px}
+}
+
 </style>
 <style>.cmap[data-mode=imagine] .sat,.cmap[data-mode=imagine] .slab{cursor:default}</style>
 <div id="root"></div>
@@ -1600,8 +1651,8 @@ function record(){
 function render(soft){
   var st=STEPS[S.step],b=$('pbody'),w=$('work'),v=st.id==='setup'?'map':st.id==='imagine'?'imagine':'';
   if(v)w.setAttribute('data-v',v);else w.removeAttribute('data-v');
-  w.toggleAttribute('data-layer',!!st.layer);w.toggleAttribute('data-turn',st.id==='turn');
-  var bgk=st.layer||(st.id==='turn'?'core':'');
+  w.toggleAttribute('data-layer',!!st.layer);w.toggleAttribute('data-turn',st.id==='turn');w.toggleAttribute('data-whole',st.id==='whole');
+  var bgk=st.layer||(st.id==='turn'||st.id==='whole'?'core':'');
   if(bgk)w.setAttribute('data-bg',bgk);else w.removeAttribute('data-bg');
   $('rail').setAttribute('data-bg',bgk||'');
   if(v!=='imagine'){w.style.minHeight='';w.style.removeProperty('--bty');w.style.removeProperty('--bh');}

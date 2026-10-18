@@ -58,14 +58,14 @@ Grep/search for these anchors, then read around them:
 
 | look for | what it is |
 |---|---|
-| `/* ================= ` | CSS blocks, in order of edits. Later blocks override earlier ones. The Turn tab is `Turn: one centred column`. |
+| `/* ================= ` | CSS blocks, in order of edits. Later blocks override earlier ones. The Turn tab is `Turn: one centred column`; the Whole iceberg tab is `Whole iceberg: the iceberg centred` (keyed off `#work[data-whole]`). |
 | `var DEF={` | **every piece of visible text**, keyed (`'turn.q'`, `'setup.lead'`, `'risk.R06'`…). Edit copy here. `*asterisks*` = bold, `{n}` = filled in. |
 | `<script type="application/json" id="copy">` | overrides of DEF saved from the artifact's "Edit text" mode. A key here wins over DEF. |
 | `<script type="application/json" id="experts">` | Horizon Summit expert futures per risk (`down` / `up`, layer by layer). |
 | `var CLUSTERS=` / `var STEPS=` / `var HUE=` | clusters & risks, step order, cluster colours. |
 | `var FULLD=` | full risk descriptions (HTML), as on the Risk Wall. |
 | `function viewImagine` / `viewLayer` / `viewTurn` / `viewWhole` | what each step draws. |
-| `function render(` / `function go(` | redraw and step navigation. `render` sets `data-v`, `data-layer`, `data-turn`, `data-bg` on `#work`, which the CSS keys off. |
+| `function render(` / `function go(` | redraw and step navigation. `render` sets `data-v`, `data-layer`, `data-turn`, `data-whole`, `data-bg` on `#work`, which the CSS keys off. |
 | `editing the page's own text` | the in-page "Edit text" tool. Only works inside claude.ai; harmless here. |
 
 State is in `localStorage` under `hotp-iceberg-s6-v1`, per browser. Nothing is sent to a server. The
