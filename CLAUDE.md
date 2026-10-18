@@ -8,11 +8,11 @@ A single-page facilitation tool for the House of the People citizens' assembly o
 Odyssean Institute and Involve). Sessions 6 and 7 are 4-hour online sessions where members of the public
 work through the results of the Odyssean process. In this activity, each **table** (breakout group, with a
 facilitator sharing their screen on Zoom) takes **one risk** from the Horizon Scan risk map down an
-"iceberg", imagining 2036 gone wrong, then turns and comes back up imagining 2036 gone well:
+"iceberg", imagining 2036 gone wrong, then turns and comes back up imagining 2036 gone right:
 
 Set up → Imagine → Surface → Underneath → Core belief → **Turn** → Core belief → Underneath → Surface → Whole iceberg
 
-- Down (red, "dn") = 2036 gone wrong. Up (yellow, "up") = 2036 gone well.
+- Down (red, "dn") = 2036 gone wrong. Up (yellow, "up") = 2036 gone right.
 - The facilitator types what the group says as notes on each layer.
 - Expert sketches from the Horizon Summit can be revealed at each layer ("Take a peek at what the experts were thinking").
 
