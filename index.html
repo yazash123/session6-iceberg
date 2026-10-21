@@ -827,11 +827,66 @@ main{padding-block:clamp(6px,.8vw,12px) clamp(8px,1vw,16px)}
 .work[data-whole] .wrow:not(.h)>div:nth-child(3){margin-top:8px}
 }
 
+/* ================= Shared notes: your name, a colour each, stars, 25 words ================= */
+.mast .t3{flex-wrap:wrap;gap:6px 16px}
+.mast .tf{display:flex;align-items:center;gap:8px;position:relative;min-width:0}
+.mast #me{border:0;background:var(--paper);padding:8px 10px;font-weight:700;width:12ch;min-width:0}
+.mast #me::placeholder{font-weight:400;color:var(--mute)}
+.mecall{display:none;position:absolute;top:calc(100% + 12px);right:0;z-index:40;background:var(--ink);color:var(--ice);font-weight:700;font-size:14px;padding:7px 12px;white-space:nowrap}
+.mecall::before{content:"";position:absolute;bottom:100%;right:22px;border:8px solid transparent;border-bottom-color:var(--ink)}
+.mast .me.need .mecall{display:block}
+.mast .me.need #me,.namebox.need input,#joinname.need{animation:needp .9s ease-in-out 4}
+@keyframes needp{0%,100%{box-shadow:0 0 0 3px var(--ink)}50%{box-shadow:0 0 0 7px var(--wrong)}}
+.namebox{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;background:var(--well);color:var(--ink);padding:10px 12px;border-left:6px solid var(--ink);font-weight:700;font-size:15px}
+.namebox label{flex:1 1 22ch}
+.namebox input{border:2px solid var(--ink);background:var(--paper);padding:8px 10px;font-weight:700;font-size:17px;min-width:0;flex:1 1 12ch;max-width:26ch;color:var(--ink)}
+.namebox .nbgo{border:0;background:var(--ink);color:var(--ice);font-weight:700;padding:8px 14px}
+.work[data-v=imagine] .namebox{max-width:46ch;margin:4px auto}
+.cmeta{display:flex;justify-content:space-between;align-items:center;gap:6px 14px;flex-wrap:wrap;font-size:13px;line-height:1.35}
+.wc{font-weight:700;opacity:.85}
+.wc.full{opacity:1;background:var(--wrong);color:var(--ink);padding:2px 8px}
+.live{display:inline-flex;align-items:center;gap:7px;opacity:.85}
+.live i{width:8px;height:8px;border-radius:50%;background:var(--well);box-shadow:0 0 0 3px rgba(240,224,96,.3)}
+.live.off{opacity:1;font-weight:700}
+.notes .note.dn,.notes .note.up{background:var(--pc,var(--well));color:var(--ink)}
+.note .nf{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:2px;min-width:0}
+.note .who{font-size:12px;font-weight:700;letter-spacing:.03em;opacity:.72;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.note.mine .who{opacity:1}
+.note .star{flex:none;border:1.5px solid rgba(10,10,10,.55);background:rgba(255,255,255,.4);color:var(--ink);font-weight:700;font-size:14px;line-height:1.3;padding:3px 9px}
+.note .star:hover{background:rgba(255,255,255,.75)}
+.note .star[aria-pressed="true"]{background:var(--ink);color:var(--well);border-color:var(--ink)}
+.note .stars{flex:none;font-weight:700;font-size:14px;line-height:1.3;padding:3px 9px;background:rgba(10,10,10,.12)}
+.note.hot{box-shadow:0 0 0 3px var(--ink),4px 5px 0 rgba(0,0,0,.28)}
+.note.ex::after{display:none}
+.note:not(.mine) .tx,.note.ex .tx{cursor:default}
+.note.mine .tx[contenteditable]{cursor:text}
+.wrow .note .star,.wrow .note .stars{font-size:12px;padding:2px 7px}
+.wrow .note .who{font-size:11px}
+.stjoin{display:flex;flex-direction:column;gap:10px;padding:14px 16px;background:rgba(10,10,10,.28);border-left:4px solid var(--well);max-width:34ch}
+.stjoin label{font-family:var(--ff-serif);font-size:clamp(22px,1rem + .8vw,30px);line-height:1.1}
+.stjoin .row{display:flex;flex-wrap:wrap;gap:8px}
+.stjoin input{border:0;background:var(--paper);color:var(--ink);padding:10px 12px;font-weight:700;font-size:17px;min-width:0;flex:1 1 11ch}
+.stjoin button{border:0;background:var(--well);color:var(--ink);font-weight:700;font-size:16px;padding:10px 14px}
+.stjoin p{font-size:14px;line-height:1.4;opacity:.85}
+.stjoin:not([hidden])~.stlead,.stjoin:not([hidden])~.sthow,.stjoin:not([hidden])~.stex{display:none}
+@media (prefers-reduced-motion:reduce){.mast .me.need #me,.namebox.need input,#joinname.need{animation:none;box-shadow:0 0 0 4px var(--wrong)}}
+html.present .mast .me.need #me,html.present .namebox.need input,html.present #joinname.need{animation:none;box-shadow:0 0 0 4px var(--wrong)}
+@media(max-width:760px){
+.mast .t3{justify-content:flex-start}
+.mast #me{width:100%;flex:1}
+.mast .tf.me{flex:1 1 100%}
+.mecall{right:auto;left:0}
+.mecall::before{right:auto;left:22px}
+}
+
 </style>
 <div id="root"></div>
 <script type="application/json" id="copy">{"notes.empty": "Our ideas appear here"}</script>
 <script type="application/json" id="experts">{"R06": [{"who": "Jiyeon Cho", "focus": "", "down": {"name": "", "card": "Powerful AI systems with their safety features removed are passed around freely online. The law only covers the companies that first build AI, not the people who change it afterwards. Nobody can trace who changed what. When harm happens, there is no one to hold to account, and trust in AI falls.", "surface": "Powerful AI with its safety features removed is handed on by middlemen nobody regulates. Dangerous abilities spread fast.", "under": "The rules don't say what the middlemen are responsible for. Nobody can track where an AI came from or how it was changed.", "core": ["Getting the benefits of AI matters more than safety. Smaller players who build on others' AI can't be expected to follow the same rules as the big companies.", "It's the maker's fault, not the fault of whoever changed it afterwards."]}, "up": {"name": "", "card": "Clear rules cover everyone who builds, changes or shares AI. Regulators have the skills and power to enforce them, and industry agrees traceability matters. If someone strips out safety features, it can be traced back to them. Openness and innovation carry on, and people trust AI more.", "surface": "Clear rules cover everyone in the chain, middlemen included.", "under": "Regulators are properly equipped, and the industry is on board.", "core": ["You can have open, innovative AI and safe AI at the same time.", "Growth only lasts if people can see who did what."]}}, {"who": "Omer Bilgin", "focus": "scams and cybercrime", "down": {"name": "", "card": "Downloadable AI is barely regulated. Criminals take it, remove its safety features and use it for scams and extortion. Governments care more about AI's promised economic benefits than about public safety. More and more people around the world are harmed.", "surface": "Downloadable AI is barely regulated. Criminals strip its safety features and misuse it.", "under": "Governments focus on the money AI could bring, not on keeping people safe.", "core": ["The fewer rules, the better.", "Leave it to the market and it will sort itself out."]}, "up": {"name": "", "card": "Enough harm has happened around the world that the public demands action. Governments agree that keeping people safe matters as much as economic gain. The most powerful downloadable AI is properly regulated everywhere. AI-driven cybercrime does not grow.", "surface": "The most powerful downloadable AI is properly regulated worldwide.", "under": "Enough harm happens that people and governments decide safety matters as much as money.", "core": ["Safety first, decided democratically.", "A government's first job is to protect its people."]}}], "R01": [{"who": "Clement Neo", "focus": "", "down": {"name": "Societal Chaos", "card": "Fake news campaigns run by AI keep societies unsettled. Governments change often, and hatred between groups is stirred up on purpose. Smaller countries are easy targets, because whoever is behind it can deny it. Like a game where hidden villains live among the townsfolk, everyone suspects everyone.", "surface": "Fake news campaigns keep politics and society unsettled.", "under": "Smaller countries are easy to interfere with. If nobody can prove who did it, nobody acts.", "core": ["", "Like the party game where hidden villains live among the townsfolk: everyone accuses everyone and nobody knows who to trust."]}, "up": {"name": "", "card": "Governments, tech companies and the public all take AI-driven fake news seriously, and they get good at spotting it. Maybe a scandal bigger than past election interference woke everyone up, or detection tools improved, or checking users became normal. Information wars are now treated as seriously as real wars. AI manipulation stops being a major problem.", "surface": "Everyone works together and is good at catching AI-made fakes.", "under": "Possible reasons: a huge scandal, better detection tools, or people getting used to proving they're real online.", "core": ["Fighting over what people believe is taken as seriously as fighting with weapons.", ""]}}], "R03": [{"who": "David Thorstad", "focus": "", "down": {"name": "", "card": "Regulators can't or won't act on children's use of AI. Most parents don't know about the harms, or don't care. Tech companies keep the issue out of the news. Children become hooked on AI tools, miss out on time with other people and see things they shouldn't.", "surface": "Regulators don't act. Parents don't know or don't care.", "under": "The companies have too much sway over regulators, and the public isn't paying attention.", "core": ["Politicians act on what's in the news, and companies keep this out of the news.", "Nobody sees, or nobody cares."]}, "up": {"name": "", "card": "A wave of public concern forces governments to regulate children's use of AI, and people keep paying attention after. Rules handle the big risks, and informed parents handle what rules can't. AI is mostly safe and useful for children. A generation grows up knowing how to use it well.", "surface": "Good rules, and parents who know what to watch for.", "under": "A wave of public concern forces action, and people keep caring.", "core": ["Parents care and will spot it when something's wrong.", "Worried parents make a noise, and it works."]}}], "R09": [{"who": "Dr Bani Mejda", "focus": "killing leaders", "down": {"name": "The Jungle of Unseen Predators", "card": "Every day the news reports another world leader killed or captured by drone swarms nobody can trace. AI targeting tools are cheap and sold on the dark web. Borders and treaties mean nothing. Leaders hide in bunkers, cut off from their people, and countries stop functioning.", "surface": "World leaders are killed or captured by drone swarms that nobody can trace.", "under": "The international controls collapse. AI targeting tools are cheap and easy to buy, so attacks cost almost nothing.", "core": ["The strongest wins. Borders and treaties are just paper.", "A jungle where the hunters are invisible."]}, "up": {"name": "The Digital Shield of Peace", "card": "The United Nations agrees a worldwide ban on using AI to target political leaders, and it's enforced. International inspectors can check military software anywhere. AI is used for defence and spotting threats instead of assassination. Diplomacy becomes predictable again.", "surface": "Order returns. AI is used for defence, not assassination.", "under": "A UN ban is agreed and enforced, with inspectors who can check military software anywhere.", "core": ["Technology must answer to human values, and a human must always be responsible.", "A shared shield that protects everyone."]}}], "R10": [{"who": "Su Cizem", "focus": "", "down": {"name": "", "card": "The superpowers race to automate their militaries with no shared limits and no emergency phone line. Decisions happen in seconds. A glitch or a misread signal tips into conflict before a human can step in. Smaller countries like Mamur's are hit first, but in the end the superpowers lose control too.", "surface": "No limits, no hotline, almost no humans involved. A glitch can start a war in seconds.", "under": "Everyone feared falling behind, so they cut humans out to go faster. Smaller countries had no say.", "core": ["Whoever has the fastest technology wins.", "A dirty fish tank that can't keep anything alive."]}, "up": {"name": "", "card": "There's a secure hotline between militaries, and an agreed way to say \"that was a glitch, not an attack\". Humans stay in charge of big decisions. Smaller countries trust the system and Mamur has a seat at the table. When something goes wrong, it's sorted out in minutes.", "surface": "A working hotline, a way to say \"it was an accident\", and humans in charge.", "under": "Everyone saw the shared danger. Smaller countries pushed, the big powers paid.", "core": ["Your safety and mine are the same.", "A clean tank everyone looks after together, where you can see what's going on."]}}, {"who": "Jason Hoelscher-Obermaier", "focus": "accidents at sea", "down": {"name": "Runaway Race", "card": "A ship carrying supplies to an Indonesian naval base is sunk. Nobody can prove who did it. China is suspected, denies it, and moves more forces into the region. Untraceable attacks by autonomous weapons become routine, and Indonesia becomes a testing ground.", "surface": "A ship is sunk. Nobody can prove who did it.", "under": "When nothing can be proved, being able to deny it is useful. Each attack is an excuse to build up more weapons.", "core": ["If you can't prove anything, only strength keeps you safe. Holding back means losing.", "In the dark, only the strong are safe."]}, "up": {"name": "Verified Restraint", "card": "A faulty drone threatens a tanker near disputed waters. The country that owns it spots the fault, stops it and reports it straight away. Indonesia is told in time to warn the ship. Officials publicly credit the agreement that made it possible.", "surface": "A faulty drone threatens a ship in disputed waters.", "under": "Binding limits, a shared and tamper-proof way to prove what happened, and countries like Indonesia kept informed.", "core": ["Accidents will happen, but they can be caught. You don't have to trust if you can check.", "Seatbelts at 200 mph: the race isn't slower, but crashes are survivable."]}}], "R11": [{"who": "Véronique Donard", "focus": "", "down": {"name": "", "card": "An attack planned by AI hits most major cities of a powerful country at once. Incurable diseases kill much of the population. The government forces emergency measures on people by law. The rest of the world watches, frozen.", "surface": "An AI-planned attack with deadly diseases hits a powerful country's cities. The world freezes.", "under": "AI weapons arrived before any rules. Racing to build the smartest AI replaced working for peace.", "core": ["Being human is outdated. The strongest own the technology.", "The end of the world, in a lawless wasteland."]}, "up": {"name": "The Good Shepherd", "card": "An AI built to spot rising weapons threats proposes a global plan. For the first time, world leaders, regulators and the public listen and choose cooperation over competition. Fear of extinction unites people instead of dividing them. The AI serves humanity, not the other way round.", "surface": "An AI warns of the danger and proposes a plan. Everyone listens and works together.", "under": "The AI saw what people couldn't, and shared fear brought everyone together.", "core": ["We can't save ourselves alone, but we can with AI that's on our side.", "A shepherd who guides the flock to safety."]}}], "R05": [{"who": "Kyungho Song", "focus": "", "down": {"name": "", "card": "Government safety testers only see AI systems on the companies' terms: limited access, short deadlines, selected information. As the race speeds up, even that shrinks. Testing looks like safety but doesn't deliver it. When harm happens, nobody is accountable.", "surface": "Testers only see what companies let them see, and less over time.", "under": "Governments put winning the race first. Lobbyists said rules would hurt the economy. Testers were never given real powers.", "core": ["Faster matters more than thorough. Doing a test is treated as proof of safety.", "Like greenwashing, but for safety: it looks safe without being safe."]}, "up": {"name": "", "card": "By law, AI companies must give government safety testers full access before and after release. Public computing power means testers don't rely on the companies. Promises have become binding international agreements. The testers check AI on their own terms and timetable.", "surface": "Companies must give testers full access by law, and testers have their own computing power.", "under": "Access to chips depends on being tested. Scandals beat the lobbyists. Promises became binding.", "core": ["Safety and progress go together. Proper checking benefits everyone.", "An inspector who can turn up unannounced."]}}], "R07": [{"who": "Kiriti Prasad Choudhury", "focus": "", "down": {"name": "", "card": "AI is now doing much of the work of building better AI. The US and China are racing, companies want results and global cooperation is weak. Humans are still \"in charge\" on paper, but can't really follow what's happening. Governments only react after things go wrong.", "surface": "AI builds AI. Human control is in name only.", "under": "A race between countries, pressure for profit, slow rules and safety work that can't keep up.", "core": ["Get ahead first, deal with the risks later.", "Racing blindfolded towards a cliff edge."]}, "up": {"name": "", "card": "AI advances quickly, but humans keep real control. Rival countries talk regularly about the biggest risks, share monitoring and work closely with regulators. Confidence comes from being able to see what the systems are doing. Even so, institutions still struggle to keep pace.", "surface": "Fast progress with real human control.", "under": "Rivals talk, share checks and work with regulators.", "core": ["Safety is part of doing AI properly.", "Trust comes from being able to see inside."]}}], "R12": [{"who": "Narjès Bellamine Ben Saoud", "focus": "", "down": {"name": "The boat in a storm", "card": "Maha has no simple way to find out if the AI her children use has harmed anyone. The few incident records are technical and only in English. Nobody coordinates anything. Families are left to work it out alone, and only the strongest \"swimmers\" stay safe.", "surface": "Parents can't find out what's gone wrong, and what exists is technical and in English only.", "under": "Nobody joins things up, locally or globally.", "core": ["Tracking harm isn't needed; if you use it, that's on you.", "A boat in a storm where only strong swimmers survive."]}, "up": {"name": "The calm boat", "card": "There's a shared, up-to-date record of AI incidents and what to do about them, linked across countries and adapted to local languages. Families like Maha's are kept informed. The crew and passengers trust each other. Everyone on the boat can get on with their lives.", "surface": "Harms are tracked and people are told what to do.", "under": "Shared, up-to-date records linked across countries.", "core": ["The people in charge and the public trust each other.", "A calm boat with a good crew."]}}, {"who": "Kritika Maheshwari", "focus": "", "down": {"name": "Blind men and the elephant", "card": "The same kind of AI harm keeps happening in different countries, but nobody links the cases. What counts as an incident in one place is a routine fault in another. Harms come to light only through journalists, whistleblowers and viral posts. Victims carry the cost alone, and the same harms repeat.", "surface": "The same harm happens everywhere, but nobody joins the dots.", "under": "Every country has its own definition. Harm only comes out through the press or social media.", "core": ["The cases aren't connected, and joining up means losing control to foreigners.", "Each person feels one part of the elephant and nobody sees the whole animal."]}, "up": {"name": "", "card": "When an AI harm happens anywhere, it's logged in a shared record that all countries can use. Reporting is compulsory, and someone is legally responsible. A harm recorded in one country helps prevent it in another. Affected communities have somewhere to seek justice.", "surface": "Every harm goes into a shared record, and reporting is compulsory.", "under": "The law requires reporting, and someone is held responsible.", "core": ["AI harm follows patterns we can see and prevent.", ""]}}]}</script>
-<script id="app">var SHELL="<header class=\"wrap\">\n  <div class=\"mast\">\n    <div class=\"t1\">\n      <span class=\"eyebrow\" data-copy=\"mast.eyebrow\" data-static><\/span>\n      <h1 data-copy=\"mast.title\" data-static><\/h1>\n    <\/div>\n    <div class=\"t2\">\n      <span class=\"eyebrow\" data-copy=\"mast.risks\" data-static><\/span>\n      <span class=\"rk\" id=\"mrisk\"><\/span>\n    <\/div>\n    <div class=\"t3\">\n      <label for=\"room\" data-copy=\"mast.room\" data-static><\/label>\n      <select id=\"room\"><\/select>\n    <\/div>\n  <\/div>\n<\/header>\n<nav class=\"steps wrap\" aria-label=\"Steps\"><div class=\"sbar\"><ol id=\"steps\"><\/ol><button type=\"button\" class=\"presbtn\" id=\"present\" aria-pressed=\"false\"><\/button><\/div><\/nav>\n<div class=\"wrap\" id=\"demowrap\" hidden><div class=\"demo\"><span data-copy=\"demo.text\" data-static><\/span><button id=\"clearex\" type=\"button\" data-copy=\"demo.clear\" data-static><\/button><\/div><\/div>\n\n<nav class=\"rail\" id=\"rail\" aria-label=\"Move up and down the iceberg\" hidden>\n  <button type=\"button\" class=\"rbtn\" id=\"rup\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M6 14.5 L12 8.5 L18 14.5\"/><\/svg><span><\/span><\/button>\n  <ol class=\"rtrack\" id=\"rtrack\"><\/ol>\n  <button type=\"button\" class=\"rbtn\" id=\"rdn\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M6 9.5 L12 15.5 L18 9.5\"/><\/svg><span><\/span><\/button>\n<\/nav>\n<div class=\"undo\" id=\"undo\" role=\"status\" hidden><\/div>\n<main class=\"wrap\">\n  <div class=\"work\" id=\"work\">\n    <div class=\"ocean\" aria-hidden=\"true\"><i class=\"full\"><\/i><i class=\"sea\"><\/i><i class=\"glow\"><\/i><\/div>\n    <div class=\"stintro\" id=\"stintro\">\n      <span class=\"tag nt eyebrow\" data-copy=\"setup.tag\" data-static><\/span>\n      <div class=\"strm\"><p class=\"strq\" data-copy=\"room.first\" data-static><\/p><div class=\"strms\" id=\"strms\" role=\"group\"><\/div><\/div>\n      <h2 class=\"stq\" id=\"stq\"><\/h2>\n      <p class=\"stlead\" data-copy=\"setup.lead\" data-static><\/p>\n      <p class=\"sthow\" id=\"sthow\"><\/p>\n      <div class=\"stex\" id=\"stex\"><\/div>\n    <\/div>\n    <div class=\"cmap\" id=\"cmap\"><svg class=\"teth\" id=\"teth\" aria-hidden=\"true\"><\/svg><div class=\"nodes\" id=\"nodes\"><\/div><\/div>\n    <aside class=\"berg\" aria-label=\"Where you are on the iceberg\">\n      <div class=\"bgd\"><svg viewBox=\"0 0 360 560\" role=\"img\" aria-labelledby=\"bergt\">\n        <title id=\"bergt\">An iceberg in three layers: the surface above the water, what lies underneath, and the core belief at the bottom<\/title>\n        <defs>\n          <linearGradient id=\"seaG\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\" gradientUnits=\"objectBoundingBox\">\n            <stop offset=\"0\" stop-color=\"#5878A0\"/><stop offset=\"1\" stop-color=\"#1C3150\"/>\n          <\/linearGradient>\n        <\/defs>\n        <rect class=\"sky\" x=\"-600\" y=\"0\" width=\"1560\" height=\"124\" fill=\"#C0E8F8\"/>\n        <rect class=\"sea\" x=\"-600\" y=\"124\" width=\"1560\" height=\"436\" fill=\"url(#seaG)\"/>\n        <g class=\"bub\"><circle cx=\"70\" cy=\"520\" r=\"3\"/><circle cx=\"150\" cy=\"545\" r=\"2\"/><circle cx=\"238\" cy=\"530\" r=\"2.6\"/><circle cx=\"300\" cy=\"550\" r=\"1.8\"/><circle cx=\"20\" cy=\"470\" r=\"2.2\"/><circle cx=\"342\" cy=\"500\" r=\"2.4\"/><\/g>\n        <g class=\"floe\"><path class=\"tip\" d=\"M128 124 L146 80 L160 72 L174 40 L188 30 L200 52 L214 46 L230 78 L246 96 L258 124 Z\" fill=\"#FFFFFF\" stroke=\"#0A0A0A\" stroke-width=\"2\" stroke-linejoin=\"round\"/>\n        <path class=\"body\" d=\"M128 124 L258 124 L300 178 L326 262 L304 330 L332 410 L300 488 L222 536 L140 540 L72 500 L40 420 L60 330 L36 252 L74 176 Z\" fill=\"#DDF2FA\" fill-opacity=\".72\" stroke=\"#FFFFFF\" stroke-opacity=\".7\" stroke-width=\"2\" stroke-linejoin=\"round\"/>\n        <foreignObject class=\"bt\" x=\"72\" y=\"146\" width=\"222\" height=\"132\"><div xmlns=\"http://www.w3.org/1999/xhtml\" class=\"btx\" id=\"btx\"><\/div><\/foreignObject>\n        <\/g>\n        <path class=\"wave\" d=\"M-600 124 Q -585 118 -570 124 T -540 124 T -510 124 T -480 124 T -450 124 T -420 124 T -390 124 T -360 124 T -330 124 T -300 124 T -270 124 T -240 124 T -210 124 T -180 124 T -150 124 T -120 124 T -90 124 T -60 124 T -30 124 T 0 124 T 30 124 T 60 124 T 90 124 T 120 124 T 150 124 T 180 124 T 210 124 T 240 124 T 270 124 T 300 124 T 330 124 T 360 124 T 390 124 T 420 124 T 450 124 T 480 124 T 510 124 T 540 124 T 570 124 T 600 124 T 630 124 T 660 124 T 690 124 T 720 124 T 750 124 T 780 124 T 810 124 T 840 124 T 870 124 T 900 124 T 930 124 T 960 124 T 990 124 T 1020 124 T 1050 124 T 1080 124 T 1110 124 T 1140 124 T 1170 124 T 1200 124 T 1230 124 T 1260 124 T 1290 124 T 1320 124 T 1350 124 T 1380 124 T 1410 124 T 1440 124 T 1470 124 T 1500 124 T 1530 124 T 1560 124 T 1590 124 T 1620 124 T 1650 124 T 1680 124 T 1710 124 T 1740 124 T 1770 124 T 1800 124 T 1830 124 T 1860 124 T 1890 124 T 1920 124 T 1950 124 T 1980 124 T 2010 124 T 2040 124 T 2070 124 T 2100 124 T 2130 124 T 2160 124 T 2190 124 T 2220 124 T 2250 124 T 2280 124 T 2310 124 T 2340 124 T 2370 124 T 2400 124\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"3\"/>\n        <line class=\"dl\" x1=\"-600\" y1=\"330\" x2=\"960\" y2=\"330\" stroke=\"#FFFFFF\" stroke-opacity=\".5\" stroke-width=\"1.5\" stroke-dasharray=\"2 6\"/>\n        <rect class=\"dim\" data-band=\"surface\" x=\"-600\" y=\"0\" width=\"1560\" height=\"124\"/>\n        <rect class=\"dim\" data-band=\"under\" x=\"-600\" y=\"124\" width=\"1560\" height=\"206\"/>\n        <rect class=\"dim\" data-band=\"core\" x=\"-600\" y=\"330\" width=\"1560\" height=\"230\"/>\n        <text class=\"lab sk\" x=\"14\" y=\"24\" fill=\"#0A0A0A\" data-copy=\"layer.surface\" data-static><\/text>\n        <text class=\"lab\" x=\"14\" y=\"150\" fill=\"#FFFFFF\" data-copy=\"layer.under\" data-static><\/text>\n        <text class=\"lab\" x=\"14\" y=\"356\" fill=\"#FFFFFF\" data-copy=\"layer.core\" data-static><\/text>\n        <g class=\"floe2\"><path d=\"M112 34 C 80 90, 40 180, 54 240 S 70 420, 110 470 Q 180 540 250 470 C 290 420, 318 330, 306 240 S 290 90, 250 40\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"2.4\" stroke-dasharray=\"0 8\" stroke-linecap=\"round\" opacity=\".85\"/>\n        <g class=\"cnt\" id=\"cnts\"><\/g>\n        <g id=\"mk\"><circle r=\"13\" fill=\"#E06050\" stroke=\"#0A0A0A\" stroke-width=\"2.5\" id=\"mkc\"/><path id=\"mka\" d=\"M-5 -2 L0 4 L5 -2\" fill=\"none\" stroke=\"#0A0A0A\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><\/g><\/g>\n      <\/svg><\/div>\n      <div class=\"bpop\" id=\"bpop\" role=\"dialog\" aria-label=\"The risk in full\" hidden><\/div>\n      <div class=\"legend\"><span><i style=\"background:var(--wrong)\"><\/i><span data-copy=\"legend.dn\" data-static><\/span><\/span><span><i style=\"background:var(--well)\"><\/i><span data-copy=\"legend.up\" data-static><\/span><\/span><\/div>\n    <\/aside>\n    <section class=\"panel\" aria-live=\"polite\">\n      <div class=\"rband\" id=\"rband\" hidden><\/div>\n      <div class=\"pbody\" id=\"pbody\"><\/div>\n      <div class=\"pfoot\">\n        <button class=\"back\" id=\"back\" type=\"button\"><\/button>\n        <span class=\"keys\" data-copy=\"foot.keys\" data-static><\/span>\n        <button class=\"next\" id=\"next\" type=\"button\"><\/button>\n      <\/div>\n    <\/section>\n<div id=\"ed\" role=\"dialog\" aria-label=\"Edit this text\" hidden>\n  <span class=\"eyebrow\">Edit this text<\/span>\n  <textarea id=\"edta\" rows=\"2\" aria-label=\"Text\"><\/textarea>\n  <p id=\"edhint\" class=\"hint\" hidden><\/p>\n  <div class=\"edacts\"><button type=\"button\" id=\"edsave\" class=\"btn k\">Save<\/button><button type=\"button\" id=\"edcancel\" class=\"btn l\">Cancel<\/button><button type=\"button\" id=\"edreset\" class=\"btn l\" hidden>Back to the original<\/button><span class=\"hint\">Enter saves · Esc cancels<\/span><\/div>\n<\/div>\n<div id=\"edbar\" hidden><button type=\"button\" id=\"edtoggle\" aria-pressed=\"false\">Edit text<\/button><span id=\"edtip\">Click any text to change it, buttons included.<\/span><span id=\"edstatus\" hidden><\/span><\/div>";
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script id="app">var SHELL="<header class=\"wrap\">\n  <div class=\"mast\">\n    <div class=\"t1\">\n      <span class=\"eyebrow\" data-copy=\"mast.eyebrow\" data-static><\/span>\n      <h1 data-copy=\"mast.title\" data-static><\/h1>\n    <\/div>\n    <div class=\"t2\">\n      <span class=\"eyebrow\" data-copy=\"mast.risks\" data-static><\/span>\n      <span class=\"rk\" id=\"mrisk\"><\/span>\n    <\/div>\n    <div class=\"t3\">\n      <div class=\"tf\"><label for=\"room\" data-copy=\"mast.room\" data-static><\/label>\n      <select id=\"room\"><\/select><\/div>\n      <div class=\"tf me\" id=\"mewrap\"><label for=\"me\" data-copy=\"mast.name\" data-static><\/label><input id=\"me\" maxlength=\"40\" autocomplete=\"given-name\" spellcheck=\"false\"><span class=\"mecall\" id=\"mecall\" data-copy=\"name.here\" data-static><\/span><\/div>\n    <\/div>\n  <\/div>\n<\/header>\n<nav class=\"steps wrap\" aria-label=\"Steps\"><div class=\"sbar\"><ol id=\"steps\"><\/ol><button type=\"button\" class=\"presbtn\" id=\"present\" aria-pressed=\"false\"><\/button><\/div><\/nav>\n<div class=\"wrap\" id=\"demowrap\" hidden><div class=\"demo\"><span data-copy=\"demo.text\" data-static><\/span><button id=\"clearex\" type=\"button\" data-copy=\"demo.clear\" data-static><\/button><\/div><\/div>\n\n<nav class=\"rail\" id=\"rail\" aria-label=\"Move up and down the iceberg\" hidden>\n  <button type=\"button\" class=\"rbtn\" id=\"rup\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M6 14.5 L12 8.5 L18 14.5\"/><\/svg><span><\/span><\/button>\n  <ol class=\"rtrack\" id=\"rtrack\"><\/ol>\n  <button type=\"button\" class=\"rbtn\" id=\"rdn\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M6 9.5 L12 15.5 L18 9.5\"/><\/svg><span><\/span><\/button>\n<\/nav>\n<div class=\"undo\" id=\"undo\" role=\"status\" hidden><\/div>\n<main class=\"wrap\">\n  <div class=\"work\" id=\"work\">\n    <div class=\"ocean\" aria-hidden=\"true\"><i class=\"full\"><\/i><i class=\"sea\"><\/i><i class=\"glow\"><\/i><\/div>\n    <div class=\"stintro\" id=\"stintro\">\n      <span class=\"tag nt eyebrow\" data-copy=\"setup.tag\" data-static><\/span>\n      <div class=\"strm\"><p class=\"strq\" data-copy=\"room.first\" data-static><\/p><div class=\"strms\" id=\"strms\" role=\"group\"><\/div><\/div>\n      <div class=\"stjoin\" id=\"stjoin\" hidden><\/div>\n      <h2 class=\"stq\" id=\"stq\"><\/h2>\n      <p class=\"stlead\" data-copy=\"setup.lead\" data-static><\/p>\n      <p class=\"sthow\" id=\"sthow\"><\/p>\n      <div class=\"stex\" id=\"stex\"><\/div>\n    <\/div>\n    <div class=\"cmap\" id=\"cmap\"><svg class=\"teth\" id=\"teth\" aria-hidden=\"true\"><\/svg><div class=\"nodes\" id=\"nodes\"><\/div><\/div>\n    <aside class=\"berg\" aria-label=\"Where you are on the iceberg\">\n      <div class=\"bgd\"><svg viewBox=\"0 0 360 560\" role=\"img\" aria-labelledby=\"bergt\">\n        <title id=\"bergt\">An iceberg in three layers: the surface above the water, what lies underneath, and the core belief at the bottom<\/title>\n        <defs>\n          <linearGradient id=\"seaG\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\" gradientUnits=\"objectBoundingBox\">\n            <stop offset=\"0\" stop-color=\"#5878A0\"/><stop offset=\"1\" stop-color=\"#1C3150\"/>\n          <\/linearGradient>\n        <\/defs>\n        <rect class=\"sky\" x=\"-600\" y=\"0\" width=\"1560\" height=\"124\" fill=\"#C0E8F8\"/>\n        <rect class=\"sea\" x=\"-600\" y=\"124\" width=\"1560\" height=\"436\" fill=\"url(#seaG)\"/>\n        <g class=\"bub\"><circle cx=\"70\" cy=\"520\" r=\"3\"/><circle cx=\"150\" cy=\"545\" r=\"2\"/><circle cx=\"238\" cy=\"530\" r=\"2.6\"/><circle cx=\"300\" cy=\"550\" r=\"1.8\"/><circle cx=\"20\" cy=\"470\" r=\"2.2\"/><circle cx=\"342\" cy=\"500\" r=\"2.4\"/><\/g>\n        <g class=\"floe\"><path class=\"tip\" d=\"M128 124 L146 80 L160 72 L174 40 L188 30 L200 52 L214 46 L230 78 L246 96 L258 124 Z\" fill=\"#FFFFFF\" stroke=\"#0A0A0A\" stroke-width=\"2\" stroke-linejoin=\"round\"/>\n        <path class=\"body\" d=\"M128 124 L258 124 L300 178 L326 262 L304 330 L332 410 L300 488 L222 536 L140 540 L72 500 L40 420 L60 330 L36 252 L74 176 Z\" fill=\"#DDF2FA\" fill-opacity=\".72\" stroke=\"#FFFFFF\" stroke-opacity=\".7\" stroke-width=\"2\" stroke-linejoin=\"round\"/>\n        <foreignObject class=\"bt\" x=\"72\" y=\"146\" width=\"222\" height=\"132\"><div xmlns=\"http://www.w3.org/1999/xhtml\" class=\"btx\" id=\"btx\"><\/div><\/foreignObject>\n        <\/g>\n        <path class=\"wave\" d=\"M-600 124 Q -585 118 -570 124 T -540 124 T -510 124 T -480 124 T -450 124 T -420 124 T -390 124 T -360 124 T -330 124 T -300 124 T -270 124 T -240 124 T -210 124 T -180 124 T -150 124 T -120 124 T -90 124 T -60 124 T -30 124 T 0 124 T 30 124 T 60 124 T 90 124 T 120 124 T 150 124 T 180 124 T 210 124 T 240 124 T 270 124 T 300 124 T 330 124 T 360 124 T 390 124 T 420 124 T 450 124 T 480 124 T 510 124 T 540 124 T 570 124 T 600 124 T 630 124 T 660 124 T 690 124 T 720 124 T 750 124 T 780 124 T 810 124 T 840 124 T 870 124 T 900 124 T 930 124 T 960 124 T 990 124 T 1020 124 T 1050 124 T 1080 124 T 1110 124 T 1140 124 T 1170 124 T 1200 124 T 1230 124 T 1260 124 T 1290 124 T 1320 124 T 1350 124 T 1380 124 T 1410 124 T 1440 124 T 1470 124 T 1500 124 T 1530 124 T 1560 124 T 1590 124 T 1620 124 T 1650 124 T 1680 124 T 1710 124 T 1740 124 T 1770 124 T 1800 124 T 1830 124 T 1860 124 T 1890 124 T 1920 124 T 1950 124 T 1980 124 T 2010 124 T 2040 124 T 2070 124 T 2100 124 T 2130 124 T 2160 124 T 2190 124 T 2220 124 T 2250 124 T 2280 124 T 2310 124 T 2340 124 T 2370 124 T 2400 124\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"3\"/>\n        <line class=\"dl\" x1=\"-600\" y1=\"330\" x2=\"960\" y2=\"330\" stroke=\"#FFFFFF\" stroke-opacity=\".5\" stroke-width=\"1.5\" stroke-dasharray=\"2 6\"/>\n        <rect class=\"dim\" data-band=\"surface\" x=\"-600\" y=\"0\" width=\"1560\" height=\"124\"/>\n        <rect class=\"dim\" data-band=\"under\" x=\"-600\" y=\"124\" width=\"1560\" height=\"206\"/>\n        <rect class=\"dim\" data-band=\"core\" x=\"-600\" y=\"330\" width=\"1560\" height=\"230\"/>\n        <text class=\"lab sk\" x=\"14\" y=\"24\" fill=\"#0A0A0A\" data-copy=\"layer.surface\" data-static><\/text>\n        <text class=\"lab\" x=\"14\" y=\"150\" fill=\"#FFFFFF\" data-copy=\"layer.under\" data-static><\/text>\n        <text class=\"lab\" x=\"14\" y=\"356\" fill=\"#FFFFFF\" data-copy=\"layer.core\" data-static><\/text>\n        <g class=\"floe2\"><path d=\"M112 34 C 80 90, 40 180, 54 240 S 70 420, 110 470 Q 180 540 250 470 C 290 420, 318 330, 306 240 S 290 90, 250 40\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"2.4\" stroke-dasharray=\"0 8\" stroke-linecap=\"round\" opacity=\".85\"/>\n        <g class=\"cnt\" id=\"cnts\"><\/g>\n        <g id=\"mk\"><circle r=\"13\" fill=\"#E06050\" stroke=\"#0A0A0A\" stroke-width=\"2.5\" id=\"mkc\"/><path id=\"mka\" d=\"M-5 -2 L0 4 L5 -2\" fill=\"none\" stroke=\"#0A0A0A\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><\/g><\/g>\n      <\/svg><\/div>\n      <div class=\"bpop\" id=\"bpop\" role=\"dialog\" aria-label=\"The risk in full\" hidden><\/div>\n      <div class=\"legend\"><span><i style=\"background:var(--wrong)\"><\/i><span data-copy=\"legend.dn\" data-static><\/span><\/span><span><i style=\"background:var(--well)\"><\/i><span data-copy=\"legend.up\" data-static><\/span><\/span><\/div>\n    <\/aside>\n    <section class=\"panel\" aria-live=\"polite\">\n      <div class=\"rband\" id=\"rband\" hidden><\/div>\n      <div class=\"pbody\" id=\"pbody\"><\/div>\n      <div class=\"pfoot\">\n        <button class=\"back\" id=\"back\" type=\"button\"><\/button>\n        <span class=\"keys\" data-copy=\"foot.keys\" data-static><\/span>\n        <button class=\"next\" id=\"next\" type=\"button\"><\/button>\n      <\/div>\n    <\/section>\n<div id=\"ed\" role=\"dialog\" aria-label=\"Edit this text\" hidden>\n  <span class=\"eyebrow\">Edit this text<\/span>\n  <textarea id=\"edta\" rows=\"2\" aria-label=\"Text\"><\/textarea>\n  <p id=\"edhint\" class=\"hint\" hidden><\/p>\n  <div class=\"edacts\"><button type=\"button\" id=\"edsave\" class=\"btn k\">Save<\/button><button type=\"button\" id=\"edcancel\" class=\"btn l\">Cancel<\/button><button type=\"button\" id=\"edreset\" class=\"btn l\" hidden>Back to the original<\/button><span class=\"hint\">Enter saves · Esc cancels<\/span><\/div>\n<\/div>\n<div id=\"edbar\" hidden><button type=\"button\" id=\"edtoggle\" aria-pressed=\"false\">Edit text<\/button><span id=\"edtip\">Click any text to change it, buttons included.<\/span><span id=\"edstatus\" hidden><\/span><\/div>";
 var APP_SRC=(document.currentScript&&document.currentScript.textContent)||'';
 var CSS_SRC=(document.getElementById('css')||{}).textContent||'';
 var EXP_SRC=(document.getElementById('experts')||{}).textContent||'{}';
@@ -844,16 +899,22 @@ var DEF={
  'mast.eyebrow':'Sessions 6 & 7 · Iceberg futures','mast.title':'The *iceberg*, 2036','mast.risks':'Our risks','mast.none':'Choose your risks','mast.room':'Table',
  'step.setup':'Set up','step.imagine':'Imagine','step.surface':'Surface','step.under':'Underneath','step.core':'Core belief','step.turn':'Turn','step.whole':'Whole iceberg',
  'legend.dn':'Down: 2036 gone wrong','legend.up':'Up: 2036 gone right',
- 'demo.text':'Example notes are showing so you can see how a filled iceberg looks.','demo.clear':'Clear the examples',
+ 'demo.text':'You’re looking at an example: six people at an imaginary table, so you can see how a filled iceberg looks.','demo.clear':'Clear the examples',
  'layer.surface':'Surface','layer.under':'Underneath the Surface','layer.core':'The Core Belief',
  'q.surface':'What is clearly visible to you?\nWhat do you hear people talking about?\nWhat do you read in the news?',
  'q.under':'What is making this world work the way it does?\nWhich groups of people are involved, and how do they influence each other?',
  'q.core':'What sort of things do people believe that prop this up?\nIs there a myth, or a story people tell, to make sense of the complexity of what happens in this future?',
  'core.mind':'What might come to mind: [a myth], [an everyday saying], [a figure of speech], [a poem] or [a song lyric].',
- 'compose.ph':'Type what the group says, then press Enter','compose.add':'Add',
- 'compose.hint':'Enter adds a note. Shift + Enter for a new line. Click a note to edit it.','compose.hintcore':'Tap a kind above to label the next note.',
- 'notes.empty':'Nothing here yet. Type what the group says and press Enter.','notes.emptywhole':'Nothing yet.',
- 'echo.label':'On the way down, the group said',
+ 'compose.ph':'Type your idea, then press Enter','compose.add':'Add',
+ 'compose.hint':'Enter adds your note. Shift + Enter for a new line. Click your own note to change it.',
+ 'compose.words':'{n} / 25 words','compose.full':'25 words is the most one note can hold.',
+ 'mast.name':'Your name','name.here':'Add your name here','name.ph':'Your first name','name.need':'Add your name first, so your notes are tagged to you.',
+ 'join.q':'And your name?','join.go':'Join table {n}','join.hint':'Your name goes on every note you add, so your table knows whose idea it is.',
+ 'need.table':'Choose your table number first, so your notes go to the right table.',
+ 'note.you':'You','star.add':'Star this note to show you agree','star.by':'Starred by {names}','star.own':'Stars from your table',
+ 'live.on':'Shared live with everyone at Table {n}','live.off':'Notes can’t be shared right now, so they’re only saved on this computer.','live.fail':'That didn’t save. Check your connection and try again.','compose.hintcore':'Tap a kind above to label the next note.',
+ 'notes.empty':'Nothing here yet. Add the first idea.','notes.emptywhole':'Nothing yet.',
+ 'echo.label':'On the way down, your table said',
  'xp.show':'Take a peek at what the experts were thinking','xp.hide':'Hide what the experts were thinking','xp.norisks':'Choose your risks first.',
  'xp.none':'No expert imagined futures for this risk at the Horizon Summit, so this one is the group’s from scratch.',
  'xp.nofuture':'This expert didn’t write a future for this direction.','xp.harmful':'Their harmful future','xp.preferred':'Their preferred future',
@@ -861,7 +922,7 @@ var DEF={
  'xp.foot':'From the Horizon Summit, where experts imagined 2030. These are sketches, not forecasts. Use them to get talking, then make the future the group’s own.',
  'setup.tag':'Before you start','setup.q':'Which *table* are you at?',
  'setup.lead':'Each table takes one risk down the iceberg, and every risk has two tables.',
- 'setup.how':'Hover over a cluster to see its risks. Click your table number to begin.','setup.howtap':'Tap your table number to begin.',
+ 'setup.how':'Hover over a cluster to see its risks. Click your table number, then add your name.','setup.howtap':'Tap your table number, then add your name.',
  'setup.yes':'Worked examples from the Horizon Summit','setup.no':'No worked examples from the Horizon Summit','xp.ex':'Horizon Summit example {n}',
  'hub.many':'{n} risks','hub.one':'1 risk',
  'imagine.pick':'Switch on *one* risk','imagine.pickone':'The risk that went badly','imagine.hint':'Tap a small circle to choose the risk your group will take down the iceberg.',
@@ -880,10 +941,10 @@ var DEF={
  'rail.down':'Down to {step}','rail.up':'Up to {step}','rail.to':'{step}',
  'turn.tag':'Turn around','turn.back':'Back down to {step}','turn.q':'Now let’s go back up the iceberg, to a 2036 where things went well.',
  'turn.lead':'This time we start at the bottom, with *what people believe*, then *what makes that world work*, and finish with *what you’d see at the top*.',
- 'turn.some':'The group left {n} note{s} on the way down. They’ll show at each layer on the way up, to push against.','turn.none':'No notes from the way down yet.',
+ 'turn.some':'Your table left {n} note{s} on the way down. They’ll show at each layer on the way up, to push against.','turn.none':'No notes from the way down yet.',
  'whole.tag':'The whole iceberg','whole.q':'Two versions of 2036, side by side.','whole.wrong':'2036 gone wrong','whole.well':'2036 gone right',
  'whole.copy':'Copy the record','whole.new':'Start a new iceberg','whole.warn':'This clears every note on this computer. Copy the record first if you need it.',
- 'whole.yes':'Clear and start again','whole.keep':'Keep the notes','whole.copied':'Copied. Paste it into the table’s notes.','whole.select':'Select all and copy this text.',
+ 'whole.yes':'Clear and start again','whole.keep':'Keep the notes','whole.copied':'Copied. Paste it wherever you keep the table’s notes.','whole.select':'Select all and copy this text.',
  'foot.back':'← Back','foot.keys':'← → keys move between steps','foot.next':'Next →','foot.turn':'Turn around →','foot.whole':'See the whole iceberg →','foot.down':'Down to {step} ↓','foot.up':'Up to {step} ↑','foot.to':'{step} →',
  'cluster.data':'Everyone with data','cluster.voters':'Voters and the public','cluster.kids':'Children and learners','cluster.work':'People at work','cluster.war':'Civilians in conflict','cluster.check':'The bodies meant to check',
  'risk.R06':'AI with no safety guardrails','riskd.R06':'Some AI is released so anyone can download and change it. Its safety features can be stripped out and the AI passed on.',
@@ -920,6 +981,7 @@ function setRoom(v,keep){
   S.room=v||'';var x=RISKOF[S.room];
   if(x&&!keep){if(S.example)clearEx();S.cluster=x.c;S.risks=[x.r];}
   save();var sel=$('room');if(sel)sel.value=S.room;
+  listen();
 }
 var STEPS=[
  {id:'setup',k:'step.setup'},{id:'imagine',k:'step.imagine'},
@@ -948,13 +1010,33 @@ var KEY='hotp-iceberg-s6-v1';
 function blank(){return {room:'',cluster:'',risks:[],step:0,kind:'',xopen:false,notes:{dn:{surface:[],under:[],core:[]},up:{surface:[],under:[],core:[]}},example:false};}
 function example(){
   var s=blank(); s.example=true; s.risks=['R03']; s.step=2;
-  var n=function(t,k){return {id:'ex'+Math.random().toString(36).slice(2,8),t:t,k:k||'',ex:true};};
-  s.notes.dn.surface=[n('Headlines about the first generation who say they never had a close friend'),n('Parents saying their child’s AI tutor is “part of the family”')];
-  s.notes.dn.under=[n('Companion apps earn more the longer children stay on them'),n('Schools short of staff hand pastoral care over to AI')];
-  s.notes.dn.core=[n('“It’s only a phone, they’ll grow out of it”','Everyday saying'),n('A child raised by wolves','Figure of speech')];
-  s.notes.up.core=[n('“It takes a village to raise a child”','Everyday saying')];
-  s.notes.up.under=[n('Parents, teachers and app makers agree limits together')];
-  s.notes.up.surface=[n('News stories about youth clubs being full again')];
+  /* an imaginary table: five people plus you, so you can see colours, names, stars and notes of every length */
+  var P={a:['ex-a','Amira'],b:['ex-b','Ben'],c:['ex-c','Chloe'],d:['ex-d','Dev'],e:['ex-e','Ewa'],y:[ME.pid,ME.name||'You']};
+  var at=0;
+  var n=function(who,t,k,stars){var st={};(stars||'').split('').forEach(function(c){st[P[c][0]]=P[c][1];});at++;
+    return {id:'ex'+at,t:t,k:k||'',ex:true,pid:P[who][0],name:P[who][1],at:at,st:st};};
+  s.notes.dn.surface=[
+    n('a','Headlines about the first generation who say they never had a close friend','','bdy'),
+    n('b','Parents saying their child’s AI tutor is “part of the family”'),
+    n('c','Lonely teens'),
+    n('y','Adverts everywhere for companions that “always understand you”, aimed at kids as young as eight, with cartoon characters and free trials','','e'),
+    n('d','Teachers say children can’t cope with being disagreed with any more','','c')];
+  s.notes.dn.under=[
+    n('e','Companion apps earn more the longer children stay on them, so every design choice is about keeping them hooked rather than helping them grow up','','abcd'),
+    n('b','Schools short of staff hand pastoral care over to AI'),
+    n('a','Tech lobbyists')];
+  s.notes.dn.core=[
+    n('c','“It’s only a phone, they’ll grow out of it”','Everyday saying','a'),
+    n('d','A child raised by wolves','Figure of speech')];
+  s.notes.up.core=[
+    n('a','“It takes a village to raise a child”','Everyday saying','bcey'),
+    n('e','Pinocchio: the puppet only becomes a real boy through the people who love him','Myth')];
+  s.notes.up.under=[
+    n('b','Parents, teachers and app makers agree limits together'),
+    n('y','Young people sit on the boards that decide how companion apps are designed','','d')];
+  s.notes.up.surface=[
+    n('d','News stories about youth clubs being full again','','ab'),
+    n('c','Kids arguing in the park, then making up')];
   return s;
 }
 var S;
@@ -965,9 +1047,135 @@ if(S.risks.length>1)S.risks=[S.risks[0]];
 if(!S.cluster&&S.risks.length){var cc0=CLUSTERS.filter(function(c){return c.risks.indexOf(S.risks[0])>=0;})[0];if(cc0)S.cluster=cc0.id;}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
 
+/* ---------- who you are: a name and a private id, kept in this browser ---------- */
+var MEKEY='hotp-ice-me',ME={name:'',pid:''};
+try{var rawM=JSON.parse(localStorage.getItem(MEKEY)||'null');if(rawM&&typeof rawM.pid==='string'&&rawM.pid)ME={name:String(rawM.name||''),pid:rawM.pid};}catch(e){}
+if(!ME.pid)ME.pid='p'+Math.random().toString(36).slice(2,12);
+function saveMe(){try{localStorage.setItem(MEKEY,JSON.stringify(ME));}catch(e){}}
+saveMe();
+function myName(){return ME.name.trim();}
+/* notes from before names existed belong to whoever kept them in this browser */
+['dn','up'].forEach(function(d){['surface','under','core'].forEach(function(l){(S.notes[d][l]||[]).forEach(function(n){if(!n.pid&&!n.ex){n.pid=ME.pid;n.name=myName();n.st=n.st||{};n.at=n.at||0;}});});});
+
+/* ---------- 25 words a note ---------- */
+var MAXW=25;
+function words(t){t=String(t||'').trim();return t?t.split(/\s+/).length:0;}
+function clipWords(t){var out='',n=0;String(t).split(/(\s+)/).some(function(p){if(!p)return false;if(n>=MAXW)return true;out+=p;if(!/^\s+$/.test(p))n++;return false;});return out;}
+
+/* ---------- sharing: each table's notes live in Firestore, one document per note ----------
+   BOARD names the collection. Use 'ice-s6' for Session 6 and 'ice-s7' for Session 7, so the
+   two sessions start with empty tables. Each browser listens only to its own table. If Firebase
+   can't be reached, notes stay in this browser, as they used to. */
+var BOARD='ice-s6';
+var DB=null,LIVE={},LIVEROOM=null,UNSUB=null,LIVEBAD=false,PENDING=false;
+try{
+  var FBC=window.FIREBASE_CONFIG;
+  if(window.firebase&&FBC&&FBC.projectId){
+    if(!firebase.apps.length)firebase.initializeApp(FBC);
+    DB=firebase.firestore();
+    try{DB.settings({experimentalAutoDetectLongPolling:true,merge:true});}catch(e){}
+  }
+}catch(e){console.error('[iceberg] Firebase failed to start',e);DB=null;}
+listen();
+function shared(){return !!DB&&!LIVEBAD&&!S.example&&!!RISKOF[S.room];}
+function listen(){
+  var r=DB&&RISKOF[S.room]?S.room:'';
+  if(r===LIVEROOM)return;
+  if(UNSUB){try{UNSUB();}catch(e){}UNSUB=null;}
+  LIVE={};LIVEROOM=r;
+  if(!r)return;
+  UNSUB=DB.collection(BOARD).where('room','==',+r).onSnapshot(function(q){
+    var x={};q.forEach(function(doc){var v=doc.data();if(!v||v.gone)return;v.id=doc.id;x[doc.id]=v;});
+    LIVE=x;LIVEBAD=false;refresh();
+  },function(err){console.error('[iceberg] could not read the table’s notes',err);LIVEBAD=true;LIVE={};refresh();});
+}
+function liveList(d,l){
+  return Object.keys(LIVE).map(function(k){return LIVE[k];}).filter(function(n){return n.dir===d&&n.layer===l;})
+    .sort(function(a,b){return (a.at||0)-(b.at||0)||(a.id<b.id?-1:1);});
+}
+function notesOf(d,l){return shared()?liveList(d,l):S.notes[d][l];}
+function allNotes(){var a=[];['dn','up'].forEach(function(d){['surface','under','core'].forEach(function(l){a=a.concat(notesOf(d,l));});});return a;}
+/* each person gets a post-it colour, in the order they first added a note at this table */
+var PC=['#F0E060','#C0E8F8','#E078B0','#E08850','#B868C0','#E0C060','#DDF2FA','#E06050'];
+function colourOf(pid){
+  var seen=[];allNotes().slice().sort(function(a,b){return (a.at||0)-(b.at||0);}).forEach(function(n){if(seen.indexOf(n.pid)<0)seen.push(n.pid);});
+  var i=seen.indexOf(pid);if(i<0)i=seen.length;return PC[i%PC.length];
+}
+function failMsg(){var u=$('undo');u.innerHTML='';u.appendChild(T('span','live.fail'));u.hidden=false;clearTimeout(undoT);undoT=setTimeout(function(){u.hidden=true;},8000);}
+function addNote(d,l,t,k){
+  var n={room:+S.room||0,dir:d,layer:l,t:t,k:k||'',name:myName(),pid:ME.pid,at:Date.now(),st:{},gone:false};
+  if(!shared()){n.id=Math.random().toString(36).slice(2,10);S.notes[d][l].push(n);save();render(true);return Promise.resolve();}
+  return DB.collection(BOARD).doc().set(n);
+}
+function editNote(d,l,n,t){
+  if(!shared()){n.t=t;save();render(true);return;}
+  DB.collection(BOARD).doc(n.id).update({t:t}).catch(function(){failMsg();refresh();});
+}
+function toggleStar(d,l,n){
+  if(n.pid===ME.pid)return;
+  if(!myName()){askName();return;}
+  var on=!(n.st&&n.st[ME.pid]);
+  if(!shared()){n.st=n.st||{};if(on)n.st[ME.pid]=myName();else delete n.st[ME.pid];save();render(true);return;}
+  var u={};u['st.'+ME.pid]=on?myName():firebase.firestore.FieldValue.delete();
+  DB.collection(BOARD).doc(n.id).update(u).catch(function(){failMsg();});
+}
+/* a new name goes onto the notes and stars you've already left */
+function renameMine(){
+  var nm=myName();if(!nm)return;
+  if(shared()){
+    Object.keys(LIVE).forEach(function(k){var n=LIVE[k],u={};
+      if(n.pid===ME.pid&&n.name!==nm)u.name=nm;
+      if(n.st&&n.st[ME.pid]&&n.st[ME.pid]!==nm)u['st.'+ME.pid]=nm;
+      if(Object.keys(u).length)DB.collection(BOARD).doc(k).update(u).catch(function(){});});
+  }else{
+    var ch=false;['dn','up'].forEach(function(d){['surface','under','core'].forEach(function(l){S.notes[d][l].forEach(function(n){
+      if(n.pid===ME.pid&&n.name!==nm){n.name=nm;ch=true;}if(n.st&&n.st[ME.pid]&&n.st[ME.pid]!==nm){n.st[ME.pid]=nm;ch=true;}});});});
+    if(ch){save();refresh();}
+  }
+}
+var RNT=null;
+function setName(v,from){
+  ME.name=String(v||'').slice(0,40);saveMe();
+  document.querySelectorAll('#me,.namebox input,#joinname').forEach(function(i){if(i!==from&&i.value!==ME.name)i.value=ME.name;});
+  if(myName()){$('mewrap').classList.remove('need');document.querySelectorAll('.namebox').forEach(function(b){b.classList.remove('need');});}
+  clearTimeout(RNT);RNT=setTimeout(renameMine,700);
+}
+/* the signal: the name field pulses and points at itself */
+function askName(){
+  var w=$('mewrap');w.classList.remove('need');void w.offsetWidth;w.classList.add('need');
+  var nb=document.querySelector('#pbody .namebox');
+  if(nb){nb.classList.remove('need');void nb.offsetWidth;nb.classList.add('need');}
+  var t=(nb&&nb.querySelector('input'))||$('me');
+  try{t.focus({preventScroll:true});t.scrollIntoView({block:'center',behavior:REDUCE?'auto':'smooth'});}catch(e){try{t.focus();}catch(e2){}}
+}
+function nameBox(id,next){
+  var inp=el('input',{id:id,maxlength:'40',autocomplete:'given-name',spellcheck:'false',placeholder:plain('name.ph'),'aria-label':plain('mast.name')});
+  inp.value=ME.name;
+  inp.addEventListener('input',function(){setName(inp.value,inp);});
+  inp.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();if(next){var n=$(next);if(n)n.focus();}}});
+  return el('div',{cls:'namebox'},[el('label',{'for':id,text:plain('name.need')}),inp]);
+}
+/* new notes from the table arrive: swap in the lists, leave whatever you're typing alone */
+function busyEdit(){var a=document.activeElement;return !!(a&&a.classList&&a.classList.contains('tx')&&a.isContentEditable);}
+function refresh(){
+  if(typeof render!=='function'||!$('pbody'))return;
+  if(busyEdit()){PENDING=true;return;}
+  PENDING=false;
+  var st=STEPS[S.step];
+  if(st.id==='turn'){render(true);return;}
+  var a=document.activeElement,fid=null;
+  if(a&&a.classList&&a.classList.contains('star')){var nn=a.closest('.note');if(nn)fid=nn.getAttribute('data-id');}
+  document.querySelectorAll('#pbody [data-nl]').forEach(function(o){var p=o.getAttribute('data-nl').split('|');o.parentNode.replaceChild(notesList(p[0],p[1],p[2]==='w'),o);});
+  var ec=$('echo');if(ec&&st.layer)fillEcho(ec,st);
+  var lv=document.querySelector('#pbody .live');if(lv)lv.parentNode.replaceChild(liveEl(),lv);
+  if(fid){var f=document.querySelector('#pbody .note[data-id="'+fid+'"] .star');if(f)try{f.focus({preventScroll:true});}catch(e){}}
+  renderSteps();renderBerg();
+}
+document.addEventListener('focusout',function(){if(PENDING)setTimeout(function(){if(PENDING&&!busyEdit())refresh();},0);});
+
 var $=function(id){return document.getElementById(id);};
 function el(tag,attrs,kids){var e=document.createElement(tag);if(attrs)for(var k in attrs){if(k==='text')e.textContent=attrs[k];else if(k==='html')e.innerHTML=attrs[k];else if(k==='cls')e.className=attrs[k];else if(k.slice(0,2)==='on')e.addEventListener(k.slice(2),attrs[k]);else e.setAttribute(k,attrs[k]);}(kids||[]).forEach(function(c){if(c!=null)e.appendChild(typeof c==='string'?document.createTextNode(c):c);});return e;}
-function count(d,l){return S.notes[d][l].length;}
+function count(d,l){return notesOf(d,l).length;}
 
 /* ---------- the static frame ---------- */
 $('root').innerHTML=SHELL;
@@ -975,6 +1183,7 @@ function paintStatic(){
   document.querySelectorAll('[data-static]').forEach(function(e){var k=e.getAttribute('data-copy');if(e instanceof SVGElement)e.textContent=plain(k);else e.innerHTML=rich(k);});
 }
 (function(){var r=$('room');r.appendChild(el('option',{value:'',text:'–'}));for(var i=1;i<=NROOMS;i++)r.appendChild(el('option',{value:String(i),text:String(i)}));r.value=S.room||'';r.addEventListener('change',function(){setRoom(r.value);if(typeof render==='function')render(true);});})();
+(function(){var m=$('me');m.value=ME.name;m.setAttribute('placeholder',plain('name.ph'));m.addEventListener('input',function(){setName(m.value,m);});})();
 function fromHash(){var m=/^#g(\d{1,2})$/.exec(location.hash||'');if(m&&+m[1]>=1&&+m[1]<=NROOMS&&S.room!==m[1]){setRoom(m[1]);if(typeof render==='function')render(true);}}
 (function(){var m=/^#g(\d{1,2})$/.exec(location.hash||'');if(m&&+m[1]>=1&&+m[1]<=NROOMS){if(S.room!==m[1])setRoom(m[1]);if(S.step===0){S.step=1;save();}}})();
 window.addEventListener('hashchange',fromHash);
@@ -1039,38 +1248,86 @@ function renderMast(){
   $('demowrap').hidden=!S.example;
 }
 
-/* ---------- notes ---------- */
+/* ---------- notes: a post-it per idea, in its author's colour, with their name and stars ---------- */
 function noteEl(d,l,n){
-  var tx=el('div',{cls:'tx',spellcheck:'true','aria-label':'Edit note',text:n.t});
-  try{tx.contentEditable='plaintext-only';}catch(e){tx.contentEditable='true';}
-  tx.addEventListener('blur',function(){var v=tx.textContent.trim();if(!v){del(d,l,n.id);return;}if(v!==n.t){n.t=v;n.ex=false;save();render(true);}});
-  tx.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();tx.blur();}});
+  var mine=n.pid===ME.pid,canEdit=mine&&!n.ex,st=n.st||{},who=Object.keys(st),ns=who.length,starred=!!st[ME.pid];
+  var tx=el('div',{cls:'tx',text:n.t});
+  if(canEdit){
+    tx.setAttribute('spellcheck','true');tx.setAttribute('aria-label','Edit your note');
+    try{tx.contentEditable='plaintext-only';}catch(e){tx.contentEditable='true';}
+    if(tx.contentEditable!=='plaintext-only')tx.contentEditable='true';
+    tx.addEventListener('blur',function(){var v=clipWords(tx.textContent.trim()).trim();if(!v){del(d,l,n);return;}if(v!==n.t)editNote(d,l,n,v);else if(tx.textContent!==v)tx.textContent=v;});
+    tx.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();tx.blur();}});
+  }
   var kids=[];if(n.k)kids.push(el('span',{cls:'k',text:n.k}));
   kids.push(tx);
-  kids.push(el('button',{type:'button',cls:'x','aria-label':'Remove note',text:'×',onclick:function(){del(d,l,n.id);}}));
-  return el('li',{cls:'note '+d+(n.ex?' ex':'')},kids);
+  var names=who.map(function(p){return p===ME.pid?plain('note.you'):(st[p]||'?');}).join(', ');
+  var who1=mine?plain('note.you')+(myName()?' · '+myName():''):(n.name||'?');
+  var sb;
+  if(mine){sb=ns?el('span',{cls:'stars',title:plain('star.by',{names:names}),text:'★ '+ns}):null;}
+  else{sb=el('button',{type:'button',cls:'star','aria-pressed':String(starred),title:ns?plain('star.by',{names:names}):plain('star.add'),
+    'aria-label':plain('star.add')+(ns?' ('+plain('star.by',{names:names})+')':''),text:'★'+(ns?' '+ns:''),onclick:function(){toggleStar(d,l,n);}});}
+  kids.push(el('div',{cls:'nf'},[el('span',{cls:'who',text:who1}),sb]));
+  if(canEdit)kids.push(el('button',{type:'button',cls:'x','aria-label':'Remove your note',text:'×',onclick:function(){del(d,l,n);}}));
+  var li=el('li',{cls:'note '+d+(mine?' mine':'')+(ns?' hot':'')+(n.ex?' ex':''),'data-id':n.id||''},kids);
+  li.style.setProperty('--pc',colourOf(n.pid));
+  return li;
 }
 var UNDO=null,undoT=null;
-function del(d,l,id){
-  var list=S.notes[d][l],i=list.findIndex(function(n){return n.id===id;});if(i<0)return;
+function del(d,l,n){
+  if(n.pid!==ME.pid)return;
+  if(shared()){
+    DB.collection(BOARD).doc(n.id).update({gone:true}).then(function(){UNDO={live:true,id:n.id};showUndo();},function(){failMsg();refresh();});
+    return;
+  }
+  var list=S.notes[d][l],i=list.findIndex(function(x){return x.id===n.id;});if(i<0)return;
   UNDO={d:d,l:l,n:list[i],i:i};list.splice(i,1);save();render(true);showUndo();
 }
 function showUndo(){
   var u=$('undo');u.innerHTML='';u.appendChild(T('span','undo.text'));
-  u.appendChild(T('button','undo.btn',{type:'button',onclick:function(){if(!UNDO)return;S.notes[UNDO.d][UNDO.l].splice(UNDO.i,0,UNDO.n);UNDO=null;save();u.hidden=true;render(true);}}));
+  u.appendChild(T('button','undo.btn',{type:'button',onclick:function(){if(!UNDO)return;var x=UNDO;UNDO=null;u.hidden=true;
+    if(x.live){DB.collection(BOARD).doc(x.id).update({gone:false}).catch(function(){failMsg();});return;}
+    S.notes[x.d][x.l].splice(x.i,0,x.n);save();render(true);}}));
   u.hidden=false;clearTimeout(undoT);undoT=setTimeout(function(){u.hidden=true;UNDO=null;},8000);
 }
 function notesList(d,l,whole){
-  var list=S.notes[d][l];
-  if(!list.length)return T('div',whole?'notes.emptywhole':'notes.empty',{cls:'empty'});
-  var ul=el('ul',{cls:'notes'});list.forEach(function(n){ul.appendChild(noteEl(d,l,n));});return ul;
+  var list=notesOf(d,l),out;
+  if(!list.length)out=T('div',whole?'notes.emptywhole':'notes.empty',{cls:'empty'});
+  else{out=el('ul',{cls:'notes'});list.forEach(function(n){out.appendChild(noteEl(d,l,n));});}
+  out.setAttribute('data-nl',d+'|'+l+(whole?'|w':''));
+  return out;
 }
+function liveEl(){
+  if(S.example||!RISKOF[S.room])return el('span',{cls:'live'});
+  if(shared())return el('span',{cls:'live on'},[el('i',{'aria-hidden':'true'}),el('span',{text:plain('live.on',{n:S.room})})]);
+  return el('span',{cls:'live off',text:plain('live.off')});
+}
+var DRAFT={};
 function composer(d,l){
   var wrap=el('div',{cls:'cmp'});
-  var ta=el('textarea',{id:'ta-'+d+'-'+l,rows:'2',placeholder:plain('compose.ph'),'data-copy':'compose.ph','data-attr':'placeholder','aria-label':'New note for '+plain('layer.'+l)});
-  function add(){var v=ta.value.trim();if(!v)return;S.notes[d][l].push({id:Math.random().toString(36).slice(2,10),t:v,k:l==='core'?S.kind:''});ta.value='';S.kind='';save();render(true);var t=$('ta-'+d+'-'+l);if(t)t.focus();}
+  if(!S.example&&!RISKOF[S.room]){
+    wrap.appendChild(el('div',{cls:'namebox'},[T('span','need.table'),T('button','imagine.choose',{type:'button',cls:'nbgo',onclick:function(){go(0);}})]));
+    return wrap;
+  }
+  var key=d+'-'+l,tid='ta-'+key;
+  if(!myName()&&!S.example)wrap.appendChild(nameBox('nm-'+key,tid));
+  var ta=el('textarea',{id:tid,rows:'2',placeholder:plain('compose.ph'),'data-copy':'compose.ph','data-attr':'placeholder','aria-label':'New note for '+plain('layer.'+l),'aria-describedby':'wc-'+key});
+  ta.value=DRAFT[key]||'';
+  var wc=el('span',{cls:'wc',id:'wc-'+key,'aria-live':'polite'});
+  function upd(){var n=words(ta.value);wc.textContent=n>=MAXW?plain('compose.words',{n:MAXW})+' · '+plain('compose.full'):plain('compose.words',{n:n});wc.classList.toggle('full',n>=MAXW);}
+  ta.addEventListener('input',function(){if(words(ta.value)>MAXW){var p=ta.selectionStart;ta.value=clipWords(ta.value);try{ta.setSelectionRange(Math.min(p,ta.value.length),Math.min(p,ta.value.length));}catch(e){}}DRAFT[key]=ta.value;upd();});
+  function add(){
+    var v=clipWords(ta.value.trim()).trim();if(!v)return;
+    if(!myName()&&!S.example){askName();return;}
+    var k=l==='core'?S.kind:'';
+    ta.value='';DRAFT[key]='';S.kind='';upd();
+    if(k)document.querySelectorAll('#pbody .kw').forEach(function(b){b.setAttribute('aria-pressed','false');});
+    addNote(d,l,v,k).then(function(){var t=$(tid);if(t&&document.activeElement!==t)t.focus();},function(err){console.error('[iceberg] save failed',err);DRAFT[key]=v;var t=$(tid);if(t){t.value=v;upd();}failMsg();});
+  }
   ta.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();add();}});
   wrap.appendChild(el('div',{cls:'compose'},[ta,T('button','compose.add',{type:'button',onclick:add})]));
+  upd();
+  wrap.appendChild(el('div',{cls:'cmeta'},[wc,liveEl()]));
   if(l==='core')wrap.appendChild(el('p',{cls:'hint'},[T('span','compose.hintcore')]));
   return wrap;
 }
@@ -1382,10 +1639,28 @@ try{document.fonts.ready.then(function(){relayout();});}catch(e){}
 /* set up: choosing a room carries the group, slowly, into Imagine with its risk */
 function pickRoom(n){
   if(M.mode!=='map'||!RISKOF[n])return;
-  setRoom(n);paintRooms();M.pend=true;
+  setRoom(n);paintRooms();
   try{history.replaceState(null,'',location.pathname+location.search+'#g'+n);}catch(e){}
-  clearTimeout(M.goT);M.goT=setTimeout(function(){go(1);},REDUCE?0:450);
+  clearTimeout(M.goT);
+  if(!myName()){paintJoin();var j=$('joinname');if(j)try{j.focus({preventScroll:true});}catch(e){}return;}
+  M.pend=true;M.goT=setTimeout(function(){go(1);},REDUCE?0:450);
 }
+/* once a table is picked, ask for a name before going on */
+function paintJoin(){
+  var j=$('stjoin');if(!j)return;
+  if(STEPS[S.step].id!=='setup')JOINOPEN=false;
+  if(S.example||!RISKOF[S.room]||STEPS[S.step].id!=='setup'||(myName()&&!JOINOPEN)){j.hidden=true;j.innerHTML='';return;}
+  if(j.querySelector('#joinname')&&!j.hidden){var b0=j.querySelector('button');if(b0)b0.textContent=plain('join.go',{n:S.room})+' →';return;}
+  JOINOPEN=true;j.innerHTML='';j.hidden=false;
+  var inp=el('input',{id:'joinname',maxlength:'40',autocomplete:'given-name',spellcheck:'false',placeholder:plain('name.ph')});inp.value=ME.name;
+  function goOn(){if(!myName()){inp.classList.remove('need');void inp.offsetWidth;inp.classList.add('need');inp.focus();return;}JOINOPEN=false;renameMine();M.pend=true;go(1);}
+  inp.addEventListener('input',function(){setName(inp.value,inp);});
+  inp.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();goOn();}});
+  j.appendChild(el('label',{'for':'joinname',text:plain('join.q')}));
+  j.appendChild(el('div',{cls:'row'},[inp,el('button',{type:'button',text:plain('join.go',{n:S.room})+' →',onclick:goOn})]));
+  j.appendChild(el('p',{text:plain('join.hint')}));
+}
+var JOINOPEN=false;
 function pick(cid){
   if(M.mode!=='map')return;
   var rs=(CLUSTERS.filter(function(x){return x.id===cid;})[0]||{risks:[]}).risks;
@@ -1501,6 +1776,7 @@ function viewImagine(b){
   b.appendChild(el('div',{cls:'pickhd'},[S.room&&RISKOF[S.room]?T('span','imagine.room',{cls:'eyebrow'},{n:S.room}):T('span','imagine.yours',{cls:'eyebrow'})]));
   b.appendChild(el('div',{cls:'spot','aria-hidden':'true'}));
   b.appendChild(T('p','layer.imagine',{cls:'imline'}));
+  if(!myName()&&!S.example&&RISKOF[S.room])b.appendChild(nameBox('nm-imagine'));
   var ready=!!S.risks.length,gb=el('button',{type:'button',cls:'gobtn up begin',onclick:function(){if(S.risks.length)go(S.step+1,'dn');}},
     [T('span','imagine.begin'),el('i',{'aria-hidden':'true',html:'<svg viewBox="0 0 24 24"><path d="M6 14.5 L12 8.5 L18 14.5"/></svg>'})]);
   if(!ready){gb.disabled=true;gb.setAttribute('aria-describedby','beginneed');}
@@ -1519,10 +1795,7 @@ function viewLayer(b,st){
   if(st.layer==='core')b.appendChild(mindLine(st.dir,st.layer));
   b.appendChild(composer(st.dir,st.layer));
   b.appendChild(notesList(st.dir,st.layer));
-  if(st.dir==='up'&&count('dn',st.layer)){
-    var ul=el('ul');S.notes.dn[st.layer].forEach(function(x){ul.appendChild(el('li',{text:(x.k?x.k+': ':'')+x.t}));});
-    b.appendChild(el('div',{cls:'echo'},[T('span','echo.label',{cls:'eyebrow'}),ul]));
-  }
+  if(st.dir==='up'){var ec=el('div',{id:'echo'});fillEcho(ec,st);b.appendChild(ec);}
   var xb=expertBlock(st.dir,st.layer);if(xb)b.appendChild(xb);
   var way=st.dir==='dn'?'dn':'up',ti=railTarget(way);
   if(ti!==null){
@@ -1533,6 +1806,11 @@ function viewLayer(b,st){
   }
 }
 
+function fillEcho(box,st){
+  box.innerHTML='';var list=notesOf('dn',st.layer);if(!list.length)return;
+  var ul=el('ul');list.forEach(function(x){ul.appendChild(el('li',{text:(x.k?x.k+': ':'')+x.t}));});
+  box.appendChild(el('div',{cls:'echo'},[T('span','echo.label',{cls:'eyebrow'}),ul]));
+}
 /* ---------- the rail: up and down the iceberg ---------- */
 function railTarget(way){
   var st=STEPS[S.step];if(!st.layer)return null;
@@ -1628,7 +1906,7 @@ function viewWhole(b){
     try{navigator.clipboard.writeText(t).then(done,fall);}catch(e){fall();}
   }}));
   var conf=el('div');
-  acts.appendChild(T('button','whole.new',{type:'button',cls:'btn l',onclick:function(){
+  if(!shared())acts.appendChild(T('button','whole.new',{type:'button',cls:'btn l',onclick:function(){
     conf.innerHTML='';
     conf.appendChild(el('div',{cls:'confirm'},[T('span','whole.warn'),
       T('button','whole.yes',{type:'button',cls:'btn w',onclick:function(){var room=S.room;S=blank();S.room=room;save();render();}}),
@@ -1642,7 +1920,7 @@ function record(){
   L.push(plain('mast.risks')+': '+(S.risks.length?S.risks.map(riskT).join(' + '):'–'));L.push('');
   [['dn','whole.wrong',['surface','under','core']],['up','whole.well',['core','under','surface']]].forEach(function(p){
     L.push(plain(p[1]).toUpperCase());
-    p[2].forEach(function(l){L.push(plain('layer.'+l)+':');var ns=S.notes[p[0]][l];if(!ns.length)L.push('  –');ns.forEach(function(n){L.push('  - '+(n.k?'['+n.k+'] ':'')+n.t+(n.ex?' (example)':''));});});
+    p[2].forEach(function(l){L.push(plain('layer.'+l)+':');var ns=notesOf(p[0],l);if(!ns.length)L.push('  –');ns.forEach(function(n){var k=n.st?Object.keys(n.st).length:0;L.push('  - '+(n.k?'['+n.k+'] ':'')+n.t+' ('+(n.name||'?')+(k?', ★ '+k:'')+')'+(n.ex?' (example)':''));});});
     L.push('');
   });
   return L.join('\n');
@@ -1668,7 +1946,7 @@ function render(soft){
   else nx.removeAttribute('title');
   nx.setAttribute('data-copy',nk);nx.innerHTML=rich(nk,{step:nst?plain(nst.k):''});
   if(st.id==='imagine'){nx.classList.add('rise');nx.appendChild(el('i',{'aria-hidden':'true',html:'<svg viewBox="0 0 24 24"><path d="M6 14.5 L12 8.5 L18 14.5"/></svg>'}));}
-  paintStatic();renderSteps();renderBerg();renderMast();renderRail();renderPresent();renderBand();fitTop();syncMap(v);
+  paintStatic();renderSteps();renderBerg();renderMast();paintJoin();renderRail();renderPresent();renderBand();fitTop();syncMap(v);
 }
 /* moving between layers feels like going deeper: the old layer lifts away, the next rises from below */
 var DEPTH={surface:0,under:1,core:2};
