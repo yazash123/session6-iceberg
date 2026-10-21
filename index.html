@@ -1188,14 +1188,15 @@ function myName(){return ME.name.trim();}
 /* ---------- 25 words a note ---------- */
 var MAXW=25;
 function words(t){t=String(t||'').trim();return t?t.split(/\s+/).length:0;}
-function clipWords(t){var out='',n=0;String(t).split(/(\s+)/).some(function(p){if(!p)return false;if(n>=MAXW)return true;out+=p;if(!/^\s+$/.test(p))n++;return false;});return out;}
+function clipWords(t){return clipWords0(t).slice(0,400);}
+function clipWords0(t){var out='',n=0;String(t).split(/(\s+)/).some(function(p){if(!p)return false;if(n>=MAXW)return true;out+=p;if(!/^\s+$/.test(p))n++;return false;});return out;}
 
 /* ---------- sharing: each table's notes live in Firestore, one document per note ----------
    BOARD names the collection. Use 'ice-s6' for Session 6 and 'ice-s7' for Session 7, so the
    two sessions start with empty tables. Each browser listens only to its own table. If Firebase
    can't be reached, notes stay in this browser, as they used to. */
 var BOARD='ice-s6';
-var DB=null,LIVE={},LIVEROOM=null,UNSUB=null,LIVEBAD=false,PENDING=false;
+var DB=null,LIVE={},LIVEROOM=null,UNSUB=null,LIVEBAD=false,PENDING=false,RETRY=null;
 try{
   var FBC=window.FIREBASE_CONFIG;
   if(window.firebase&&FBC&&FBC.projectId){
@@ -1215,7 +1216,9 @@ function listen(){
   UNSUB=DB.collection(BOARD).where('room','==',+r).onSnapshot(function(q){
     var x={};q.forEach(function(doc){var v=doc.data();if(!v||v.gone)return;v.id=doc.id;x[doc.id]=v;});
     LIVE=x;LIVEBAD=false;refresh();
-  },function(err){console.error('[iceberg] could not read the table’s notes',err);LIVEBAD=true;LIVE={};refresh();});
+  },function(err){console.error('[iceberg] could not read the table’s notes',err);LIVEBAD=true;LIVE={};UNSUB=null;LIVEROOM=null;refresh();
+    /* a failed listener is dead for good: try again shortly */
+    clearTimeout(RETRY);RETRY=setTimeout(listen,8000);});
 }
 function liveList(d,l){
   return Object.keys(LIVE).map(function(k){return LIVE[k];}).filter(function(n){return n.dir===d&&n.layer===l;})
@@ -1510,7 +1513,7 @@ function composer(d,l){
   }
   var key=d+'-'+l,tid='ta-'+key;
   if(!myName()&&!S.example)wrap.appendChild(nameBox('nm-'+key,tid));
-  var ta=el('textarea',{id:tid,rows:'2',placeholder:plain('compose.ph'),'data-copy':'compose.ph','data-attr':'placeholder','aria-label':'New note for '+plain('layer.'+l),'aria-describedby':'wc-'+key});
+  var ta=el('textarea',{id:tid,rows:'2',maxlength:'400',placeholder:plain('compose.ph'),'data-copy':'compose.ph','data-attr':'placeholder','aria-label':'New note for '+plain('layer.'+l),'aria-describedby':'wc-'+key});
   ta.value=DRAFT[key]||'';
   var wc=el('span',{cls:'wc',id:'wc-'+key,'aria-live':'polite'});
   function upd(){var n=words(ta.value);wc.textContent=n>=MAXW?plain('compose.words',{n:MAXW})+' · '+plain('compose.full'):plain('compose.words',{n:n});wc.classList.toggle('full',n>=MAXW);}
