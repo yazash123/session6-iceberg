@@ -1040,6 +1040,45 @@ html.present .rcfull{font-size:18px}
 .rcfull{font-size:15px;max-height:52vh}
 }
 
+/* ================= Step bar, all green: you are here in white; stretches open sideways and make room ================= */
+.steps ol{flex-wrap:nowrap;align-items:stretch}
+.steps li{flex:1 1 auto;min-width:0}
+.steps li.one>button{width:100%;justify-content:center}
+.steps .grp,.steps .grp.up{background:transparent;color:var(--ice);display:flex}
+.steps .grp.open{background:rgba(255,255,255,.08)}
+.steps .grp>button.gh,.steps .grp .subs button{color:var(--ice)}
+.steps .grp .gh{flex:1 1 auto;justify-content:center;gap:8px;box-shadow:none!important}
+.steps .grp .gh .dir{background:var(--ice)}
+.steps .grp .gm{background:rgba(255,255,255,.18);color:var(--ice)}
+.steps .gchev{width:16px;height:16px;display:grid;place-items:center;transition:transform .45s var(--ease)}
+.steps .gchev svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.steps .grp.open .gchev{transform:rotate(180deg)}
+.steps .grp.here:not(.open) .gh{background:var(--ice);color:var(--ink)}
+.steps .grp.here:not(.open) .gh .dir{background:var(--ink)}
+.steps .grp.here:not(.open) .gh .gm{background:rgba(10,10,10,.1);color:var(--ink)}
+.steps .subs{display:flex;max-width:0;overflow:hidden;transition:max-width .55s var(--ease)}
+.steps .subs button{white-space:nowrap;padding:11px 11px;gap:6px}
+.steps .subs button:hover{background:rgba(255,255,255,.14)}
+.steps .grp .subs button[aria-current="step"],.steps li.one>button[aria-current="step"]{background:var(--ice);color:var(--ink)}
+.steps .subs .mn{opacity:.75}
+.steps .grp .n{background:rgba(255,255,255,.22)}
+.steps .grp [aria-current="step"] .n{background:rgba(10,10,10,.12)}
+.steps .subs button.arrive{animation:arrive .7s var(--ease)}
+@keyframes arrive{0%{transform:translateY(-5px);box-shadow:0 0 0 0 rgba(255,255,255,.7)}60%{transform:none}100%{box-shadow:0 0 0 12px rgba(255,255,255,0)}}
+@media (prefers-reduced-motion:reduce){.steps .subs{transition:none}.steps .subs button.arrive{animation:none}}
+html.present .steps .subs{transition:none}html.present .steps .subs button.arrive{animation:none}
+@media(max-width:760px){
+.steps ol{flex-wrap:wrap}
+.steps .grp.open{flex:1 1 100%;flex-wrap:wrap}
+.steps .grp.open .subs{flex:1 1 100%;max-width:none}
+.steps .grp.open .subs button{flex:1;justify-content:center}
+}
+
+/* hovering a table: its cluster lights up, its own risk stands out */
+.cmap .sat.pick{box-shadow:0 0 0 6px color-mix(in srgb,var(--c) 40%,transparent),0 0 0 12px color-mix(in srgb,var(--c) 18%,transparent)}
+.cmap .slab.other{opacity:.45!important}
+.cmap .slab.pick .lt{font-weight:600}
+
 </style>
 <div id="root"></div>
 <script type="application/json" id="copy">{"notes.empty": "Our ideas appear here"}</script>
@@ -1366,34 +1405,55 @@ function fromHash(){var m=/^#g(\d{1,2})$/.exec(location.hash||'');if(m&&+m[1]>=1
 (function(){var m=/^#g(\d{1,2})$/.exec(location.hash||'');if(m&&+m[1]>=1&&+m[1]<=NROOMS){if(S.room!==m[1])setRoom(m[1]);if(S.step===0){S.step=1;save();}}})();
 window.addEventListener('hashchange',fromHash);
 
-var NAVOPEN=null;
+var NAVOPEN=null,NAVSHUT=false,NAV=null,NAVLAST=null;
+var NARROW=window.matchMedia?matchMedia('(max-width:760px)'):{matches:false};
 function groupOf(i){for(var g=0;g<GROUPS.length;g++)if(GROUPS[g].s.indexOf(i)>=0)return GROUPS[g];return null;}
-function renderSteps(){
-  var ol=$('steps'); ol.innerHTML='';
-  var cur=groupOf(S.step),openId=NAVOPEN||cur.id;
+function buildSteps(){
+  var ol=$('steps');ol.innerHTML='';NAV={one:{},grp:{}};
   GROUPS.forEach(function(g){
     if(g.s.length===1){
-      var i=g.s[0],st=STEPS[i];
-      var b=el('button',{type:'button',onclick:function(){go(i);}},[T('span',st.k)]);
-      if(i===S.step)b.setAttribute('aria-current','step');
-      ol.appendChild(el('li',{cls:'one'},[b]));return;
+      var i=g.s[0],b=el('button',{type:'button',onclick:function(){go(i);}},[T('span',STEPS[i].k)]);
+      NAV.one[i]=b;ol.appendChild(el('li',{cls:'one'},[b]));return;
     }
-    var open=g.id===openId,here=g===cur;
-    var subs=el('div',{cls:'subs',id:'subs-'+g.id});
+    var subs=el('div',{cls:'subs',id:'subs-'+g.id}),btns=[];
     g.s.forEach(function(i){
-      var st=STEPS[i],b=el('button',{type:'button',tabindex:open?'0':'-1',onclick:function(){go(i);}},[T('span',st.k)]);
-      var mn=g.dir==='dn'&&PARTS[st.id];if(mn)b.appendChild(el('span',{cls:'mn',text:mn+'′'}));
-      var c=st.layer?count(st.dir,st.layer):0;if(c)b.appendChild(el('span',{cls:'n',text:String(c)}));
+      var st=STEPS[i],mn=g.dir==='dn'&&PARTS[st.id],b=el('button',{type:'button',onclick:function(){go(i);}},[T('span',st.k)]);
+      if(mn)b.appendChild(el('span',{cls:'mn',text:mn+'′'}));
+      var n=el('span',{cls:'n'});b.appendChild(n);
       b.setAttribute('aria-label',plain(g.dir==='dn'?'grp.down':'grp.up')+': '+plain(st.k)+(mn?', '+plain('grp.min',{n:mn}):''));
-      if(i===S.step)b.setAttribute('aria-current','step');
-      subs.appendChild(b);
+      btns.push({i:i,b:b,n:n,st:st});subs.appendChild(b);
     });
-    var hd=el('button',{type:'button',cls:'gh','aria-expanded':String(open),'aria-controls':'subs-'+g.id,title:plain('grp.open',{g:plain('grp.'+g.id).toLowerCase()}),
-      onclick:function(){if(!open){NAVOPEN=g.id;renderSteps();var f=document.querySelector('#subs-'+g.id+' button');if(f)try{f.focus({preventScroll:true});}catch(e){}}else if(!here)go(g.s[0]);}},
-      [el('span',{cls:'dir','aria-hidden':'true'}),T('span','grp.'+g.id),el('span',{cls:'gm',text:plain('grp.min',{n:g.min})})]);
-    ol.appendChild(el('li',{cls:'grp '+g.dir+(open?' open':'')+(here?' here':'')},[hd,subs]));
+    var hd=el('button',{type:'button',cls:'gh','aria-controls':'subs-'+g.id,onclick:function(){
+        var open=NAV.grp[g.id].li.classList.contains('open'),here=groupOf(S.step)===g;
+        if(open){NAVOPEN=null;if(here)NAVSHUT=true;}else{NAVOPEN=here?null:g.id;NAVSHUT=false;}
+        renderSteps();}},
+      [el('span',{cls:'dir','aria-hidden':'true'}),T('span','grp.'+g.id),el('span',{cls:'gm',text:plain('grp.min',{n:g.min})}),
+       el('i',{cls:'gchev','aria-hidden':'true',html:'<svg viewBox="0 0 24 24"><path d="M9.5 6 L15.5 12 L9.5 18"/></svg>'})]);
+    var li=el('li',{cls:'grp '+g.dir},[hd,subs]);
+    NAV.grp[g.id]={li:li,hd:hd,subs:subs,btns:btns};ol.appendChild(li);
   });
 }
+function renderSteps(){
+  if(!NAV||!$('steps').firstChild)buildSteps();
+  var cur=groupOf(S.step),openId=NAVOPEN||(NAVSHUT?null:cur.id),moved=NAVLAST!==null&&NAVLAST!==S.step;
+  Object.keys(NAV.one).forEach(function(i){var b=NAV.one[i];if(+i===S.step)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current');});
+  GROUPS.forEach(function(g){
+    var o=NAV.grp[g.id];if(!o)return;
+    var open=g.id===openId,here=g===cur;
+    o.li.classList.toggle('open',open);o.li.classList.toggle('here',here);
+    o.hd.setAttribute('aria-expanded',String(open));
+    o.subs.style.maxWidth=NARROW.matches?'':(open?o.subs.scrollWidth+'px':'0px');
+    o.btns.forEach(function(x){
+      x.b.tabIndex=open?0:-1;
+      var c=x.st.layer?count(x.st.dir,x.st.layer):0;x.n.textContent=c?String(c):'';x.n.hidden=!c;
+      if(x.i===S.step){x.b.setAttribute('aria-current','step');
+        if(moved){x.b.classList.remove('arrive');void x.b.offsetWidth;x.b.classList.add('arrive');}}
+      else{x.b.removeAttribute('aria-current');x.b.classList.remove('arrive');}
+    });
+  });
+  NAVLAST=S.step;
+}
+if(NARROW.addEventListener)NARROW.addEventListener('change',function(){renderSteps();});
 /* ---------- the timer: the mustard chip in the header, one per part ---------- */
 var TICK=null;
 function tState(p){if(!S.timer[p])S.timer[p]={left:null,end:null};return S.timer[p];}
@@ -1685,6 +1745,8 @@ function paintRooms(){
     var x=RISKOF[v],on=S.room===v;
     var bt=el('button',{type:'button',cls:'strmb','aria-pressed':String(on),'aria-label':plain('room.aria',{n:v,risk:riskT(x.r)}),text:v,onclick:function(){pickRoom(v);}});
     bt.style.setProperty('--c',HUE[x.c]);
+    var on1=function(){M.hotRisk=x.r;hot(x.c);},off1=function(){M.hotRisk=null;hot(null);};
+    bt.addEventListener('mouseenter',on1);bt.addEventListener('focus',on1);bt.addEventListener('mouseleave',off1);bt.addEventListener('blur',off1);
     g.appendChild(bt);
   })(String(i));
 }
@@ -1725,8 +1787,9 @@ function stateMap(){
     q.el.setAttribute('aria-pressed',String(on));q.el.tabIndex=mine?0:-1;
     if(mine)q.el.removeAttribute('aria-hidden');else q.el.setAttribute('aria-hidden','true');
     q.path.setAttribute('class',(mine?'mine':'')+(on?' on':''));
-    var lit=mode==='map'&&M.hot===q.c.id;
+    var lit=mode==='map'&&M.hot===q.c.id,pk=lit&&!!M.hotRisk;
     q.el.classList.toggle('hot',lit);q.lab.classList.toggle('hot',lit);
+    q.el.classList.toggle('pick',pk&&M.hotRisk===q.id);q.lab.classList.toggle('pick',pk&&M.hotRisk===q.id);q.lab.classList.toggle('other',pk&&M.hotRisk!==q.id);
   });
   $('cmap').toggleAttribute('data-hot',mode==='map'&&!!M.hot);
   M.rooms.forEach(function(rm){rm.el.classList.toggle('hot',mode==='map'&&M.hot===rm.q.c.id);rm.el.tabIndex=mode==='map'?0:-1;});
@@ -2239,7 +2302,7 @@ function go(i,way){
   if(!way&&from.layer&&to.layer&&from.dir===to.dir)way=DEPTH[to.layer]>DEPTH[from.layer]?'dn':'up';
   if(way&&!REDUCE)ghost(way);
   var wasOpen=!!document.querySelector('#pbody .rcard.open');
-  S.step=i;S.xopen=false;S.kind='';NAVOPEN=null;ORB=false;RISKOPEN=null;save();
+  S.step=i;S.xopen=false;S.kind='';NAVOPEN=null;NAVSHUT=false;ORB=false;RISKOPEN=null;save();
   if(way)$('pbody').setAttribute('data-way',way);
   render();
   if(wasOpen&&!riskIsOpen()&&!REDUCE&&!PRESENT){var rc=document.querySelector('#pbody .rcard');if(rc){rc.classList.add('open','still');void rc.offsetWidth;rc.classList.remove('still');setTimeout(function(){if(RISKOPEN===null)rc.classList.remove('open');},650);}}
