@@ -13,7 +13,13 @@ facilitator sharing their screen on Zoom) takes **one risk** from the Horizon Sc
 Set up → Imagine → Surface → Underneath → Core belief → **Turn** → Core belief → Underneath → Surface → Whole iceberg
 
 - Down (red, "dn") = 2036 gone wrong. Up (yellow, "up") = 2036 gone right.
-- The facilitator types what the group says as notes on each layer.
+- **Since 21 Oct 2026 every member writes their own notes.** They pick their table, then give their name. Each
+  note is tagged with the author's name, is at most 25 words, and shows in that person's post-it colour. People
+  can edit or remove only their own notes, and star other people's (a starred note gets a bold outline and a count).
+  Everyone sees only their own table's notes, live.
+- Timings (Yaz, 21 Oct): way down 70 min = Surface 25 (15 reading the risk and writing quietly, then 10 talking;
+  Imagine counts as part of this), Underneath 20 (10 + 10), Core belief 25 (10 + 15). Way up 40 min as one block
+  across all three layers (20 quiet + 20 talking). They're a guide, not a rule.
 - Expert sketches from the Horizon Summit can be revealed at each layer ("Take a peek at what the experts were thinking").
 
 Owner: Yaz (Assemble). UK English, plain language for a general audience. Copy should stay warm and simple.
@@ -71,13 +77,44 @@ Grep/search for these anchors, then read around them:
 | `function render(` / `function go(` | redraw and step navigation. `render` sets `data-v`, `data-layer`, `data-turn`, `data-whole`, `data-bg` on `#work`, which the CSS keys off. |
 | `editing the page's own text` | the in-page "Edit text" tool. Only works inside claude.ai; harmless here. |
 
-State is in `localStorage` under `hotp-iceberg-s6-v1`, per browser. Nothing is sent to a server. The
-facilitator copies the table's record on the last step ("Copy the record").
+## Sharing (Firebase)
+
+Notes live in Firestore, in the same Firebase project as Session 5 (`session-5-activity`, config in
+`firebase-config.js`). One document per note in the collection named by `var BOARD` in `index.html`:
+`ice-s6` for Session 6. **Before Session 7, change `BOARD` to `ice-s7`** so tables start empty.
+
+- Note: `{room, dir, layer, t, k, name, pid, at, st: {pid: name}, gone}`. `pid` is a random id kept in the
+  browser (`localStorage` `hotp-ice-me`, with the name). Removing a note sets `gone: true`; nothing is deleted
+  from the page. To clear a board, delete the collection in the Firebase console.
+- `firestore.rules` holds the rules for Sessions 5, 6 and 7 together. **They must be published in the Firebase
+  console** (Firestore → Rules) or every write is refused and the page falls back to keeping notes on that
+  computer, with a message saying so.
+- There's no sign-in, so "only your own notes" is enforced by the page, not the rules.
+- Each browser listens only to its own table (`where('room','==',n)`), which keeps reads small.
+- The example table (Set up → Show me an example) is local only and never touches Firebase.
+- `S` (step, table, timers, local notes) is still in `localStorage` under `hotp-iceberg-s6-v1`.
+- Search for `sharing: each table's notes` (Firestore code), `function noteEl` (a post-it), `function composer`
+  (the note box, 25-word limit, name check), `function askName` (the signal when someone has no name yet).
+
+## Header, step bar, risk
+
+- Header: title · the mustard **timer chip** for the current part (`function renderTimer`, `var PARTS`) ·
+  Table number (goes back to Set up) and **Your name**.
+- Step bar is an accordion (`var GROUPS`, `function renderSteps`): Set up · Imagine · Way down (red) · Turn ·
+  Way up (yellow) · Whole iceberg. The stretch you're in, or the one you click, opens to show its layers.
+- The risk is a circle in the top-right corner (`function renderOrb`) in its cluster's colour; it opens to the
+  full Risk Wall text, as in the Drivers activity. The old white risk band (`renderBand`) is switched off.
+
+## Tests
+
+- `python3 tools/check.py <dir>`: every step, desktop and phone.
+- `python3 tools/check_shared.py <dir>`: several people at one table, using `tools/fakefirestore.js` in place of
+  Firebase (it refuses what the rules refuse). Firebase itself can't be reached from Claude's sandbox.
 
 ## Working rules
 
 1. Make the edit in `index.html`.
-2. Run `python3 tools/check.py <screenshot dir>`. It walks every step at desktop and phone width, checks the
+2. Run `python3 tools/check.py <screenshot dir>` and `python3 tools/check_shared.py <screenshot dir>`. It walks every step at desktop and phone width, checks the
    table logic and the `#gN` links, and fails on any script error. Look at the screenshots for the steps you
    touched.
 3. Commit with a plain message and push to `main`. Pages redeploys in a minute or two.
@@ -94,6 +131,6 @@ facilitator copies the table's record on the last step ("Copy the record").
 - The page is set in **2036** (changed from 2030 on 18 Oct at Yaz's request). The only 2030s left are
   `xp.card` and `xp.foot`, which describe the Horizon Summit experts' sketches: those really were set in 2030.
 
-## Open questions (as of 18 Oct 2026)
+## Open questions (as of 21 Oct 2026)
 
-- Should notes be collected centrally (e.g. Firebase, as in Session 5) instead of only in each facilitator's browser?
+- Timers run separately in each browser. A shared, facilitator-led timer would need its own Firestore document.

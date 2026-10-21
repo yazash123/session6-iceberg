@@ -848,7 +848,8 @@ main{padding-block:clamp(6px,.8vw,12px) clamp(8px,1vw,16px)}
 .live{display:inline-flex;align-items:center;gap:7px;opacity:.85}
 .live i{width:8px;height:8px;border-radius:50%;background:var(--well);box-shadow:0 0 0 3px rgba(240,224,96,.3)}
 .live.off{opacity:1;font-weight:700}
-.notes .note.dn,.notes .note.up{background:var(--pc,var(--well));color:var(--ink)}
+.notes .note.dn,.notes .note.up{background:var(--pc,var(--well));color:var(--ink);box-shadow:inset 0 0 0 1.5px rgba(10,10,10,.16),0 2px 0 rgba(0,0,0,.18)}
+.notes .note.hot{box-shadow:0 0 0 3px var(--ink),4px 5px 0 rgba(0,0,0,.28)}
 .note .nf{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:2px;min-width:0}
 .note .who{font-size:12px;font-weight:700;letter-spacing:.03em;opacity:.72;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
 .note.mine .who{opacity:1}
@@ -879,6 +880,119 @@ html.present .mast .me.need #me,html.present .namebox.need input,html.present #j
 .mecall::before{right:auto;left:22px}
 }
 
+/* ================= Timings in the header, an accordion step bar, the risk as a circle in the corner ================= */
+.mast{grid-template-columns:minmax(0,1.15fr) minmax(0,1.25fr) auto}
+.mast .t2.tm{background:var(--pick);color:var(--ink);gap:4px;padding-top:8px;padding-bottom:8px}
+.mast .t3{background:var(--ice-under)}
+.tm .tmain{display:flex;align-items:center;justify-content:space-between;gap:10px 16px;flex-wrap:wrap}
+.tm .tl1{display:flex;align-items:baseline;gap:12px;min-width:0}
+.tm .clk{font-family:var(--ff-serif);font-size:clamp(24px,1rem + .9vw,32px);line-height:1;font-variant-numeric:tabular-nums}
+.tm .clk small{font-family:var(--ff-sans);font-weight:700;font-size:14px}
+.tm .clk.done{font-family:var(--ff-sans);font-weight:700;font-size:20px;background:var(--wrong);padding:3px 9px}
+.tm .tbtns{display:flex;gap:6px}
+.tm .tbtns button{border:0;background:var(--ink);color:var(--ice);font-weight:700;font-size:14px;padding:6px 14px}
+.tm .tbtns .tre{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.tm.run .clk{color:var(--ink)}
+.tm .sp{font-size:13px;line-height:1.3}
+.tm.plan .ptx{font-family:var(--ff-serif);font-size:clamp(18px,.9rem + .45vw,23px);line-height:1.1}
+.mast .tb{gap:8px}
+.mast .tl{font-weight:700;font-size:14px}
+.tbl{border:0;min-width:40px;height:40px;border-radius:999px;padding:0 12px;background:var(--c,var(--paper));color:var(--ink);font-weight:700;font-size:16px;box-shadow:inset 0 0 0 2px rgba(10,10,10,.25)}
+.tbl:hover{box-shadow:inset 0 0 0 2px var(--ink)}
+
+/* the step bar: Set up, Imagine, the way down, Turn, the way up, the whole iceberg; only one stretch opens */
+.steps ol{flex-wrap:wrap;align-items:stretch}
+.steps li{display:flex;flex:none}
+.steps li.one>button{padding:11px clamp(8px,.9vw,14px)}
+.steps .grp{background:var(--wrong);color:var(--ink)}
+.steps .grp.up{background:var(--well)}
+.steps .grp>button.gh,.steps .grp .subs button{color:var(--ink)}
+.steps .grp .gh{padding:11px 12px;gap:8px}
+.steps .grp .gh .dir{width:12px;height:12px;background:var(--ink);transition:transform .35s var(--ease)}
+.steps .grp.dn .gh .dir{clip-path:polygon(0 0,100% 0,50% 100%)}
+.steps .grp.up .gh .dir{clip-path:polygon(50% 0,100% 100%,0 100%)}
+.steps .grp .gm{font-weight:400;font-size:13px;background:rgba(10,10,10,.12);padding:1px 8px;border-radius:999px}
+.steps .grp.here .gh{box-shadow:inset 0 -4px 0 var(--ink)}
+.steps .grp.open .gh{box-shadow:inset -1.5px 0 0 rgba(10,10,10,.3)}
+.steps .grp.open.here .gh{box-shadow:inset 0 -4px 0 var(--ink),inset -1.5px 0 0 rgba(10,10,10,.3)}
+.steps .subs{display:flex;max-width:0;overflow:hidden;transition:max-width .5s var(--ease)}
+.steps .grp.open .subs{max-width:620px}
+.steps .subs button{padding:11px 9px;gap:6px}
+.steps .grp .gh{padding:11px 10px}
+.steps .subs button:hover{background:rgba(10,10,10,.1)}
+.steps .grp .subs button[aria-current="step"]{background:var(--ink);color:var(--ice)}
+.steps .subs .mn{font-weight:400;font-size:13px;opacity:.8}
+.steps .grp .n{background:rgba(10,10,10,.14)}
+.steps .grp [aria-current="step"] .n{background:rgba(255,255,255,.22)}
+@media (prefers-reduced-motion:reduce){.steps .subs{transition:none}}
+html.present .steps .subs{transition:none}
+
+/* your risk, in the corner: a circle in its cluster's colour, opening to the full Risk Wall text */
+.orbdock{position:sticky;top:calc(var(--navh,46px) + 12px);height:0;z-index:16}
+.orbdock[hidden]{display:none}
+.orb{position:absolute;right:clamp(10px,1.6vw,22px);top:0;width:148px;height:148px;border-radius:50%;background:var(--c);color:var(--ink);
+  box-shadow:0 0 0 7px color-mix(in srgb,var(--c) 28%,transparent),0 14px 34px rgba(0,0,0,.28);transform-origin:100% 0;
+  transition:width .5s var(--ease),height .5s var(--ease)}
+.orbb{all:unset;box-sizing:border-box;cursor:pointer;position:absolute;inset:0;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0 17px;text-align:center}
+.orbb:focus-visible{outline:3px solid #fff;outline-offset:6px}
+.orb .oy{font-weight:700;font-size:10px;letter-spacing:.12em;text-transform:uppercase;opacity:.8}
+.orbb .ot{font-family:var(--ff-serif);font-weight:600;font-size:13.5px;line-height:1.12;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;text-wrap:balance}
+.orbb .rm{display:inline-flex;align-items:center;gap:4px;font-weight:700;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;padding:4px 9px;border-radius:999px;background:rgba(10,10,10,.14)}
+.orbb .rm::after{content:"+";font-size:1.4em;line-height:.6;font-weight:400}
+.orbb:hover .rm{background:rgba(10,10,10,.26)}
+.orb.open{width:min(560px,calc(100vw - 32px));height:min(560px,calc(100vw - 32px));box-shadow:0 0 0 9px color-mix(in srgb,var(--c) 28%,transparent),0 26px 70px rgba(0,0,0,.45)}
+.orbin{position:absolute;left:15%;right:15%;top:13%;bottom:12%;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;animation:orbin .45s .15s var(--ease) both}
+@keyframes orbin{from{opacity:0}to{opacity:1}}
+.orbin h3.ot{font-family:var(--ff-serif);font-weight:600;font-size:clamp(20px,1rem + .7vw,28px);line-height:1.1;text-wrap:balance}
+.orbin .df{flex:1 1 auto;min-height:0;overflow:auto;text-align:left;font-size:15.5px;line-height:1.5;padding:4px 12px 22px 2px;align-self:stretch;
+  -webkit-mask-image:linear-gradient(180deg,#000 0,#000 82%,transparent 100%);mask-image:linear-gradient(180deg,#000 0,#000 82%,transparent 100%);scrollbar-width:thin;scrollbar-color:rgba(10,10,10,.35) transparent}
+.orbin .df p{margin:0 0 .75em}
+.orbin .df strong{font-weight:700}
+.orbin .df:focus-visible{outline:2px solid rgba(10,10,10,.5);outline-offset:4px}
+.orb .wclose{position:absolute;top:9%;right:9%;width:38px;height:38px;border-radius:50%;border:0;background:rgba(10,10,10,.16);color:var(--ink);font-size:24px;line-height:1;display:grid;place-items:center;padding:0 0 3px}
+.orb .wclose:hover{background:var(--ink);color:#fff}
+@media (prefers-reduced-motion:reduce){.orb,.orbin{transition:none;animation:none}}
+html.present .orb,html.present .orbin{transition:none;animation:none}
+/* the layer's heading keeps clear of the circle */
+.work[data-layer] .lhead,.work[data-turn] .pbody>.tag,.work[data-whole] .pbody>.tag{padding-right:0}
+@media(min-width:1001px){.work[data-layer] .pbody,.work[data-turn] .pbody,.work[data-whole] .pbody{padding-left:clamp(150px,13vw,190px);padding-right:clamp(150px,13vw,190px)}}
+@media(min-width:761px) and (max-width:1000px){.orb{width:96px;height:96px}.orbb .ot,.orbb .rm{display:none}.orbb::after{content:"+";font-size:26px;line-height:.7;font-weight:400}.work[data-layer] .lhead{padding-right:110px;padding-left:110px}}
+
+@media(max-width:760px){
+.mast{grid-template-columns:minmax(0,1fr) auto}
+.mast .t1{grid-column:1/-1}
+.mast .t2.tm{grid-column:1/-1;order:3}
+.mast .t3{grid-column:1/-1;order:2;flex-wrap:nowrap}
+.mast .tf.me{flex:1 1 auto}
+.tm .sp{font-size:12px}
+.orb{width:84px;height:84px;right:8px}
+.orbb{padding:0 8px;gap:3px}
+.orbb .ot{display:none}
+.orbb .oy{font-size:9px}
+.orbb .rm{font-size:8.5px;padding:3px 7px}
+.orb.open{width:calc(100vw - 20px);height:calc(100vw - 20px)}
+.orbin{left:13%;right:13%;top:12%;bottom:10%}
+.orbin h3.ot{font-size:19px}
+.orbin .df{font-size:14px}
+.work[data-layer] .lhead{padding-right:84px}
+.steps .grp .gh{padding:10px 9px}
+.steps .subs button{padding:10px 8px}
+.steps .subs .mn{display:none}
+.steps .grp .gm{font-size:12px;padding:1px 6px}
+.steps li.one>button{padding:10px 8px}
+.steps ol{flex-wrap:wrap;overflow:visible}
+.steps .grp.open{flex:1 1 100%;flex-wrap:wrap}
+.steps .grp.open .gh{flex:1 1 100%;box-shadow:inset 0 -1.5px 0 rgba(10,10,10,.25)}
+.steps .grp.open .subs{flex:1 1 100%;max-width:none}
+.sbar .presbtn{display:none}
+.steps .grp.open .subs button{flex:1;justify-content:center}
+.mast .tf.tb{flex:none}
+.orbb .rm{display:none}
+.orbb::after{content:"+";font-size:26px;line-height:.7;font-weight:400}
+.strms{grid-template-columns:repeat(6,40px)!important;gap:9px 10px!important}
+.strmb{width:40px!important;height:40px!important;font-size:15px!important}
+}
+
 </style>
 <div id="root"></div>
 <script type="application/json" id="copy">{"notes.empty": "Our ideas appear here"}</script>
@@ -886,7 +1000,7 @@ html.present .mast .me.need #me,html.present .namebox.need input,html.present #j
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <script src="firebase-config.js"></script>
-<script id="app">var SHELL="<header class=\"wrap\">\n  <div class=\"mast\">\n    <div class=\"t1\">\n      <span class=\"eyebrow\" data-copy=\"mast.eyebrow\" data-static><\/span>\n      <h1 data-copy=\"mast.title\" data-static><\/h1>\n    <\/div>\n    <div class=\"t2\">\n      <span class=\"eyebrow\" data-copy=\"mast.risks\" data-static><\/span>\n      <span class=\"rk\" id=\"mrisk\"><\/span>\n    <\/div>\n    <div class=\"t3\">\n      <div class=\"tf\"><label for=\"room\" data-copy=\"mast.room\" data-static><\/label>\n      <select id=\"room\"><\/select><\/div>\n      <div class=\"tf me\" id=\"mewrap\"><label for=\"me\" data-copy=\"mast.name\" data-static><\/label><input id=\"me\" maxlength=\"40\" autocomplete=\"given-name\" spellcheck=\"false\"><span class=\"mecall\" id=\"mecall\" data-copy=\"name.here\" data-static><\/span><\/div>\n    <\/div>\n  <\/div>\n<\/header>\n<nav class=\"steps wrap\" aria-label=\"Steps\"><div class=\"sbar\"><ol id=\"steps\"><\/ol><button type=\"button\" class=\"presbtn\" id=\"present\" aria-pressed=\"false\"><\/button><\/div><\/nav>\n<div class=\"wrap\" id=\"demowrap\" hidden><div class=\"demo\"><span data-copy=\"demo.text\" data-static><\/span><button id=\"clearex\" type=\"button\" data-copy=\"demo.clear\" data-static><\/button><\/div><\/div>\n\n<nav class=\"rail\" id=\"rail\" aria-label=\"Move up and down the iceberg\" hidden>\n  <button type=\"button\" class=\"rbtn\" id=\"rup\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M6 14.5 L12 8.5 L18 14.5\"/><\/svg><span><\/span><\/button>\n  <ol class=\"rtrack\" id=\"rtrack\"><\/ol>\n  <button type=\"button\" class=\"rbtn\" id=\"rdn\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M6 9.5 L12 15.5 L18 9.5\"/><\/svg><span><\/span><\/button>\n<\/nav>\n<div class=\"undo\" id=\"undo\" role=\"status\" hidden><\/div>\n<main class=\"wrap\">\n  <div class=\"work\" id=\"work\">\n    <div class=\"ocean\" aria-hidden=\"true\"><i class=\"full\"><\/i><i class=\"sea\"><\/i><i class=\"glow\"><\/i><\/div>\n    <div class=\"stintro\" id=\"stintro\">\n      <span class=\"tag nt eyebrow\" data-copy=\"setup.tag\" data-static><\/span>\n      <div class=\"strm\"><p class=\"strq\" data-copy=\"room.first\" data-static><\/p><div class=\"strms\" id=\"strms\" role=\"group\"><\/div><\/div>\n      <div class=\"stjoin\" id=\"stjoin\" hidden><\/div>\n      <h2 class=\"stq\" id=\"stq\"><\/h2>\n      <p class=\"stlead\" data-copy=\"setup.lead\" data-static><\/p>\n      <p class=\"sthow\" id=\"sthow\"><\/p>\n      <div class=\"stex\" id=\"stex\"><\/div>\n    <\/div>\n    <div class=\"cmap\" id=\"cmap\"><svg class=\"teth\" id=\"teth\" aria-hidden=\"true\"><\/svg><div class=\"nodes\" id=\"nodes\"><\/div><\/div>\n    <aside class=\"berg\" aria-label=\"Where you are on the iceberg\">\n      <div class=\"bgd\"><svg viewBox=\"0 0 360 560\" role=\"img\" aria-labelledby=\"bergt\">\n        <title id=\"bergt\">An iceberg in three layers: the surface above the water, what lies underneath, and the core belief at the bottom<\/title>\n        <defs>\n          <linearGradient id=\"seaG\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\" gradientUnits=\"objectBoundingBox\">\n            <stop offset=\"0\" stop-color=\"#5878A0\"/><stop offset=\"1\" stop-color=\"#1C3150\"/>\n          <\/linearGradient>\n        <\/defs>\n        <rect class=\"sky\" x=\"-600\" y=\"0\" width=\"1560\" height=\"124\" fill=\"#C0E8F8\"/>\n        <rect class=\"sea\" x=\"-600\" y=\"124\" width=\"1560\" height=\"436\" fill=\"url(#seaG)\"/>\n        <g class=\"bub\"><circle cx=\"70\" cy=\"520\" r=\"3\"/><circle cx=\"150\" cy=\"545\" r=\"2\"/><circle cx=\"238\" cy=\"530\" r=\"2.6\"/><circle cx=\"300\" cy=\"550\" r=\"1.8\"/><circle cx=\"20\" cy=\"470\" r=\"2.2\"/><circle cx=\"342\" cy=\"500\" r=\"2.4\"/><\/g>\n        <g class=\"floe\"><path class=\"tip\" d=\"M128 124 L146 80 L160 72 L174 40 L188 30 L200 52 L214 46 L230 78 L246 96 L258 124 Z\" fill=\"#FFFFFF\" stroke=\"#0A0A0A\" stroke-width=\"2\" stroke-linejoin=\"round\"/>\n        <path class=\"body\" d=\"M128 124 L258 124 L300 178 L326 262 L304 330 L332 410 L300 488 L222 536 L140 540 L72 500 L40 420 L60 330 L36 252 L74 176 Z\" fill=\"#DDF2FA\" fill-opacity=\".72\" stroke=\"#FFFFFF\" stroke-opacity=\".7\" stroke-width=\"2\" stroke-linejoin=\"round\"/>\n        <foreignObject class=\"bt\" x=\"72\" y=\"146\" width=\"222\" height=\"132\"><div xmlns=\"http://www.w3.org/1999/xhtml\" class=\"btx\" id=\"btx\"><\/div><\/foreignObject>\n        <\/g>\n        <path class=\"wave\" d=\"M-600 124 Q -585 118 -570 124 T -540 124 T -510 124 T -480 124 T -450 124 T -420 124 T -390 124 T -360 124 T -330 124 T -300 124 T -270 124 T -240 124 T -210 124 T -180 124 T -150 124 T -120 124 T -90 124 T -60 124 T -30 124 T 0 124 T 30 124 T 60 124 T 90 124 T 120 124 T 150 124 T 180 124 T 210 124 T 240 124 T 270 124 T 300 124 T 330 124 T 360 124 T 390 124 T 420 124 T 450 124 T 480 124 T 510 124 T 540 124 T 570 124 T 600 124 T 630 124 T 660 124 T 690 124 T 720 124 T 750 124 T 780 124 T 810 124 T 840 124 T 870 124 T 900 124 T 930 124 T 960 124 T 990 124 T 1020 124 T 1050 124 T 1080 124 T 1110 124 T 1140 124 T 1170 124 T 1200 124 T 1230 124 T 1260 124 T 1290 124 T 1320 124 T 1350 124 T 1380 124 T 1410 124 T 1440 124 T 1470 124 T 1500 124 T 1530 124 T 1560 124 T 1590 124 T 1620 124 T 1650 124 T 1680 124 T 1710 124 T 1740 124 T 1770 124 T 1800 124 T 1830 124 T 1860 124 T 1890 124 T 1920 124 T 1950 124 T 1980 124 T 2010 124 T 2040 124 T 2070 124 T 2100 124 T 2130 124 T 2160 124 T 2190 124 T 2220 124 T 2250 124 T 2280 124 T 2310 124 T 2340 124 T 2370 124 T 2400 124\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"3\"/>\n        <line class=\"dl\" x1=\"-600\" y1=\"330\" x2=\"960\" y2=\"330\" stroke=\"#FFFFFF\" stroke-opacity=\".5\" stroke-width=\"1.5\" stroke-dasharray=\"2 6\"/>\n        <rect class=\"dim\" data-band=\"surface\" x=\"-600\" y=\"0\" width=\"1560\" height=\"124\"/>\n        <rect class=\"dim\" data-band=\"under\" x=\"-600\" y=\"124\" width=\"1560\" height=\"206\"/>\n        <rect class=\"dim\" data-band=\"core\" x=\"-600\" y=\"330\" width=\"1560\" height=\"230\"/>\n        <text class=\"lab sk\" x=\"14\" y=\"24\" fill=\"#0A0A0A\" data-copy=\"layer.surface\" data-static><\/text>\n        <text class=\"lab\" x=\"14\" y=\"150\" fill=\"#FFFFFF\" data-copy=\"layer.under\" data-static><\/text>\n        <text class=\"lab\" x=\"14\" y=\"356\" fill=\"#FFFFFF\" data-copy=\"layer.core\" data-static><\/text>\n        <g class=\"floe2\"><path d=\"M112 34 C 80 90, 40 180, 54 240 S 70 420, 110 470 Q 180 540 250 470 C 290 420, 318 330, 306 240 S 290 90, 250 40\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"2.4\" stroke-dasharray=\"0 8\" stroke-linecap=\"round\" opacity=\".85\"/>\n        <g class=\"cnt\" id=\"cnts\"><\/g>\n        <g id=\"mk\"><circle r=\"13\" fill=\"#E06050\" stroke=\"#0A0A0A\" stroke-width=\"2.5\" id=\"mkc\"/><path id=\"mka\" d=\"M-5 -2 L0 4 L5 -2\" fill=\"none\" stroke=\"#0A0A0A\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><\/g><\/g>\n      <\/svg><\/div>\n      <div class=\"bpop\" id=\"bpop\" role=\"dialog\" aria-label=\"The risk in full\" hidden><\/div>\n      <div class=\"legend\"><span><i style=\"background:var(--wrong)\"><\/i><span data-copy=\"legend.dn\" data-static><\/span><\/span><span><i style=\"background:var(--well)\"><\/i><span data-copy=\"legend.up\" data-static><\/span><\/span><\/div>\n    <\/aside>\n    <section class=\"panel\" aria-live=\"polite\">\n      <div class=\"rband\" id=\"rband\" hidden><\/div>\n      <div class=\"pbody\" id=\"pbody\"><\/div>\n      <div class=\"pfoot\">\n        <button class=\"back\" id=\"back\" type=\"button\"><\/button>\n        <span class=\"keys\" data-copy=\"foot.keys\" data-static><\/span>\n        <button class=\"next\" id=\"next\" type=\"button\"><\/button>\n      <\/div>\n    <\/section>\n<div id=\"ed\" role=\"dialog\" aria-label=\"Edit this text\" hidden>\n  <span class=\"eyebrow\">Edit this text<\/span>\n  <textarea id=\"edta\" rows=\"2\" aria-label=\"Text\"><\/textarea>\n  <p id=\"edhint\" class=\"hint\" hidden><\/p>\n  <div class=\"edacts\"><button type=\"button\" id=\"edsave\" class=\"btn k\">Save<\/button><button type=\"button\" id=\"edcancel\" class=\"btn l\">Cancel<\/button><button type=\"button\" id=\"edreset\" class=\"btn l\" hidden>Back to the original<\/button><span class=\"hint\">Enter saves · Esc cancels<\/span><\/div>\n<\/div>\n<div id=\"edbar\" hidden><button type=\"button\" id=\"edtoggle\" aria-pressed=\"false\">Edit text<\/button><span id=\"edtip\">Click any text to change it, buttons included.<\/span><span id=\"edstatus\" hidden><\/span><\/div>";
+<script id="app">var SHELL="<header class=\"wrap\">\n  <div class=\"mast\">\n    <div class=\"t1\">\n      <span class=\"eyebrow\" data-copy=\"mast.eyebrow\" data-static><\/span>\n      <h1 data-copy=\"mast.title\" data-static><\/h1>\n    <\/div>\n    <div class=\"t2 tm\" id=\"timer\" aria-live=\"off\"><\/div>\n    <div class=\"t3\">\n      <div class=\"tf tb\"><span class=\"tl\" data-copy=\"mast.room\" data-static><\/span><button type=\"button\" class=\"tbl\" id=\"tbl\"><\/button><\/div>\n      <div class=\"tf me\" id=\"mewrap\"><label for=\"me\" data-copy=\"mast.name\" data-static><\/label><input id=\"me\" maxlength=\"40\" autocomplete=\"given-name\" spellcheck=\"false\"><span class=\"mecall\" id=\"mecall\" data-copy=\"name.here\" data-static><\/span><\/div>\n    <\/div>\n  <\/div>\n<\/header>\n<nav class=\"steps wrap\" aria-label=\"Steps\"><div class=\"sbar\"><ol id=\"steps\"><\/ol><button type=\"button\" class=\"presbtn\" id=\"present\" aria-pressed=\"false\"><\/button><\/div><\/nav>\n<div class=\"wrap\" id=\"demowrap\" hidden><div class=\"demo\"><span data-copy=\"demo.text\" data-static><\/span><button id=\"clearex\" type=\"button\" data-copy=\"demo.clear\" data-static><\/button><\/div><\/div>\n\n<nav class=\"rail\" id=\"rail\" aria-label=\"Move up and down the iceberg\" hidden>\n  <button type=\"button\" class=\"rbtn\" id=\"rup\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M6 14.5 L12 8.5 L18 14.5\"/><\/svg><span><\/span><\/button>\n  <ol class=\"rtrack\" id=\"rtrack\"><\/ol>\n  <button type=\"button\" class=\"rbtn\" id=\"rdn\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M6 9.5 L12 15.5 L18 9.5\"/><\/svg><span><\/span><\/button>\n<\/nav>\n<div class=\"undo\" id=\"undo\" role=\"status\" hidden><\/div>\n<main class=\"wrap\">\n  <div class=\"work\" id=\"work\">\n    <div class=\"ocean\" aria-hidden=\"true\"><i class=\"full\"><\/i><i class=\"sea\"><\/i><i class=\"glow\"><\/i><\/div>\n    <div class=\"stintro\" id=\"stintro\">\n      <span class=\"tag nt eyebrow\" data-copy=\"setup.tag\" data-static><\/span>\n      <div class=\"strm\"><p class=\"strq\" data-copy=\"room.first\" data-static><\/p><div class=\"strms\" id=\"strms\" role=\"group\"><\/div><\/div>\n      <div class=\"stjoin\" id=\"stjoin\" hidden><\/div>\n      <h2 class=\"stq\" id=\"stq\"><\/h2>\n      <p class=\"stlead\" data-copy=\"setup.lead\" data-static><\/p>\n      <p class=\"sthow\" id=\"sthow\"><\/p>\n      <div class=\"stex\" id=\"stex\"><\/div>\n    <\/div>\n    <div class=\"cmap\" id=\"cmap\"><svg class=\"teth\" id=\"teth\" aria-hidden=\"true\"><\/svg><div class=\"nodes\" id=\"nodes\"><\/div><\/div>\n    <aside class=\"berg\" aria-label=\"Where you are on the iceberg\">\n      <div class=\"bgd\"><svg viewBox=\"0 0 360 560\" role=\"img\" aria-labelledby=\"bergt\">\n        <title id=\"bergt\">An iceberg in three layers: the surface above the water, what lies underneath, and the core belief at the bottom<\/title>\n        <defs>\n          <linearGradient id=\"seaG\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\" gradientUnits=\"objectBoundingBox\">\n            <stop offset=\"0\" stop-color=\"#5878A0\"/><stop offset=\"1\" stop-color=\"#1C3150\"/>\n          <\/linearGradient>\n        <\/defs>\n        <rect class=\"sky\" x=\"-600\" y=\"0\" width=\"1560\" height=\"124\" fill=\"#C0E8F8\"/>\n        <rect class=\"sea\" x=\"-600\" y=\"124\" width=\"1560\" height=\"436\" fill=\"url(#seaG)\"/>\n        <g class=\"bub\"><circle cx=\"70\" cy=\"520\" r=\"3\"/><circle cx=\"150\" cy=\"545\" r=\"2\"/><circle cx=\"238\" cy=\"530\" r=\"2.6\"/><circle cx=\"300\" cy=\"550\" r=\"1.8\"/><circle cx=\"20\" cy=\"470\" r=\"2.2\"/><circle cx=\"342\" cy=\"500\" r=\"2.4\"/><\/g>\n        <g class=\"floe\"><path class=\"tip\" d=\"M128 124 L146 80 L160 72 L174 40 L188 30 L200 52 L214 46 L230 78 L246 96 L258 124 Z\" fill=\"#FFFFFF\" stroke=\"#0A0A0A\" stroke-width=\"2\" stroke-linejoin=\"round\"/>\n        <path class=\"body\" d=\"M128 124 L258 124 L300 178 L326 262 L304 330 L332 410 L300 488 L222 536 L140 540 L72 500 L40 420 L60 330 L36 252 L74 176 Z\" fill=\"#DDF2FA\" fill-opacity=\".72\" stroke=\"#FFFFFF\" stroke-opacity=\".7\" stroke-width=\"2\" stroke-linejoin=\"round\"/>\n        <foreignObject class=\"bt\" x=\"72\" y=\"146\" width=\"222\" height=\"132\"><div xmlns=\"http://www.w3.org/1999/xhtml\" class=\"btx\" id=\"btx\"><\/div><\/foreignObject>\n        <\/g>\n        <path class=\"wave\" d=\"M-600 124 Q -585 118 -570 124 T -540 124 T -510 124 T -480 124 T -450 124 T -420 124 T -390 124 T -360 124 T -330 124 T -300 124 T -270 124 T -240 124 T -210 124 T -180 124 T -150 124 T -120 124 T -90 124 T -60 124 T -30 124 T 0 124 T 30 124 T 60 124 T 90 124 T 120 124 T 150 124 T 180 124 T 210 124 T 240 124 T 270 124 T 300 124 T 330 124 T 360 124 T 390 124 T 420 124 T 450 124 T 480 124 T 510 124 T 540 124 T 570 124 T 600 124 T 630 124 T 660 124 T 690 124 T 720 124 T 750 124 T 780 124 T 810 124 T 840 124 T 870 124 T 900 124 T 930 124 T 960 124 T 990 124 T 1020 124 T 1050 124 T 1080 124 T 1110 124 T 1140 124 T 1170 124 T 1200 124 T 1230 124 T 1260 124 T 1290 124 T 1320 124 T 1350 124 T 1380 124 T 1410 124 T 1440 124 T 1470 124 T 1500 124 T 1530 124 T 1560 124 T 1590 124 T 1620 124 T 1650 124 T 1680 124 T 1710 124 T 1740 124 T 1770 124 T 1800 124 T 1830 124 T 1860 124 T 1890 124 T 1920 124 T 1950 124 T 1980 124 T 2010 124 T 2040 124 T 2070 124 T 2100 124 T 2130 124 T 2160 124 T 2190 124 T 2220 124 T 2250 124 T 2280 124 T 2310 124 T 2340 124 T 2370 124 T 2400 124\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"3\"/>\n        <line class=\"dl\" x1=\"-600\" y1=\"330\" x2=\"960\" y2=\"330\" stroke=\"#FFFFFF\" stroke-opacity=\".5\" stroke-width=\"1.5\" stroke-dasharray=\"2 6\"/>\n        <rect class=\"dim\" data-band=\"surface\" x=\"-600\" y=\"0\" width=\"1560\" height=\"124\"/>\n        <rect class=\"dim\" data-band=\"under\" x=\"-600\" y=\"124\" width=\"1560\" height=\"206\"/>\n        <rect class=\"dim\" data-band=\"core\" x=\"-600\" y=\"330\" width=\"1560\" height=\"230\"/>\n        <text class=\"lab sk\" x=\"14\" y=\"24\" fill=\"#0A0A0A\" data-copy=\"layer.surface\" data-static><\/text>\n        <text class=\"lab\" x=\"14\" y=\"150\" fill=\"#FFFFFF\" data-copy=\"layer.under\" data-static><\/text>\n        <text class=\"lab\" x=\"14\" y=\"356\" fill=\"#FFFFFF\" data-copy=\"layer.core\" data-static><\/text>\n        <g class=\"floe2\"><path d=\"M112 34 C 80 90, 40 180, 54 240 S 70 420, 110 470 Q 180 540 250 470 C 290 420, 318 330, 306 240 S 290 90, 250 40\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"2.4\" stroke-dasharray=\"0 8\" stroke-linecap=\"round\" opacity=\".85\"/>\n        <g class=\"cnt\" id=\"cnts\"><\/g>\n        <g id=\"mk\"><circle r=\"13\" fill=\"#E06050\" stroke=\"#0A0A0A\" stroke-width=\"2.5\" id=\"mkc\"/><path id=\"mka\" d=\"M-5 -2 L0 4 L5 -2\" fill=\"none\" stroke=\"#0A0A0A\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><\/g><\/g>\n      <\/svg><\/div>\n      <div class=\"bpop\" id=\"bpop\" role=\"dialog\" aria-label=\"The risk in full\" hidden><\/div>\n      <div class=\"legend\"><span><i style=\"background:var(--wrong)\"><\/i><span data-copy=\"legend.dn\" data-static><\/span><\/span><span><i style=\"background:var(--well)\"><\/i><span data-copy=\"legend.up\" data-static><\/span><\/span><\/div>\n    <\/aside>\n    <section class=\"panel\" aria-live=\"polite\">\n      <div class=\"rband\" id=\"rband\" hidden><\/div>\n      <div class=\"orbdock\" id=\"orbdock\" hidden><\/div>\n      <div class=\"pbody\" id=\"pbody\"><\/div>\n      <div class=\"pfoot\">\n        <button class=\"back\" id=\"back\" type=\"button\"><\/button>\n        <span class=\"keys\" data-copy=\"foot.keys\" data-static><\/span>\n        <button class=\"next\" id=\"next\" type=\"button\"><\/button>\n      <\/div>\n    <\/section>\n<div id=\"ed\" role=\"dialog\" aria-label=\"Edit this text\" hidden>\n  <span class=\"eyebrow\">Edit this text<\/span>\n  <textarea id=\"edta\" rows=\"2\" aria-label=\"Text\"><\/textarea>\n  <p id=\"edhint\" class=\"hint\" hidden><\/p>\n  <div class=\"edacts\"><button type=\"button\" id=\"edsave\" class=\"btn k\">Save<\/button><button type=\"button\" id=\"edcancel\" class=\"btn l\">Cancel<\/button><button type=\"button\" id=\"edreset\" class=\"btn l\" hidden>Back to the original<\/button><span class=\"hint\">Enter saves · Esc cancels<\/span><\/div>\n<\/div>\n<div id=\"edbar\" hidden><button type=\"button\" id=\"edtoggle\" aria-pressed=\"false\">Edit text<\/button><span id=\"edtip\">Click any text to change it, buttons included.<\/span><span id=\"edstatus\" hidden><\/span><\/div>";
 var APP_SRC=(document.currentScript&&document.currentScript.textContent)||'';
 var CSS_SRC=(document.getElementById('css')||{}).textContent||'';
 var EXP_SRC=(document.getElementById('experts')||{}).textContent||'{}';
@@ -908,7 +1022,16 @@ var DEF={
  'compose.ph':'Type your idea, then press Enter','compose.add':'Add',
  'compose.hint':'Enter adds your note. Shift + Enter for a new line. Click your own note to change it.',
  'compose.words':'{n} / 25 words','compose.full':'25 words is the most one note can hold.',
- 'mast.name':'Your name','name.here':'Add your name here','name.ph':'Your first name','name.need':'Add your name first, so your notes are tagged to you.',
+ 'mast.name':'Your name','mast.pick':'Choose',
+ 'grp.down':'Way down','grp.up':'Way up','grp.min':'{n} min','grp.open':'Show the steps of the {g}',
+ 'part.d-surface':'Surface','part.d-under':'Underneath','part.d-core':'Core belief','part.up':'The way up',
+ 'split.d-surface':'15 min reading the risk and writing quietly, then 10 min talking',
+ 'split.d-under':'10 min writing quietly, then 10 min talking',
+ 'split.d-core':'10 min writing quietly, then 15 min talking',
+ 'split.up':'20 min writing quietly, on every layer, then 20 min talking',
+ 'plan.lbl':'Timings','plan.txt':'Way down 70 min · Way up 40 min','plan.hint':'A guide, not a rule. Move on when your table is ready.',
+ 'timer.start':'Start','timer.pause':'Pause','timer.resume':'Resume','timer.reset':'Reset','timer.done':'Time’s up','timer.min':'min',
+ 'orb.your':'Your risk','orb.read':'Read the risk','orb.close':'Close the risk','orb.table':'Table {n} · your risk','name.here':'Add your name here','name.ph':'Your first name','name.need':'Add your name first, so your notes are tagged to you.',
  'join.q':'And your name?','join.go':'Join table {n}','join.hint':'Your name goes on every note you add, so your table knows whose idea it is.',
  'need.table':'Choose your table number first, so your notes go to the right table.',
  'note.you':'You','star.add':'Star this note to show you agree','star.by':'Starred by {names}','star.own':'Stars from your table',
@@ -990,6 +1113,10 @@ var STEPS=[
  {id:'u-core',dir:'up',layer:'core',k:'step.core'},{id:'u-under',dir:'up',layer:'under',k:'step.under'},{id:'u-surface',dir:'up',layer:'surface',k:'step.surface'},
  {id:'whole',k:'step.whole'}
 ];
+/* timings: layer by layer on the way down, the whole way up as one block */
+var PARTS={'d-surface':25,'d-under':20,'d-core':25,'up':40};
+function partOf(st){if(st.id==='imagine')return 'd-surface';if(st.dir==='dn')return st.id;if(st.dir==='up')return 'up';return '';}
+var GROUPS=[{id:'setup',s:[0]},{id:'imagine',s:[1]},{id:'down',dir:'dn',s:[2,3,4],min:70},{id:'turn',s:[5]},{id:'up',dir:'up',s:[6,7,8],min:40},{id:'whole',s:[9]}];
 var MK={setup:[112,34,'dn'],imagine:[112,34,'dn'],'d-surface':[96,80,'dn'],'d-under':[52,236,'dn'],'d-core':[96,452,'dn'],turn:[180,520,'turn'],'u-core':[262,452,'up'],'u-under':[306,236,'up'],'u-surface':[268,80,'up'],whole:[180,520,'none']};
 
 /* ---------- copy helpers ---------- */
@@ -1007,9 +1134,9 @@ function kindLabel(w){w=w.trim().replace(/^(an?|the)\s+/i,'');return w.charAt(0)
 
 /* ---------- state kept in this browser ---------- */
 var KEY='hotp-iceberg-s6-v1';
-function blank(){return {room:'',cluster:'',risks:[],step:0,kind:'',xopen:false,notes:{dn:{surface:[],under:[],core:[]},up:{surface:[],under:[],core:[]}},example:false};}
+function blank(){return {room:'',cluster:'',risks:[],step:0,kind:'',xopen:false,timer:{},notes:{dn:{surface:[],under:[],core:[]},up:{surface:[],under:[],core:[]}},example:false};}
 function example(){
-  var s=blank(); s.example=true; s.risks=['R03']; s.step=2;
+  var s=blank(); s.example=true; s.risks=['R03']; s.cluster='kids'; s.step=2;
   /* an imaginary table: five people plus you, so you can see colours, names, stars and notes of every length */
   var P={a:['ex-a','Amira'],b:['ex-b','Ben'],c:['ex-c','Chloe'],d:['ex-d','Dev'],e:['ex-e','Ewa'],y:[ME.pid,ME.name||'You']};
   var at=0;
@@ -1043,6 +1170,7 @@ var S;
 try{var rawS=localStorage.getItem(KEY);S=rawS?JSON.parse(rawS):null;}catch(e){S=null;}
 if(!S||!S.notes||!S.notes.dn) S=blank();
 if(typeof S.cluster!=='string')S.cluster='';
+if(!S.timer||typeof S.timer!=='object')S.timer={};
 if(S.risks.length>1)S.risks=[S.risks[0]];
 if(!S.cluster&&S.risks.length){var cc0=CLUSTERS.filter(function(c){return c.risks.indexOf(S.risks[0])>=0;})[0];if(cc0)S.cluster=cc0.id;}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
@@ -1096,7 +1224,7 @@ function liveList(d,l){
 function notesOf(d,l){return shared()?liveList(d,l):S.notes[d][l];}
 function allNotes(){var a=[];['dn','up'].forEach(function(d){['surface','under','core'].forEach(function(l){a=a.concat(notesOf(d,l));});});return a;}
 /* each person gets a post-it colour, in the order they first added a note at this table */
-var PC=['#F0E060','#C0E8F8','#E078B0','#E08850','#B868C0','#E0C060','#DDF2FA','#E06050'];
+var PC=['#F0E060','#C0E8F8','#E078B0','#E08850','#B868C0','#E06050','#E0C060','#DDF2FA'];
 function colourOf(pid){
   var seen=[];allNotes().slice().sort(function(a,b){return (a.at||0)-(b.at||0);}).forEach(function(n){if(seen.indexOf(n.pid)<0)seen.push(n.pid);});
   var i=seen.indexOf(pid);if(i<0)i=seen.length;return PC[i%PC.length];
@@ -1182,24 +1310,94 @@ $('root').innerHTML=SHELL;
 function paintStatic(){
   document.querySelectorAll('[data-static]').forEach(function(e){var k=e.getAttribute('data-copy');if(e instanceof SVGElement)e.textContent=plain(k);else e.innerHTML=rich(k);});
 }
-(function(){var r=$('room');r.appendChild(el('option',{value:'',text:'–'}));for(var i=1;i<=NROOMS;i++)r.appendChild(el('option',{value:String(i),text:String(i)}));r.value=S.room||'';r.addEventListener('change',function(){setRoom(r.value);if(typeof render==='function')render(true);});})();
+$('tbl').addEventListener('click',function(){go(0);});
 (function(){var m=$('me');m.value=ME.name;m.setAttribute('placeholder',plain('name.ph'));m.addEventListener('input',function(){setName(m.value,m);});})();
 function fromHash(){var m=/^#g(\d{1,2})$/.exec(location.hash||'');if(m&&+m[1]>=1&&+m[1]<=NROOMS&&S.room!==m[1]){setRoom(m[1]);if(typeof render==='function')render(true);}}
 (function(){var m=/^#g(\d{1,2})$/.exec(location.hash||'');if(m&&+m[1]>=1&&+m[1]<=NROOMS){if(S.room!==m[1])setRoom(m[1]);if(S.step===0){S.step=1;save();}}})();
 window.addEventListener('hashchange',fromHash);
 
+var NAVOPEN=null;
+function groupOf(i){for(var g=0;g<GROUPS.length;g++)if(GROUPS[g].s.indexOf(i)>=0)return GROUPS[g];return null;}
 function renderSteps(){
   var ol=$('steps'); ol.innerHTML='';
-  STEPS.forEach(function(st,i){
-    if(i===2||i===5||i===6||i===9) ol.appendChild(el('li',{cls:'sep','aria-hidden':'true'}));
-    var b=el('button',{type:'button',cls:st.dir||'',onclick:function(){go(i);}});
-    if(st.dir){b.appendChild(el('span',{cls:'dir','aria-hidden':'true'}));b.setAttribute('aria-label',(st.dir==='dn'?'Down: ':'Up: ')+plain(st.k));}
-    b.appendChild(T('span',st.k));
-    if(st.layer){var c=count(st.dir,st.layer);if(c)b.appendChild(el('span',{cls:'n',text:String(c)}));}
-    if(i===S.step)b.setAttribute('aria-current','step');
-    ol.appendChild(el('li',null,[b]));
+  var cur=groupOf(S.step),openId=NAVOPEN||cur.id;
+  GROUPS.forEach(function(g){
+    if(g.s.length===1){
+      var i=g.s[0],st=STEPS[i];
+      var b=el('button',{type:'button',onclick:function(){go(i);}},[T('span',st.k)]);
+      if(i===S.step)b.setAttribute('aria-current','step');
+      ol.appendChild(el('li',{cls:'one'},[b]));return;
+    }
+    var open=g.id===openId,here=g===cur;
+    var subs=el('div',{cls:'subs',id:'subs-'+g.id});
+    g.s.forEach(function(i){
+      var st=STEPS[i],b=el('button',{type:'button',tabindex:open?'0':'-1',onclick:function(){go(i);}},[T('span',st.k)]);
+      if(g.dir==='dn')b.appendChild(el('span',{cls:'mn',text:PARTS[st.id]+'′'}));
+      var c=count(st.dir,st.layer);if(c)b.appendChild(el('span',{cls:'n',text:String(c)}));
+      b.setAttribute('aria-label',plain(g.dir==='dn'?'grp.down':'grp.up')+': '+plain(st.k)+(g.dir==='dn'?', '+plain('grp.min',{n:PARTS[st.id]}):''));
+      if(i===S.step)b.setAttribute('aria-current','step');
+      subs.appendChild(b);
+    });
+    var hd=el('button',{type:'button',cls:'gh','aria-expanded':String(open),'aria-controls':'subs-'+g.id,title:plain('grp.open',{g:plain('grp.'+g.id).toLowerCase()}),
+      onclick:function(){if(!open){NAVOPEN=g.id;renderSteps();var f=document.querySelector('#subs-'+g.id+' button');if(f)try{f.focus({preventScroll:true});}catch(e){}}else if(!here)go(g.s[0]);}},
+      [el('span',{cls:'dir','aria-hidden':'true'}),T('span','grp.'+g.id),el('span',{cls:'gm',text:plain('grp.min',{n:g.min})})]);
+    ol.appendChild(el('li',{cls:'grp '+g.dir+(open?' open':'')+(here?' here':'')},[hd,subs]));
   });
 }
+/* ---------- the timer: the mustard chip in the header, one per part ---------- */
+var TICK=null;
+function tState(p){if(!S.timer[p])S.timer[p]={left:null,end:null};return S.timer[p];}
+function leftMs(p){var t=tState(p);if(t.end)return Math.max(0,t.end-Date.now());if(t.left!=null)return t.left;return PARTS[p]*60000;}
+function fmt(ms){var x=Math.ceil(ms/1000),m=Math.floor(x/60);x=x%60;return m+':'+(x<10?'0':'')+x;}
+function renderTimer(){
+  var box=$('timer');if(!box)return;box.innerHTML='';clearInterval(TICK);
+  var p=partOf(STEPS[S.step]);
+  if(!p){
+    box.classList.add('plan');
+    box.appendChild(T('span','plan.lbl',{cls:'eyebrow'}));
+    box.appendChild(T('span','plan.txt',{cls:'ptx'}));
+    box.appendChild(T('span','plan.hint',{cls:'sp'}));
+    return;
+  }
+  box.classList.remove('plan');
+  var t=tState(p),left=leftMs(p),running=!!t.end&&left>0,done=left<=0,fresh=!t.end&&t.left==null;
+  var top=el('div',{cls:'trow'},[T('span','part.'+p,{cls:'eyebrow'})]);
+  var clk=el('span',{cls:'clk'+(done?' done':''),id:'clk'});
+  if(done)clk.textContent=plain('timer.done');
+  else if(fresh){clk.textContent=String(PARTS[p]);clk.appendChild(el('small',{text:' '+plain('timer.min')}));}
+  else clk.textContent=fmt(left);
+  var btns=el('div',{cls:'tbtns'});
+  if(!done)btns.appendChild(T('button',running?'timer.pause':(fresh?'timer.start':'timer.resume'),{type:'button',cls:'tgo',onclick:function(){
+    if(running){t.left=leftMs(p);t.end=null;}else{t.end=Date.now()+leftMs(p);t.left=null;}save();renderTimer();}}));
+  if(!fresh)btns.appendChild(T('button','timer.reset',{type:'button',cls:'tre',onclick:function(){t.end=null;t.left=null;save();renderTimer();}}));
+  box.appendChild(el('div',{cls:'tmain'},[el('div',{cls:'tl1'},[top,clk]),btns]));
+  box.appendChild(T('span','split.'+p,{cls:'sp'}));
+  box.classList.toggle('done',done);box.classList.toggle('run',running);
+  if(running)TICK=setInterval(function(){var l=leftMs(p),c=$('clk');if(l<=0){t.end=null;t.left=0;save();renderTimer();return;}if(c)c.textContent=fmt(l);},500);
+}
+/* ---------- your risk: a circle in the corner that opens to be read ---------- */
+var ORB=false;
+function renderOrb(){
+  var st=STEPS[S.step],d=$('orbdock');if(!d)return;
+  var show=(st.layer||st.id==='turn'||st.id==='whole')&&S.risks.length&&S.cluster;
+  if(!show){d.hidden=true;d.innerHTML='';ORB=false;return;}
+  var r=S.risks[0];d.hidden=false;d.innerHTML='';
+  var o=el('div',{cls:'orb'+(ORB?' open':'')});o.style.setProperty('--c',HUE[S.cluster]);
+  if(!ORB){
+    o.appendChild(el('button',{type:'button',cls:'orbb','aria-expanded':'false','aria-label':plain('orb.read')+': '+riskT(r),onclick:function(e){e.stopPropagation();ORB=true;renderOrb();var x=document.querySelector('.orb .df');if(x)try{x.focus({preventScroll:true});}catch(e2){}}},
+      [el('span',{cls:'oy',text:plain('orb.your')}),el('span',{cls:'ot',text:riskT(r)}),el('span',{cls:'rm',text:plain('orb.read')})]));
+  }else{
+    var inn=el('div',{cls:'orbin',role:'dialog','aria-label':riskT(r)});
+    inn.appendChild(el('span',{cls:'oy',text:!S.example&&RISKOF[S.room]?plain('orb.table',{n:S.room}):plain('orb.your')}));
+    inn.appendChild(el('h3',{cls:'ot',text:riskT(r)}));
+    inn.appendChild(el('div',{cls:'df',tabindex:'0',html:FULLD[r]||('<p>'+esc(plain('riskd.'+r))+'</p>')}));
+    o.appendChild(inn);
+    o.appendChild(el('button',{type:'button',cls:'wclose','aria-label':plain('orb.close'),text:'×',onclick:function(e){e.stopPropagation();ORB=false;renderOrb();var b=document.querySelector('.orbb');if(b)b.focus();}}));
+  }
+  d.appendChild(o);
+}
+document.addEventListener('click',function(e){if(ORB&&!e.target.closest('.orb')){ORB=false;renderOrb();}});
+document.addEventListener('keydown',function(e){if(ORB&&e.key==='Escape'){ORB=false;renderOrb();var b=document.querySelector('.orbb');if(b)b.focus();}});
 var BPOP=false;
 document.addEventListener('click',function(e){if(BPOP&&!e.target.closest('#bpop,.brisk')){BPOP=false;renderBerg();}});
 document.addEventListener('keydown',function(e){if(BPOP&&e.key==='Escape'){BPOP=false;renderBerg();}});
@@ -1242,10 +1440,11 @@ function renderBerg(){
   });
 }
 function renderMast(){
-  var m=$('mrisk');
-  if(S.risks.length){m.removeAttribute('data-copy');m.textContent=S.risks.map(riskT).join(' + ');}
-  else{m.setAttribute('data-copy','mast.none');m.innerHTML=rich('mast.none');}
+  var tb=$('tbl');
+  if(RISKOF[S.room]){tb.textContent=S.room;tb.style.setProperty('--c',HUE[RISKOF[S.room].c]);tb.title=riskT(RISKOF[S.room].r);}
+  else{tb.textContent=plain('mast.pick');tb.style.removeProperty('--c');tb.removeAttribute('title');}
   $('demowrap').hidden=!S.example;
+  var nb=document.querySelector('.steps');if(nb)document.documentElement.style.setProperty('--navh',nb.offsetHeight+'px');
 }
 
 /* ---------- notes: a post-it per idea, in its author's colour, with their name and stars ---------- */
@@ -1829,6 +2028,7 @@ var FULLOPEN=false;
 var BANDOPEN=true;try{BANDOPEN=localStorage.getItem('hotp-ice-band')!=='0';}catch(e){}
 function renderBand(){
   var st=STEPS[S.step],bd=$('rband');
+  bd.hidden=true;bd.innerHTML='';return; /* replaced by the risk circle, renderOrb */
   if(!st.layer||!S.risks.length){bd.hidden=true;bd.innerHTML='';return;}
   var r=S.risks[0];bd.hidden=false;bd.innerHTML='';bd.className='rband '+st.dir+(BANDOPEN?' open':'');
   bd.style.setProperty('--c',HUE[S.cluster]||'#E06050');
@@ -1946,7 +2146,7 @@ function render(soft){
   else nx.removeAttribute('title');
   nx.setAttribute('data-copy',nk);nx.innerHTML=rich(nk,{step:nst?plain(nst.k):''});
   if(st.id==='imagine'){nx.classList.add('rise');nx.appendChild(el('i',{'aria-hidden':'true',html:'<svg viewBox="0 0 24 24"><path d="M6 14.5 L12 8.5 L18 14.5"/></svg>'}));}
-  paintStatic();renderSteps();renderBerg();renderMast();paintJoin();renderRail();renderPresent();renderBand();fitTop();syncMap(v);
+  paintStatic();renderSteps();renderBerg();renderMast();paintJoin();renderRail();renderPresent();renderBand();renderOrb();renderTimer();fitTop();syncMap(v);
 }
 /* moving between layers feels like going deeper: the old layer lifts away, the next rises from below */
 var DEPTH={surface:0,under:1,core:2};
@@ -1962,7 +2162,7 @@ function go(i,way){
   var from=STEPS[S.step],to=STEPS[i];
   if(!way&&from.layer&&to.layer&&from.dir===to.dir)way=DEPTH[to.layer]>DEPTH[from.layer]?'dn':'up';
   if(way&&!REDUCE)ghost(way);
-  S.step=i;S.xopen=false;S.kind='';save();
+  S.step=i;S.xopen=false;S.kind='';NAVOPEN=null;ORB=false;save();
   if(way)$('pbody').setAttribute('data-way',way);
   render();
   try{window.scrollTo({top:0,behavior:REDUCE?'auto':'smooth'});}catch(e){}

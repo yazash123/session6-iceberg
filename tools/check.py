@@ -21,6 +21,8 @@ async def main():
         b = await p.chromium.launch()
         for w, h, tag in [(1300, 900, 'wide'), (390, 844, 'phone')]:
             pg = await b.new_page(viewport={'width': w, 'height': h})
+            # a named person, so picking a table goes straight on (tools/check_shared.py tests the name step)
+            await pg.add_init_script("localStorage.setItem('hotp-ice-me', JSON.stringify({name:'Tester', pid:'pT'}))")
             errs = []; pg.on('pageerror', lambda e: errs.append(str(e)))
             await pg.goto(URL); await pg.wait_for_timeout(1200)
             ok(await pg.locator('.strmb').count() == 26, f'{tag}: 26 table buttons')
@@ -34,6 +36,7 @@ async def main():
             ok(not errs, f'{tag}: no script errors walking every step {errs[:2]}')
             # straight onto a table link, fresh browser state (this used to crash)
             ctx = await b.new_context(viewport={'width': w, 'height': h}); pg2 = await ctx.new_page()
+            await pg2.add_init_script("localStorage.setItem('hotp-ice-me', JSON.stringify({name:'Tester', pid:'pT'}))")
             errs2 = []; pg2.on('pageerror', lambda e: errs2.append(str(e)))
             await pg2.goto(URL + '#g26'); await pg2.wait_for_timeout(1200)
             ok(not errs2 and await pg2.evaluate('S.room') == '26' and await pg2.evaluate('S.risks') == ['R12'],

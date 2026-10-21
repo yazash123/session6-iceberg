@@ -35,12 +35,26 @@ The table number sets the risk. Clusters light up to show their risks but can't 
 | `CLAUDE.md` | handover notes for anyone (or any Claude session) picking up the work. |
 | `tools/check.py` | run after every edit: walks every step on desktop and phone and fails on errors. |
 | `tools/build.py` | the one-off import from the claude.ai artifact. Don't rerun it; it would overwrite repo edits. |
+| `firebase-config.js` | the Firebase web config (the Session 5 project). Public by design. |
+| `firestore.rules` | paste into Firebase console → Firestore → Rules → Publish. Covers Sessions 5, 6 and 7. |
+| `tools/check_shared.py` | several people at one table, with a fake Firebase. |
 | `webflow-embed.html` | the one Webflow embed. |
 
 ## What changed from the artifact
 
 - "Room" reads "Table" throughout.
 - Clicking a cluster no longer picks it; only a table number does.
-- Notes are kept in the facilitator's browser (localStorage key `hotp-iceberg-s6-v1`), as in the artifact. Nothing is sent anywhere. Use **Copy the record** on the last step to keep a table's notes.
+- Everyone at a table adds their own notes, tagged with their name, shared live through Firebase (see below).
 - Opening the page straight on a table link (`#g7`) no longer crashes it.
 - "Edit text" only works inside claude.ai. Change wording in `var DEF` in `index.html`.
+
+## Sharing notes
+
+Each member picks their table and adds their name. Their notes go to Firestore (collection `ice-s6`), tagged with
+their name, and everyone at the same table sees them live, each person in their own post-it colour. Notes are at
+most 25 words. People can star each other's notes.
+
+- **Publish `firestore.rules` in the Firebase console first**, or notes won't share.
+- **Before Session 7**, change `var BOARD='ice-s6'` to `'ice-s7'` in `index.html`.
+- To clear a session's notes: Firebase console → Firestore → `ice-s6` → ⋮ → Delete collection.
+- If Firebase can't be reached, the page says so and keeps notes on that computer only.
