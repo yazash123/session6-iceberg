@@ -955,7 +955,6 @@ html.present .steps .subs{transition:none}
 html.present .orb,html.present .orbin{transition:none;animation:none}
 /* the layer's heading keeps clear of the circle */
 .work[data-layer] .lhead,.work[data-turn] .pbody>.tag,.work[data-whole] .pbody>.tag{padding-right:0}
-@media(min-width:1001px){.work[data-layer] .pbody,.work[data-turn] .pbody,.work[data-whole] .pbody{padding-left:clamp(150px,13vw,190px);padding-right:clamp(150px,13vw,190px)}}
 @media(min-width:761px) and (max-width:1000px){.orb{width:96px;height:96px}.orbb .ot,.orbb .rm{display:none}.orbb::after{content:"+";font-size:26px;line-height:.7;font-weight:400}.work[data-layer] .lhead{padding-right:110px;padding-left:110px}}
 
 @media(max-width:760px){
@@ -974,7 +973,6 @@ html.present .orb,html.present .orbin{transition:none;animation:none}
 .orbin{left:13%;right:13%;top:12%;bottom:10%}
 .orbin h3.ot{font-size:19px}
 .orbin .df{font-size:14px}
-.work[data-layer] .lhead{padding-right:84px}
 .steps .grp .gh{padding:10px 9px}
 .steps .subs button{padding:10px 8px}
 .steps .subs .mn{display:none}
@@ -991,6 +989,55 @@ html.present .orb,html.present .orbin{transition:none;animation:none}
 .orbb::after{content:"+";font-size:26px;line-height:.7;font-weight:400}
 .strms{grid-template-columns:repeat(6,40px)!important;gap:9px 10px!important}
 .strmb{width:40px!important;height:40px!important;font-size:15px!important}
+}
+
+/* ================= The risk as a card above each layer: its circle, its title, opening to the full text ================= */
+.rcard{--c:#E06050;text-align:left;align-self:stretch;width:100%;max-width:1040px;margin:0 auto clamp(14px,1.6vw,22px);color:var(--ink);
+  background:color-mix(in srgb,var(--c) 16%,#FFFFFF);border-radius:999px;box-shadow:0 0 0 1.5px color-mix(in srgb,var(--c) 55%,transparent),0 10px 28px rgba(10,20,40,.16);
+  transition:border-radius .55s var(--ease),box-shadow .4s}
+@supports not (color:color-mix(in srgb,red,blue)){.rcard{background:#FFFFFF}}
+.rcard.open{border-radius:30px;box-shadow:0 0 0 1.5px color-mix(in srgb,var(--c) 70%,transparent),0 18px 44px rgba(10,20,40,.22)}
+.rchd{all:unset;box-sizing:border-box;cursor:pointer;width:100%;display:flex;align-items:center;gap:14px;padding:8px 18px 8px 8px;border-radius:inherit}
+.rchd:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.rcdot{flex:none;width:40px;height:40px;border-radius:50%;background:var(--c);box-shadow:0 0 0 5px color-mix(in srgb,var(--c) 28%,transparent);
+  transition:width .55s var(--ease),height .55s var(--ease)}
+.rcard.open .rcdot{width:76px;height:76px}
+.rctx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.rctx .eyebrow{font-size:11px;opacity:.7}
+.rctt{font-family:var(--ff-serif);font-weight:600;font-size:clamp(17px,.9rem + .35vw,21px);line-height:1.15;transition:font-size .55s var(--ease)}
+.rcard.open .rctt{font-size:clamp(22px,1rem + .9vw,30px)}
+.rctg{flex:none;display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:13px;padding:6px 6px 6px 12px;border-radius:999px;background:rgba(10,10,10,.08)}
+.rchd:hover .rctg{background:rgba(10,10,10,.16)}
+.rctg i{width:22px;height:22px;display:grid;place-items:center;transition:transform .45s var(--ease)}
+.rctg svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.rcard.open .rctg i{transform:rotate(180deg)}
+.rcon{display:none}.rcard.open .rcon{display:inline}.rcard.open .rcoff{display:none}
+.rcbody{display:grid;grid-template-rows:0fr;transition:grid-template-rows .55s var(--ease)}
+.rcard.open .rcbody{grid-template-rows:1fr}
+.rcin{min-height:0;overflow:hidden;padding:0 clamp(18px,2.4vw,34px) 0 calc(8px + 76px + 14px);opacity:0;transition:opacity .35s,padding .55s var(--ease)}
+.rcard.open .rcin{opacity:1;padding-bottom:clamp(18px,2vw,26px);transition:opacity .45s .15s,padding .55s var(--ease)}
+.rclead{font-size:17px;line-height:1.45;font-weight:600;max-width:62ch;margin:2px 0 10px}
+.rcfull{font-size:16px;line-height:1.55;max-width:66ch;max-height:min(36vh,360px);overflow:auto;padding-right:12px;
+  -webkit-mask-image:linear-gradient(180deg,#000 0,#000 86%,transparent 100%);mask-image:linear-gradient(180deg,#000 0,#000 86%,transparent 100%);
+  scrollbar-width:thin;scrollbar-color:rgba(10,10,10,.3) transparent}
+.rcfull p{margin:0 0 .8em}.rcfull p:last-child{padding-bottom:1.2em}
+.rcfull strong{font-weight:700}
+.rcfull:focus-visible{outline:2px solid rgba(10,10,10,.4);outline-offset:4px}
+.rcard.still,.rcard.still *{transition:none!important}
+@media (prefers-reduced-motion:reduce){.rcard,.rcard *{transition:none!important}}
+html.present .rcard,html.present .rcard *{transition:none!important}
+html.present .rcfull{font-size:18px}
+.work[data-turn] .rcard,.work[data-whole] .rcard{margin-bottom:clamp(18px,2vw,28px)}
+@media(max-width:760px){
+.rchd{gap:10px;padding:6px 10px 6px 6px}
+.rcdot{width:30px;height:30px}
+.rcard.open .rcdot{width:48px;height:48px}
+.rcard.open{border-radius:22px}
+.rcin{padding:0 16px 0 16px}
+.rctg{padding:6px}
+.rctg .rcon,.rctg .rcoff,.rcard.open .rctg .rcon{display:none}
+.rclead{font-size:16px}
+.rcfull{font-size:15px;max-height:52vh}
 }
 
 </style>
@@ -1031,7 +1078,7 @@ var DEF={
  'split.up':'20 min writing quietly, on every layer, then 20 min talking',
  'plan.lbl':'Timings','plan.txt':'Way down 70 min · Way up 40 min','plan.hint':'A guide, not a rule. Move on when your table is ready.',
  'timer.start':'Start','timer.pause':'Pause','timer.resume':'Resume','timer.reset':'Reset','timer.done':'Time’s up','timer.min':'min',
- 'orb.your':'Your risk','orb.read':'Read the risk','orb.close':'Close the risk','orb.table':'Table {n} · your risk','name.here':'Add your name here','name.ph':'Your first name','name.need':'Add your name first, so your notes are tagged to you.',
+ 'orb.your':'Your risk','risk.hide':'Close','orb.read':'Read the risk','orb.close':'Close the risk','orb.table':'Table {n} · your risk','name.here':'Add your name here','name.ph':'Your first name','name.need':'Add your name first, so your notes are tagged to you.',
  'join.q':'And your name?','join.go':'Join table {n}','join.hint':'Your name goes on every note you add, so your table knows whose idea it is.',
  'need.table':'Choose your table number first, so your notes go to the right table.',
  'note.you':'You','star.add':'Star this note to show you agree','star.by':'Starred by {names}','star.own':'Stars from your table',
@@ -1116,7 +1163,7 @@ var STEPS=[
 /* timings: layer by layer on the way down, the whole way up as one block */
 var PARTS={'d-surface':25,'d-under':20,'d-core':25,'up':40};
 function partOf(st){if(st.id==='imagine')return 'd-surface';if(st.dir==='dn')return st.id;if(st.dir==='up')return 'up';return '';}
-var GROUPS=[{id:'setup',s:[0]},{id:'imagine',s:[1]},{id:'down',dir:'dn',s:[2,3,4],min:70},{id:'turn',s:[5]},{id:'up',dir:'up',s:[6,7,8],min:40},{id:'whole',s:[9]}];
+var GROUPS=[{id:'setup',s:[0]},{id:'down',dir:'dn',s:[1,2,3,4],min:70},{id:'up',dir:'up',s:[5,6,7,8],min:40},{id:'whole',s:[9]}];
 var MK={setup:[112,34,'dn'],imagine:[112,34,'dn'],'d-surface':[96,80,'dn'],'d-under':[52,236,'dn'],'d-core':[96,452,'dn'],turn:[180,520,'turn'],'u-core':[262,452,'up'],'u-under':[306,236,'up'],'u-surface':[268,80,'up'],whole:[180,520,'none']};
 
 /* ---------- copy helpers ---------- */
@@ -1335,9 +1382,9 @@ function renderSteps(){
     var subs=el('div',{cls:'subs',id:'subs-'+g.id});
     g.s.forEach(function(i){
       var st=STEPS[i],b=el('button',{type:'button',tabindex:open?'0':'-1',onclick:function(){go(i);}},[T('span',st.k)]);
-      if(g.dir==='dn')b.appendChild(el('span',{cls:'mn',text:PARTS[st.id]+'′'}));
-      var c=count(st.dir,st.layer);if(c)b.appendChild(el('span',{cls:'n',text:String(c)}));
-      b.setAttribute('aria-label',plain(g.dir==='dn'?'grp.down':'grp.up')+': '+plain(st.k)+(g.dir==='dn'?', '+plain('grp.min',{n:PARTS[st.id]}):''));
+      var mn=g.dir==='dn'&&PARTS[st.id];if(mn)b.appendChild(el('span',{cls:'mn',text:mn+'′'}));
+      var c=st.layer?count(st.dir,st.layer):0;if(c)b.appendChild(el('span',{cls:'n',text:String(c)}));
+      b.setAttribute('aria-label',plain(g.dir==='dn'?'grp.down':'grp.up')+': '+plain(st.k)+(mn?', '+plain('grp.min',{n:mn}):''));
       if(i===S.step)b.setAttribute('aria-current','step');
       subs.appendChild(b);
     });
@@ -1378,10 +1425,33 @@ function renderTimer(){
   box.classList.toggle('done',done);box.classList.toggle('run',running);
   if(running)TICK=setInterval(function(){var l=leftMs(p),c=$('clk');if(l<=0){t.end=null;t.left=0;save();renderTimer();return;}if(c)c.textContent=fmt(l);},500);
 }
-/* ---------- your risk: a circle in the corner that opens to be read ---------- */
+/* ---------- your risk: a card above each layer, its circle in the cluster's colour.
+   Open on Surface on the way down, so everyone reads it first; closed further down and on the way up,
+   one click away. ---------- */
+var RISKOPEN=null;
+function riskDefault(st){return st.id==='d-surface';}
+function riskIsOpen(){var st=STEPS[S.step];return RISKOPEN===null?riskDefault(st):RISKOPEN;}
+function riskCard(){
+  if(!S.risks.length||!S.cluster)return null;
+  var r=S.risks[0],open=riskIsOpen();
+  var card=el('section',{cls:'rcard'+(open?' open':''),'aria-label':plain('orb.your')});
+  card.style.setProperty('--c',HUE[S.cluster]);
+  var lab=!S.example&&RISKOF[S.room]?plain('orb.table',{n:S.room}):plain('orb.your');
+  var tg=el('span',{cls:'rctg'},[el('span',{cls:'rcon',text:plain('risk.hide')}),el('span',{cls:'rcoff',text:plain('orb.read')}),el('i',{'aria-hidden':'true',html:'<svg viewBox="0 0 24 24"><path d="M6 9.5 L12 15.5 L18 9.5"/></svg>'})]);
+  var hd=el('button',{type:'button',cls:'rchd','aria-expanded':String(open),'aria-controls':'rcbody',onclick:function(){
+      var now=!card.classList.contains('open');RISKOPEN=now;card.classList.toggle('open',now);hd.setAttribute('aria-expanded',String(now));}},
+    [el('span',{cls:'rcdot','aria-hidden':'true'}),el('span',{cls:'rctx'},[el('span',{cls:'eyebrow',text:lab}),el('span',{cls:'rctt',text:riskT(r)})]),tg]);
+  card.appendChild(hd);
+  var inner=el('div',{cls:'rcin'},[el('p',{cls:'rclead',text:plain('riskd.'+r)})]);
+  if(FULLD[r])inner.appendChild(el('div',{cls:'rcfull',tabindex:'0',html:FULLD[r]}));
+  card.appendChild(el('div',{cls:'rcbody',id:'rcbody'},[inner]));
+  return card;
+}
+/* ---------- your risk: a circle in the corner that opens to be read (retired) ---------- */
 var ORB=false;
 function renderOrb(){
   var st=STEPS[S.step],d=$('orbdock');if(!d)return;
+  d.hidden=true;d.innerHTML='';ORB=false;return; /* replaced by the risk card above each layer, riskCard */
   var show=(st.layer||st.id==='turn'||st.id==='whole')&&S.risks.length&&S.cluster;
   if(!show){d.hidden=true;d.innerHTML='';ORB=false;return;}
   var r=S.risks[0];d.hidden=false;d.innerHTML='';
@@ -1988,6 +2058,7 @@ function viewImagine(b){
   b.appendChild(T('button','imagine.change',{type:'button',cls:'chg',onclick:function(){go(0);}}));
 }
 function viewLayer(b,st){
+  var rc=riskCard();if(rc)b.appendChild(rc);
   var head=el('div',{cls:'lhead'},[T('h2','layer.'+st.layer,{cls:'layer'})]);
   b.appendChild(head);
   var qs=raw('q.'+st.layer).split('\n').map(function(s){return s.trim();}).filter(Boolean);
@@ -2081,6 +2152,7 @@ function renderRail(){
 function railGo(way){var i=railTarget(way);if(i!==null)go(i,way);}
 
 function viewTurn(b){
+  var rc=riskCard();if(rc)b.appendChild(rc);
   b.appendChild(T('span','turn.tag',{cls:'tag up eyebrow'}));
   b.appendChild(qblock('turn.q','q'));
   b.appendChild(T('p','turn.lead',{cls:'lead'}));
@@ -2092,6 +2164,7 @@ function viewTurn(b){
   if(pv)b.appendChild(el('button',{type:'button',cls:'chg',text:plain('turn.back',{step:plain(pv.k)}),onclick:function(){go(S.step-1,'dn');}}));
 }
 function viewWhole(b){
+  var rc=riskCard();if(rc)b.appendChild(rc);
   b.appendChild(T('span','whole.tag',{cls:'tag nt eyebrow'}));
   b.appendChild(qblock('whole.q','q'));
   var w=el('div',{cls:'whole'});
@@ -2165,9 +2238,11 @@ function go(i,way){
   var from=STEPS[S.step],to=STEPS[i];
   if(!way&&from.layer&&to.layer&&from.dir===to.dir)way=DEPTH[to.layer]>DEPTH[from.layer]?'dn':'up';
   if(way&&!REDUCE)ghost(way);
-  S.step=i;S.xopen=false;S.kind='';NAVOPEN=null;ORB=false;save();
+  var wasOpen=!!document.querySelector('#pbody .rcard.open');
+  S.step=i;S.xopen=false;S.kind='';NAVOPEN=null;ORB=false;RISKOPEN=null;save();
   if(way)$('pbody').setAttribute('data-way',way);
   render();
+  if(wasOpen&&!riskIsOpen()&&!REDUCE&&!PRESENT){var rc=document.querySelector('#pbody .rcard');if(rc){rc.classList.add('open','still');void rc.offsetWidth;rc.classList.remove('still');setTimeout(function(){if(RISKOPEN===null)rc.classList.remove('open');},650);}}
   try{window.scrollTo({top:0,behavior:REDUCE?'auto':'smooth'});}catch(e){}
 }
 $('rup').addEventListener('click',function(){railGo('up');});
