@@ -14,8 +14,8 @@ Set up → Imagine → Surface → Underneath → Core belief → **Turn** → C
 
 - Down (red, "dn") = 2036 gone wrong. Up (yellow, "up") = 2036 gone right.
 - **Since 21 Oct 2026 every member writes their own notes.** They pick their table, then confirm their name
-  ("And your name?", pre-filled, Go →). Each note is tagged with the author's name and shows in that person's
-  post-it colour. Caps (22 Oct): 50 words on Surface, 75 on Underneath and Core beliefs, clipped to 600
+  ("And your name?", pre-filled, Go →). Each note is tagged with the author's name. Post-its (22 Oct): your own notes are yellow, everyone
+  else's mustard (`colourOf`, `PI_MINE`, `PI_OTHERS`). Caps (22 Oct): 50 words on Surface, 75 on Underneath and Core beliefs, clipped to 600
   characters (`MAXL`, `MAXC`), matching `t.size() <= 600` in the rules. People can edit or remove only their own
   notes, and like (heart) other people's. You see only your own notes on a layer until you switch on "See what
   others at your table put" (`othOn`). Everyone's notes are always on the Whole iceberg. Everyone sees only
@@ -40,7 +40,7 @@ Owner: Yaz (Assemble). UK English, plain language for a general audience. Copy s
   GitHub Pages + Webflow iframe pattern, but that one uses Firebase for shared scores).
 - The claude.ai artifact "HotP Iceberg Futures" (https://claude.ai/artifact/GaAYHmQbxCFyy38VbykXYq) is where
   design changes are made at the moment (21–22 Oct 2026); the repo takes them when Yaz says push. **Last synced
-  22 Oct 2026** from artifact version id 1792672972-b3eb. Always compare the two before either direction:
+  22 Oct 2026** from the artifact, post-its version (repo → artifact). Always compare the two before either direction:
   - **Artifact → repo:** copy the artifact's `index.html` over this one, then add the three Firebase script
     tags just above `<script id="app">` (the artifact leaves them out, because claude.ai's viewer blocks them;
     without them the GitHub page can't share notes). Keep `firebase-config.js`. Run both tests.
