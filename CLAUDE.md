@@ -41,7 +41,7 @@ Owner: Yaz (Assemble). UK English, plain language for a general audience. Copy s
   GitHub Pages + Webflow iframe pattern, but that one uses Firebase for shared scores).
 - The claude.ai artifact "HotP Iceberg Futures" (https://claude.ai/artifact/GaAYHmQbxCFyy38VbykXYq) is where
   design changes are made at the moment (21–22 Oct 2026); the repo takes them when Yaz says push. **Last synced
-  22 Oct 2026 (evening)**: artifact version id 1792691912-3223 and this repo match (way-up timings 5 + 15 + 20, as in the facilitator handbook). Always compare the two before either direction:
+  22 Oct 2026 (evening)**: artifact version id 1792698853-b4aa and this repo match (way-up timings 5 + 15 + 20, as in the facilitator handbook; Set up scrolls on short screens; green "Shared live" dot). Always compare the two before either direction:
   - **Artifact → repo:** copy the artifact's `index.html` over this one, then add the three Firebase script
     tags just above `<script id="app">` (the artifact leaves them out, because claude.ai's viewer blocks them;
     without them the GitHub page can't share notes). Keep `firebase-config.js`. Run both tests.
@@ -142,6 +142,7 @@ Notes live in Firestore, in the same Firebase project as Session 5 (`session-5-a
 - **Load order:** anything run at load that calls `render()` before `var HUE` (and the map setup below
   `the cluster map`) has run will crash the whole page. That's why the initial `#gN` handling only sets the
   table and step; `render()` runs once at the bottom of the script.
+- **Short screens (22 Oct):** on a wide but short window (a laptop at 650–770px tall) the Set up panel used to run past the bottom of `#work`, so the name box and "Show me an example" couldn't be reached. `layoutMap` now grows `#work` to fit the panel, and a ResizeObserver on `#stintro` re-lays the map when the name box appears.
 - `var X=` declarations are hoisted as `undefined`. Function declarations are hoisted whole, so a function
   can be called before the data it needs exists.
 - The page is set in **2036** (changed from 2030 on 18 Oct at Yaz's request). The only 2030s left are
