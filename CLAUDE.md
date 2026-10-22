@@ -41,7 +41,7 @@ Owner: Yaz (Assemble). UK English, plain language for a general audience. Copy s
   GitHub Pages + Webflow iframe pattern, but that one uses Firebase for shared scores).
 - The claude.ai artifact "HotP Iceberg Futures" (https://claude.ai/artifact/GaAYHmQbxCFyy38VbykXYq) is where
   design changes are made at the moment (21–22 Oct 2026); the repo takes them when Yaz says push. **Last synced
-  22 Oct 2026** from the artifact, post-its version (repo → artifact). Always compare the two before either direction:
+  22 Oct 2026 (evening)**: artifact version id 1792691912-3223 and this repo match (way-up timings 5 + 15 + 20, as in the facilitator handbook). Always compare the two before either direction:
   - **Artifact → repo:** copy the artifact's `index.html` over this one, then add the three Firebase script
     tags just above `<script id="app">` (the artifact leaves them out, because claude.ai's viewer blocks them;
     without them the GitHub page can't share notes). Keep `firebase-config.js`. Run both tests.
