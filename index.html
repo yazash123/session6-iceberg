@@ -2784,7 +2784,7 @@ requestAnimationFrame(function(){requestAnimationFrame(function(){document.docum
 })();
 
 /* October 22: post-its: your notes yellow, everyone else's mustard */
-var PI_MINE='#F0E060',PI_OTHERS='#E7C764';
-function colourOf(pid){return pid===ME.pid?PI_MINE:PI_OTHERS;}
+/* colours written in here, not in vars: the first draw happens before vars further down are set */
+function colourOf(pid){return pid===ME.pid?'#F0E060':'#E7C764';}
 </script>
 </body></html>

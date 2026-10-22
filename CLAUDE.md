@@ -15,7 +15,8 @@ Set up → Imagine → Surface → Underneath → Core belief → **Turn** → C
 - Down (red, "dn") = 2036 gone wrong. Up (yellow, "up") = 2036 gone right.
 - **Since 21 Oct 2026 every member writes their own notes.** They pick their table, then confirm their name
   ("And your name?", pre-filled, Go →). Each note is tagged with the author's name. Post-its (22 Oct): your own notes are yellow, everyone
-  else's mustard (`colourOf`, `PI_MINE`, `PI_OTHERS`). Caps (22 Oct): 50 words on Surface, 75 on Underneath and Core beliefs, clipped to 600
+  else's mustard #E7C764 (`colourOf`; the hex values are written inside the function on purpose, because
+  the first draw runs before `var`s at the bottom of the script are set, which left notes see-through). Caps (22 Oct): 50 words on Surface, 75 on Underneath and Core beliefs, clipped to 600
   characters (`MAXL`, `MAXC`), matching `t.size() <= 600` in the rules. People can edit or remove only their own
   notes, and like (heart) other people's. You see only your own notes on a layer until you switch on "See what
   others at your table put" (`othOn`). Everyone's notes are always on the Whole iceberg. Everyone sees only
