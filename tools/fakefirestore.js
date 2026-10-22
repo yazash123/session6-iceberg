@@ -14,7 +14,7 @@
     var ks=Object.keys(d);
     return ks.length===KEYS.length&&KEYS.every(function(k){return ks.indexOf(k)>=0;})
       &&Number.isInteger(d.room)&&d.room>=1&&d.room<=26&&['dn','up'].indexOf(d.dir)>=0&&['surface','under','core'].indexOf(d.layer)>=0
-      &&typeof d.t==='string'&&d.t.length>=1&&d.t.length<=400&&typeof d.k==='string'&&d.k.length<=40
+      &&typeof d.t==='string'&&d.t.length>=1&&d.t.length<=600&&typeof d.k==='string'&&d.k.length<=40
       &&typeof d.name==='string'&&d.name.length>=1&&d.name.length<=40&&typeof d.pid==='string'&&d.pid.length>=1&&d.pid.length<=40
       &&Number.isInteger(d.at)&&d.st&&typeof d.st==='object'&&Object.keys(d.st).length<=60&&typeof d.gone==='boolean';
   }

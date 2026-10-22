@@ -36,7 +36,7 @@ The table number sets the risk. Clusters light up to show their risks but can't 
 | `tools/check.py` | run after every edit: walks every step on desktop and phone and fails on errors. |
 | `tools/build.py` | the one-off import from the claude.ai artifact. Don't rerun it; it would overwrite repo edits. |
 | `firebase-config.js` | the Firebase web config (the Session 5 project). Public by design. |
-| `firestore.rules` | paste into Firebase console → Firestore → Rules → Publish. Covers Sessions 5, 6 and 7. |
+| `firestore.rules` | the full rules from the Firebase plan (section 4.6): paste into Firebase console → Firestore → Rules → Publish. Covers Session 5, the Iceberg, Drivers, What's Missing and the poll. |
 | `tools/check_shared.py` | several people at one table, with a fake Firebase. |
 | `webflow-embed.html` | the one Webflow embed. |
 
@@ -52,7 +52,7 @@ The table number sets the risk. Clusters light up to show their risks but can't 
 
 Each member picks their table and adds their name. Their notes go to Firestore (collection `ice-s6`), tagged with
 their name, and everyone at the same table sees them live, each person in their own post-it colour. Notes are at
-most 25 words. People can star each other's notes.
+most 50 words on Surface and 75 lower down (600 characters). People can heart each other's notes.
 
 - **Publish `firestore.rules` in the Firebase console first**, or notes won't share.
 - **Before Session 7**, change `var BOARD='ice-s6'` to `'ice-s7'` in `index.html`.

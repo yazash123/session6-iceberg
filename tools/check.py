@@ -28,7 +28,10 @@ async def main():
             ok(await pg.locator('.strmb').count() == 26, f'{tag}: 26 table buttons')
             await pg.locator('.hub').first.click(); await pg.wait_for_timeout(500)
             ok(await pg.evaluate('S.step') == 0, f'{tag}: clicking a cluster does not pick it')
-            await pg.locator('.strmb', has_text='7').first.click(); await pg.wait_for_timeout(1500)
+            await pg.locator('.strmb', has_text='7').first.click(); await pg.wait_for_timeout(700)
+            # since 22 Oct the page always confirms the name (pre-filled) with a Go button
+            if await pg.locator('#stjoin button').is_visible(): await pg.locator('#stjoin button').click()
+            await pg.wait_for_timeout(1200)
             ok(await pg.evaluate('S.step') == 1 and await pg.evaluate('S.risks') == ['R02'], f'{tag}: table 7 -> Imagine with R02')
             for i, sid in enumerate(await pg.evaluate('STEPS.map(function(s){return s.id;})')):
                 await pg.evaluate(f'go({i})'); await pg.wait_for_timeout(400)
