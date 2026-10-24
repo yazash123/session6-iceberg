@@ -1565,7 +1565,7 @@ function kinds(){var out=[];raw('core.mind').replace(/\[([^\]]+)\]/g,function(m,
 function kindLabel(w){w=w.trim().replace(/^(an?|the)\s+/i,'');return w.charAt(0).toUpperCase()+w.slice(1);}
 
 /* ---------- state kept in this browser ---------- */
-var KEY='hotp-iceberg-s6-v1';
+var KEY='hotp-iceberg-s6-v2';
 function blank(){return {room:'',cluster:'',risks:[],step:0,kind:'',xopen:false,timer:{},read:{},oth:{},notes:{dn:{surface:[],under:[],core:[]},up:{surface:[],under:[],core:[]}},example:false};}
 var EXROOM=10,EXV=2;/* EXV: bump it when the example's notes change, so a copy saved in someone's browser is replaced *//* the example table: Table 10 = Children and learners, AI companions shaping how young people grow up */
 function example(){
@@ -2127,7 +2127,9 @@ function notesList(d,l,whole){
 function liveEl(){
   if(S.example||!RISKOF[S.room])return el('span',{cls:'live'});
   if(shared())return el('span',{cls:'live on'},[el('i',{'aria-hidden':'true'}),el('span',{text:plain('live.on',{n:S.room})})]);
-  return el('span',{cls:'live'});
+  /* sharing is off: say so, except inside claude.ai, where Firebase is never loaded */
+  if(/(^|\.)claude\.ai$|claudeusercontent\.com$/i.test(location.hostname||''))return el('span',{cls:'live'});
+  return el('span',{cls:'live off',text:plain('live.off')});
 }
 var DRAFT={};
 function composer(d,l){
