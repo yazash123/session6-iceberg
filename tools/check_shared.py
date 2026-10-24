@@ -80,12 +80,12 @@ async def main():
             await others(A)
             ok(await A.locator('#pbody .note .who', has_text='Ben').count() == 1, f'{tag}: …and for Amira, live, with his name')
 
-            # 50 words at most on Surface (75 lower down), 600 characters
+            # 35 words at most on every layer (24 Oct), 600 characters
             long = ' '.join(f'w{i}' for i in range(1, 61))
             await A.fill('#ta-dn-surface', long); await A.wait_for_timeout(100)
-            ok(await A.evaluate("document.getElementById('ta-dn-surface').value.trim().split(/\\s+/).length") == 50, f'{tag}: the Surface note box stops at 50 words')
+            ok(await A.evaluate("document.getElementById('ta-dn-surface').value.trim().split(/\\s+/).length") == 35, f'{tag}: the Surface note box stops at 35 words')
             await A.press('#ta-dn-surface', 'Enter'); await A.wait_for_timeout(700)
-            ok(await A.locator('#pbody .note').count() == 2, f'{tag}: Amira’s 50-word note is added')
+            ok(await A.locator('#pbody .note').count() == 2, f'{tag}: Amira’s 35-word note is added')
 
             # likes (hearts): on someone else’s note only
             ok(await A.locator('#pbody .note.mine .star').count() == 0, f'{tag}: no heart button on your own note')
@@ -119,7 +119,7 @@ async def main():
             await A.evaluate('go(6)'); await A.wait_for_timeout(400)
             ok(await A.locator('#pbody .echo li').count() == 0 and await A.evaluate('count("dn","surface")') == 2, f'{tag}: way up shows the right echo')
             await A.evaluate('go(8)'); await A.wait_for_timeout(400)
-            ok(await A.locator('#pbody .echo li').count() == 2, f'{tag}: Surface on the way up echoes the 2 notes from the way down')
+            ok(await A.locator('#pbody .echo li').count() == 0, f'{tag}: no echo of the way down on the way up (removed 24 Oct)')
 
             # the example table
             D = await person(ctx, base, errs, 'pD', 'Dana')

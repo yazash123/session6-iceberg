@@ -16,7 +16,7 @@ Set up → Imagine → Surface → Underneath → Core belief → **Turn** → C
 - **Since 21 Oct 2026 every member writes their own notes.** They pick their table, then confirm their name
   ("And your name?", pre-filled, Go →). Each note is tagged with the author's name. Post-its (22 Oct): your own notes are yellow, everyone
   else's mustard #E7C764 (`colourOf`; the hex values are written inside the function on purpose, because
-  the first draw runs before `var`s at the bottom of the script are set, which left notes see-through). Caps (22 Oct): 50 words on Surface, 75 on Underneath and Core beliefs, clipped to 600
+  the first draw runs before `var`s at the bottom of the script are set, which left notes see-through). Caps (24 Oct): 35 words on every layer, clipped to 600
   characters (`MAXL`, `MAXC`), matching `t.size() <= 600` in the rules. People can edit or remove only their own
   notes, and like (heart) other people's. You see only your own notes on a layer until you switch on "See what
   others at your table put" (`othOn`). Everyone's notes are always on the Whole iceberg. Everyone sees only
@@ -41,7 +41,7 @@ Owner: Yaz (Assemble). UK English, plain language for a general audience. Copy s
   GitHub Pages + Webflow iframe pattern, but that one uses Firebase for shared scores).
 - The claude.ai artifact "HotP Iceberg Futures" (https://claude.ai/artifact/GaAYHmQbxCFyy38VbykXYq) is where
   design changes are made at the moment (21–22 Oct 2026); the repo takes them when Yaz says push. **Last synced
-  22 Oct 2026 (evening)**: artifact version id 1792698853-b4aa and this repo match (way-up timings 5 + 15 + 20, as in the facilitator handbook; Set up scrolls on short screens; green "Shared live" dot). Always compare the two before either direction:
+  24 Oct 2026 (early hours)**: artifact https://claude.ai/code/artifact/7e1a80d2-b2d4-462f-b20a-4b9bff267b66, version id 1792797336-69e9, and this repo match (35-word caps; no way-down echo on the way up; the peek now shows a future other members imagined). The artifact now carries the three Firebase script tags itself, so it copies over as is. Always compare the two before either direction:
   - **Artifact → repo:** copy the artifact's `index.html` over this one, then add the three Firebase script
     tags just above `<script id="app">` (the artifact leaves them out, because claude.ai's viewer blocks them;
     without them the GitHub page can't share notes). Keep `firebase-config.js`. Run both tests.

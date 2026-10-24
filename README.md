@@ -52,7 +52,7 @@ The table number sets the risk. Clusters light up to show their risks but can't 
 
 Each member picks their table and adds their name. Their notes go to Firestore (collection `ice-s6`), tagged with
 their name, and everyone at the same table sees them live, each person in their own post-it colour. Notes are at
-most 50 words on Surface and 75 lower down (600 characters). People can heart each other's notes.
+most 35 words (600 characters). People can heart each other's notes.
 
 - **Publish `firestore.rules` in the Firebase console first**, or notes won't share.
 - **Before Session 7**, change `var BOARD='ice-s6'` to `'ice-s7'` in `index.html`.
