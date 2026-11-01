@@ -1,5 +1,8 @@
 # Sessions 6 & 7: Iceberg futures
 
+> **This branch, `activity-version`, is the page as it was used live on the day** (Session 6, Saturday 24 October 2026): members picked a table, added their own notes and hearted each other's, shared through Firebase (`firebase-config.js`, `firestore.rules`, `tools/fakefirestore.js` and `tools/check_shared.py` are all here). Use it if the activity is ever run again.
+> **`main` is now the record**: a read-only, anonymised copy of what members wrote, with no Firebase.
+
 The House of the People "iceberg, 2036" activity, running on its own on GitHub Pages and embedded in Webflow.
 
 - **Live page:** https://yazash123.github.io/session6-iceberg/ (table links: add `#g1` to `#g26`)
