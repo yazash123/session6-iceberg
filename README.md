@@ -51,3 +51,8 @@ To rebuild it from the spreadsheet: `python3 tools/snapshot.py <path to the .xls
 | `tools/build.py` | the one-off import from the claude.ai artifact. Don't rerun it; it would overwrite repo edits. |
 | `firestore.rules` | kept for reference: the Firestore rules for the Session 5–7 pages. This page no longer uses Firebase. |
 | `webflow-embed.html` | the one Webflow embed. |
+
+
+## What we said
+
+The page opens on **What we said**, the first tab: the common themes across every table's futures, with a risk map to see the notes from one risk. It is `said.html`, shown in a frame. Choose any other tab, or open a table link (`#g1` to `#g26`), to look through a single table's iceberg.

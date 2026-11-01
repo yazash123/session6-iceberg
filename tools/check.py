@@ -54,6 +54,16 @@ async def main():
             errs, reqs = [], []
             ctx, pg = await page(b, w, h, URL, errs, reqs)
             ok(await pg.evaluate('RECORD===true && SNAP.length') == 1494, f'{tag}: record mode, 1494 notes in the snapshot')
+            # the page opens on What we said: the results frame, with no banner and no table steps
+            ok(await pg.evaluate("document.documentElement.hasAttribute('data-said')"), f'{tag}: opens on What we said')
+            ok(await pg.locator('#saidf').is_visible() and not await pg.locator('#recbar').is_visible(), f'{tag}: What we said shows the results, without the banner')
+            await pg.wait_for_timeout(1500)
+            fr = pg.frame_locator('#saidf')
+            ok(await fr.locator('.chunk').count() == 19 and await fr.locator('#rmap .sat').count() == 13, f'{tag}: What we said has 19 themes and 13 risks on the map')
+            ok(await pg.evaluate("document.documentElement.scrollWidth") <= w, f'{tag}: What we said has no sideways scroll')
+            if OUT: await pg.screenshot(path=str(OUT / f'{tag}-00-said.png'))
+            await pg.locator('nav.steps button', has_text='Set up').first.click(); await pg.wait_for_timeout(800)
+            ok(not await pg.evaluate("document.documentElement.hasAttribute('data-said')"), f'{tag}: the Set up tab leaves What we said')
             ok(await pg.locator('#recbar').is_visible() and 'record of what members wrote' in await pg.locator('#recbar').inner_text(), f'{tag}: the banner shows')
             ok(await pg.locator('.strmb').count() == 26, f'{tag}: 26 table buttons')
             if OUT: await pg.screenshot(path=str(OUT / f'{tag}-00-setup.png'))

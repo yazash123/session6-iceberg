@@ -32,6 +32,23 @@ version; what record mode changes:
   futures peek are unchanged.
 - The claude.ai artifact sync described below no longer applies to `main`.
 
+## What we said tab (since 1 Nov 2026)
+
+The first tab in the step bar, and where the page opens unless a table link (`#gN`) is given. It shows the
+results of the activity: common themes across futures (Jacob's 19 themes of the 1,494 notes), the four that came
+up at almost every table, and a risk map to filter the notes by risk.
+
+- It lives in its own file, `said.html` (fonts, data and script all inside), shown in a frame (`#saidf`) that
+  sits after the step bar. `said.html` tells the page its height with `postMessage({hotpSaid:h})` and the frame
+  grows to fit.
+- In `index.html`: `var SAID` and `setSaid()` beside `NAVOPEN`; `NAV.said` is the tab, built first in
+  `buildSteps`; `renderSteps` marks it current; `go()` and table links leave it; `renderTimer` hides the timer
+  on it. CSS at the end of the last `<style>`: `html[data-said]` hides the banner, the iceberg, the rail and
+  "What to do".
+- `said.html` is built outside this repo from the "Iceberg Futures: What We Said" claude.ai artifact
+  (https://claude.ai/artifact/9ueHFBixM4D4cMqjhR4UT3), without its header and tab bar. Edit the artifact and
+  rebuild, or edit `said.html` directly with care (it is one large file; grep, don't read it whole).
+
 ## What this is
 
 A single-page facilitation tool for the House of the People citizens' assembly on AI (Assemble, with the

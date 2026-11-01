@@ -1422,7 +1422,7 @@ var DEF={
  'rec.banner':'This is a record of what members wrote on *Saturday 24 October*. You can look through each table’s iceberg, but not add to it.',
  'rec.empty':'No one wrote anything here.','rec.none':'No notes were saved for Table {n}.','rec.hearts':'{n} hearts from the table','rec.heart1':'1 heart from the table',
  'mast.title':'The *iceberg*, 2036','mast.risks':'Our risks','mast.none':'Choose your risks','mast.room':'Table',
- 'step.setup':'Set up','step.imagine':'Imagine','step.surface':'Surface','step.under':'Underneath','step.core':'Core beliefs','nav.core':'Core beliefs','step.turn':'Turn','step.whole':'Whole iceberg',
+ 'step.said':'What we said','step.setup':'Set up','step.imagine':'Imagine','step.surface':'Surface','step.under':'Underneath','step.core':'Core beliefs','nav.core':'Core beliefs','step.turn':'Turn','step.whole':'Whole iceberg',
  'legend.dn':'Down: 2036 gone wrong','legend.up':'Up: 2036 gone right',
  'demo.text':'You’re looking at an example: six people at an imaginary table, so you can see how a filled iceberg looks.','demo.clear':'Clear the examples',
  'layer.surface':'Surface','layer.under':'Underneath the Surface','layer.core':'Core beliefs','lsub.surface':'(what)','lsub.under':'(how)','lsub.core':'(why)','head.surface':'Describe the surface','head.core':'Core beliefs in this future',
@@ -1790,14 +1790,22 @@ function count(d,l){return notesOf(d,l).length;}
 
 /* ---------- the static frame ---------- */
 $('root').innerHTML=SHELL;
+(function(){var nav=document.querySelector('nav.steps');var w=document.createElement('div');w.id='saidwrap';
+  w.innerHTML='<iframe id="saidf" src="said.html" title="What we said: common themes across futures" loading="eager"></iframe>';
+  nav.parentNode.insertBefore(w,nav.nextSibling);
+  window.addEventListener('message',function(e){var d=e.data;if(d&&typeof d.hotpSaid==='number'&&e.source===$('saidf').contentWindow)$('saidf').style.height=Math.max(400,d.hotpSaid)+'px';});
+  document.documentElement.toggleAttribute('data-said',SAID);})();
 function paintStatic(){
   document.querySelectorAll('[data-static]').forEach(function(e){var k=e.getAttribute('data-copy');if(e instanceof SVGElement)e.textContent=plain(k);else e.innerHTML=rich(k);});
 }
-function fromHash(){var m=/^#g(\d{1,2})$/.exec(location.hash||'');if(m&&+m[1]>=1&&+m[1]<=NROOMS&&S.room!==m[1]){setRoom(m[1]);if(typeof render==='function')render(true);}}
+function fromHash(){var m=/^#g(\d{1,2})$/.exec(location.hash||'');if(m&&SAID){setSaid(false);render(true);}if(m&&+m[1]>=1&&+m[1]<=NROOMS&&S.room!==m[1]){setRoom(m[1]);if(typeof render==='function')render(true);}}
 (function(){var m=/^#g(\d{1,2})$/.exec(location.hash||'');if(m&&+m[1]>=1&&+m[1]<=NROOMS){if(S.room!==m[1])setRoom(m[1]);if(S.step===0){S.step=1;save();}}})();
 window.addEventListener('hashchange',fromHash);
 
 var NAVOPEN=null,NAVSHUT=false,NAV=null,NAVLAST=null;
+/* What we said: the results of the activity, the first tab. The page opens on it unless a table link (#gN) was given */
+var SAID=!/^#g\d{1,2}$/.test(location.hash||'');
+function setSaid(on){SAID=!!on;document.documentElement.toggleAttribute('data-said',SAID);if(SAID){renderSteps();renderTimer();try{window.scrollTo(0,0);}catch(e){}}}
 var NARROW=window.matchMedia?matchMedia('(max-width:760px)'):{matches:false};
 function groupOf(i){for(var g=0;g<GROUPS.length;g++)if(GROUPS[g].s.indexOf(i)>=0)return GROUPS[g];return null;}
 /* the step bar: the way down and the way up are two areas. The one you are in shows its steps in a
@@ -1805,6 +1813,8 @@ function groupOf(i){for(var g=0;g<GROUPS.length;g++)if(GROUPS[g].s.indexOf(i)>=0
 var NAVARROW={dn:'<svg viewBox="0 0 24 24"><path d="M12 4.5 V19 M6.5 13.5 L12 19 L17.5 13.5"/></svg>',up:'<svg viewBox="0 0 24 24"><path d="M12 19.5 V5 M6.5 10.5 L12 5 L17.5 10.5"/></svg>'};
 function buildSteps(){
   var ol=$('steps');ol.innerHTML='';NAV={one:{},grp:{}};
+  NAV.said=el('button',{type:'button',onclick:function(){if(!SAID)setSaid(true);}},[T('span','step.said')]);
+  ol.appendChild(el('li',{cls:'one said'},[NAV.said]));
   GROUPS.forEach(function(g){
     if(g.s.length===1){
       var i=g.s[0],b=el('button',{type:'button',onclick:function(){go(i);}},[T('span',navK(STEPS[i].k))]);
@@ -1825,8 +1835,9 @@ function buildSteps(){
 }
 function renderSteps(){
   if(!NAV||!$('steps').firstChild)buildSteps();
-  var cur=groupOf(S.step),moved=NAVLAST!==null&&NAVLAST!==S.step;
-  Object.keys(NAV.one).forEach(function(i){var b=NAV.one[i];if(+i===S.step)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current');});
+  var cur=SAID?null:groupOf(S.step),moved=NAVLAST!==null&&NAVLAST!==S.step;
+  if(SAID)NAV.said.setAttribute('aria-current','step');else NAV.said.removeAttribute('aria-current');
+  Object.keys(NAV.one).forEach(function(i){var b=NAV.one[i];if(+i===S.step&&!SAID)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current');});
   GROUPS.forEach(function(g){
     var o=NAV.grp[g.id];if(!o)return;
     var here=g===cur;
@@ -1836,7 +1847,7 @@ function renderSteps(){
     o.subs.hidden=!here;
     o.btns.forEach(function(x){
       var c=x.st.layer?count(x.st.dir,x.st.layer):0;x.n.textContent=c?String(c):'';x.n.hidden=!c;
-      if(x.i===S.step){x.b.setAttribute('aria-current','step');
+      if(x.i===S.step&&!SAID){x.b.setAttribute('aria-current','step');
         if(moved){x.b.classList.remove('arrive');void x.b.offsetWidth;x.b.classList.add('arrive');}}
       else{x.b.removeAttribute('aria-current');x.b.classList.remove('arrive');}
     });
@@ -1859,7 +1870,7 @@ function renderTimer(){
   var box=$('timer');if(!box)return;clearInterval(TICK);
   var p=partOf(STEPS[S.step]);
   box.innerHTML='';
-  if(!p||!PARTS[p]){box.hidden=true;return;}
+  if(SAID||!p||!PARTS[p]){box.hidden=true;return;}
   box.hidden=false;
   var t=tState(p),left=leftMs(p),running=!!t.end&&left>0,done=left<=0,fresh=!t.end&&t.left==null,paused=!fresh&&!running&&!done,mn=tMin(p);
   var tip=done?plain('timer.tipdone'):running?plain('timer.tippause'):fresh?plain('timer.tipstart',{n:mn,g:plain(p==='up'?'grp.up':'part.'+p)}):plain('timer.tipresume');
@@ -2901,6 +2912,7 @@ function ghost(way){
   b.parentNode.insertBefore(g,b);setTimeout(function(){if(g.parentNode)g.parentNode.removeChild(g);},700);
 }
 function go(i,way){
+  if(SAID){setSaid(false);if(i===S.step){render();return;}}
   if(i<0||i>=STEPS.length||i===S.step)return;
   var from=STEPS[S.step],to=STEPS[i];
   if(!way&&from.layer&&to.layer&&from.dir===to.dir)way=DEPTH[to.layer]>DEPTH[from.layer]?'dn':'up';
@@ -3092,6 +3104,14 @@ function colourOf(pid){return pid===ME.pid?'#F0E060':'#E7C764';}
 .note.rec .nf{justify-content:flex-end}
 html.present .recbar p{font-size:18px}
 @media (max-width:600px){.recbar p{font-size:14px;text-align:left}}
+
+/* What we said (1 Nov 2026): the results, as the first tab. While it is open, only the header, the step bar and the results show */
+#saidwrap{background:#1C3150}
+#saidf{display:block;width:100%;height:100vh;border:0;background:#1C3150}
+html:not([data-said]) #saidwrap{display:none}
+html[data-said] .recbar,html[data-said] main.wrap,html[data-said] #rail,html[data-said] #todo,html[data-said] #demowrap,html[data-said] #undo,html[data-said] #timer{display:none!important}
+html[data-said] body{background:#1C3150}
+.steps li.said{border-right:2px solid rgba(255,255,255,.25)}
 </style>
 <script id="hubback">/* October 24: every activity links back to the weekend hub */
 (function(){try{var h=document.querySelector('header h1');if(!h||document.querySelector('.hubback'))return;
