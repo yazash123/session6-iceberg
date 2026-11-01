@@ -1,13 +1,18 @@
-# Sessions 6 & 7: Iceberg futures
+# Session 6: Iceberg futures, the record
 
-The House of the People "iceberg, 2036" activity, running on its own on GitHub Pages and embedded in Webflow.
+The House of the People "iceberg, 2036" activity, as members left it on **Saturday 24 October 2026**. Since
+1 November 2026 this page is a read-only, anonymised record: pick a table and look through what it wrote, step
+by step, or all at once on the Whole iceberg. Nothing can be added, changed or hearted, and no names are shown.
 
 - **Live page:** https://yazash123.github.io/session6-iceberg/ (table links: add `#g1` to `#g26`)
 - **In Webflow:** paste `webflow-embed.html` into one Code Embed in a full-width section (not a Container). Table links work on the Webflow address too, for example `…/iceberg#g12`.
+- **The version used on the day** (Firebase, rules, name prompts, the shared-notes test) is on the
+  [`activity-version`](https://github.com/yazash123/session6-iceberg/tree/activity-version) branch. Use that
+  branch if the activity is ever run again.
 
 ## Tables
 
-26 tables, two per risk, numbered in risk-map order:
+26 tables, two per risk, numbered in risk-map order. Notes were saved at 16 of them; the others say so.
 
 | tables | cluster | risk |
 |---|---|---|
@@ -25,36 +30,24 @@ The House of the People "iceberg, 2036" activity, running on its own on GitHub P
 | 23–24 | The bodies meant to check | R07 AI building AI faster than we can oversee |
 | 25–26 | The bodies meant to check | R12 AI incidents crossing borders without international cooperation |
 
-The table number sets the risk. Clusters light up to show their risks but can't be picked, and the risk can't be switched once a table is chosen.
+## The snapshot
+
+The notes are embedded in `index.html`, in `<script type="application/json" id="snapshot">`: 1,494 notes, from
+the sheet "Iceberg notes" in `session6-activity-data-anonymised.xlsx` (exported from Firestore `ice-s6`, without
+the 50 notes their writers removed and 3 test notes). Each note keeps its table, way, layer, text, kind label,
+time and hearts. Names are gone: each person is an opaque code (`m1`, `m2`…), used only so hearts still count.
+Names that members typed inside notes already read `[member]`.
+
+To rebuild it from the spreadsheet: `python3 tools/snapshot.py <path to the .xlsx>` (needs openpyxl).
 
 ## Files
 
 | file | what it is |
 |---|---|
-| `index.html` | the page. Edit it directly: since 18 Oct 2026 the repo, not the artifact, is the source of truth. |
+| `index.html` | the page, with the snapshot inside. Edit it directly. |
 | `CLAUDE.md` | handover notes for anyone (or any Claude session) picking up the work. |
-| `tools/check.py` | run after every edit: walks every step on desktop and phone and fails on errors. |
+| `tools/check.py` | run after every edit: walks every step on desktop and phone, checks it is read-only with no names and no Firebase, and compares a few tables with the sheet. |
+| `tools/snapshot.py` | writes the snapshot into `index.html` from the spreadsheet. |
 | `tools/build.py` | the one-off import from the claude.ai artifact. Don't rerun it; it would overwrite repo edits. |
-| `firebase-config.js` | the Firebase web config (the Session 5 project). Public by design. |
-| `firestore.rules` | the full rules from the Firebase plan (section 4.6): paste into Firebase console → Firestore → Rules → Publish. Covers Session 5, the Iceberg, Drivers, What's Missing and the poll. |
-| `tools/check_shared.py` | several people at one table, with a fake Firebase. |
+| `firestore.rules` | kept for reference: the Firestore rules for the Session 5–7 pages. This page no longer uses Firebase. |
 | `webflow-embed.html` | the one Webflow embed. |
-
-## What changed from the artifact
-
-- "Room" reads "Table" throughout.
-- Clicking a cluster no longer picks it; only a table number does.
-- Everyone at a table adds their own notes, tagged with their name, shared live through Firebase (see below).
-- Opening the page straight on a table link (`#g7`) no longer crashes it.
-- "Edit text" only works inside claude.ai. Change wording in `var DEF` in `index.html`.
-
-## Sharing notes
-
-Each member picks their table and adds their name. Their notes go to Firestore (collection `ice-s6`), tagged with
-their name, and everyone at the same table sees them live, each person in their own post-it colour. Notes are at
-most 35 words (600 characters). People can heart each other's notes.
-
-- **Publish `firestore.rules` in the Firebase console first**, or notes won't share.
-- **Before Session 7**, change `var BOARD='ice-s6'` to `'ice-s7'` in `index.html`.
-- To clear a session's notes: Firebase console → Firestore → `ice-s6` → ⋮ → Delete collection.
-- If Firebase can't be reached, the page says so and keeps notes on that computer only.

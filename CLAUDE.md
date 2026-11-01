@@ -1,6 +1,36 @@
-# Handover: Sessions 6 & 7 iceberg page
+# Handover: Session 6 iceberg page (now the record)
 
 Read this first. It is the context a fresh session needs to keep editing this repo.
+
+## Record mode (since 1 Nov 2026)
+
+`main` is a **read-only, anonymised record** of what members wrote on Saturday 24 October 2026. The version
+used live on the day (Firebase, name prompts, hearts, `fakefirestore.js`, `check_shared.py`) is on the branch
+**`activity-version`**; use it if the activity is run again. Most of the description below is of that live
+version; what record mode changes:
+
+- **No Firebase.** The Firebase script tags and `firebase-config.js` are gone. `var RECORD=true` sits in the
+  `sharing: each table's notes` block, which now builds `DB` as a small read-only stand-in for Firestore:
+  `collection().where('room','==',n).onSnapshot()` serves that table's notes from `SNAP`, the parsed
+  `<script type="application/json" id="snapshot">`; `doc().set/update` always refuse. So `listen`,
+  `liveList`, `notesOf`, `shared()` and the rest work as they did live.
+- **The snapshot**: 1,494 notes `{id, room, dir, layer, t, k?, pid, at, st?}` from the sheet "Iceberg notes"
+  in `session6-activity-data-anonymised.xlsx`, written by `python3 tools/snapshot.py <xlsx>`. No names: `pid`
+  and the keys of `st` are opaque codes (`m1`…, shuffled each run), `st` values are empty; the stand-in fills in
+  `name:''`, `gone:false`. Names typed inside notes already read `[member]`.
+- **No names, no writing.** `noteEl` hands over to `recNoteEl` (the note, its kind label and a heart count,
+  no author, nothing to press). `viewLayer` leaves out `composer`, `mindLine` and `othSwitch`; `othOn` is always
+  true, so everyone's notes show. `gated` is false (no "I've finished reading" wait). `pickRoom` goes straight
+  to Imagine through `joinGo` with no name; `paintJoin` stays hidden; no `nameBox` on Imagine. `addNote`,
+  `editNote`, `del`, `toggleStar`, `renameMine`, `askName` return at once. `liveEl` is blank. `record()`
+  leaves names out. The worksheet link (`wbk-js`) was removed; its CSS is still there, unused.
+- **Copy**: the banner (`#recbar` in `SHELL`, key `rec.banner`, CSS in `<style id="record-css">`), and
+  `rec.empty`, `rec.none` (a table with no notes), `rec.hearts` / `rec.heart1` in `var DEF`. `setup.q`,
+  `setup.how(tap)`, `orb.table`, `imagine.room`, `imagine.begin` and `room.first` (in `#copy`) were reworded
+  for visitors.
+- Timers, "What to do", "Show me an example" (local, invented people, shown without names) and the members'
+  futures peek are unchanged.
+- The claude.ai artifact sync described below no longer applies to `main`.
 
 ## What this is
 
@@ -74,7 +104,7 @@ every table, so don't, unless asked. Code says "room" internally; the page says 
 
 ## How index.html is laid out
 
-One ~540 KB file. The first ~200 lines hold base64-embedded fonts. **Don't Read the whole file.** Use
+One ~930 KB file (the snapshot is about 280 KB of it, on one line just above `<script id="app">`). The first ~200 lines hold base64-embedded fonts. **Don't Read the whole file.** Use
 Grep/search for these anchors, then read around them:
 
 | look for | what it is |
@@ -89,9 +119,9 @@ Grep/search for these anchors, then read around them:
 | `function render(` / `function go(` | redraw and step navigation. `render` sets `data-v`, `data-layer`, `data-turn`, `data-whole`, `data-bg` on `#work`, which the CSS keys off. |
 | `editing the page's own text` | the in-page "Edit text" tool. Only works inside claude.ai; harmless here. |
 
-## Sharing (Firebase)
+## Sharing (Firebase): the live version, on `activity-version` only
 
-Notes live in Firestore, in the same Firebase project as Session 5 (`session-5-activity`, config in
+On `main` the notes come from the snapshot (see Record mode). On the day, notes lived in Firestore, in the same Firebase project as Session 5 (`session-5-activity`, config in
 `firebase-config.js`). One document per note in the collection named by `var BOARD` in `index.html`:
 `ice-s6` for Session 6. **Before Session 7, change `BOARD` to `ice-s7`** so tables start empty.
 
@@ -121,18 +151,17 @@ Notes live in Firestore, in the same Firebase project as Session 5 (`session-5-a
 
 ## Tests
 
-- `python3 tools/check.py <dir>`: every step, desktop and phone.
-- `python3 tools/check_shared.py <dir>`: several people at one table, using `tools/fakefirestore.js` in place of
-  Firebase (it refuses what the rules refuse; its checks are copied by hand, so change it when the rules
-  change). It presses "I've finished reading" and switches on "See what others…" where it needs to. Firebase
-  itself can't be reached from Claude's sandbox.
+- `python3 tools/check.py <dir>` (record mode): every step at desktop and phone width; fails on any script or
+  console error, any request to gstatic/Firebase, a name on the page (it plants a name in `hotp-ice-me` to make
+  sure it never shows), anything to type into or press to change a note, or sideways scroll. It checks tables
+  1, 10, 17, 20 and 23 layer by layer, and their Whole iceberg notes, hearts and kind labels, against counts
+  from the sheet, plus `#g26` (no notes) and `#g17`.
+- `check_shared.py` and `fakefirestore.js` (several people at one table, fake Firebase) are on `activity-version`.
 
 ## Working rules
 
 1. Make the edit in `index.html`.
-2. Run `python3 tools/check.py <screenshot dir>` and `python3 tools/check_shared.py <screenshot dir>`. It walks every step at desktop and phone width, checks the
-   table logic and the `#gN` links, and fails on any script error. Look at the screenshots for the steps you
-   touched.
+2. Run `python3 tools/check.py <screenshot dir>`. Look at the screenshots for the steps you touched.
 3. Commit with a plain message and push to `main`. Pages redeploys in a minute or two.
 4. Keep the page working at phone width (16px side gutter, no sideways scroll) and in "Presenting" mode
    (no motion, bigger text, for Zoom screen-share).
